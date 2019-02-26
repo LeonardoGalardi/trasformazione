@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE xsl:stylesheet [
+	<!ENTITY nbsp   "&#160;">
+	<!ENTITY acute  "&#180;">
+	<!ENTITY Agrave "&#192;">
+	<!ENTITY Aacute "&#193;">
+	<!ENTITY Acirc  "&#194;">
+	<!ENTITY Egrave "&#200;">
+	<!ENTITY Eacute "&#201;">
+	<!ENTITY Ecirc  "&#202;">
+	<!ENTITY Igrave "&#204;">
+	<!ENTITY Iacute "&#205;">
+	<!ENTITY Icirc  "&#206;">
+	<!ENTITY Ntilde "&#209;">
+	<!ENTITY Ograve "&#210;">
+	<!ENTITY Oacute "&#211;">
+	<!ENTITY Ocirc  "&#212;">
+	<!ENTITY Ugrave "&#217;">
+	<!ENTITY Uacute "&#218;">
+	<!ENTITY Ucirc  "&#219;">
+	<!ENTITY agrave "&#224;">
+	<!ENTITY aacute "&#225;">
+	<!ENTITY acirc  "&#226;">
+	<!ENTITY egrave "&#232;">
+	<!ENTITY eacute "&#233;">
+	<!ENTITY ecirc  "&#234;">
+	<!ENTITY igrave "&#236;">
+	<!ENTITY iacute "&#237;">
+	<!ENTITY icirc  "&#238;">
+	<!ENTITY ograve "&#242;">
+	<!ENTITY oacute "&#243;">
+	<!ENTITY ocirc  "&#244;">
+	<!ENTITY ugrave "&#249;">
+	<!ENTITY uacute "&#250;">
+	<!ENTITY ucirc  "&#251;">
+]>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:xalan="http://xml.apache.org/xslt">
+	<!--*****************************************************************************
+		Creazione form con campi di input hidden e loro valorizzazione da XML Host
+		ma solo se è presente un evento di tipo 'ESTERNO'
+		Link a Lombarda Vita (LIFENET)
+	      *****************************************************************************-->
+	
+	<xsl:template name = "Extern-Link0001" >	
+		
+			<form method="post" name="formEventoEsterno" target="_blank" style="margin=0px;">
+				<xsl:attribute name="action">
+		  		<xsl:value-of select="/SERVICE/ENV/LEGGIBANCA"/>
+		  		</xsl:attribute>  <!-- link esterno -->		
+			
+				<!--*******************************************************************
+				Inserimento dati utente
+		      	*******************************************************************-->
+							
+		        <input type="hidden" name="Livello" value="1"/>
+		        <xsl:choose>
+						<xsl:when test="count(//TEMPLATE[@CDOGG = 'MOPAG' and @CARD = '001']/CAMPO[@CODICE = 'TEMPIBAN']/VALORE)>0">
+							<!--input type="hidden" name="ABI" value="{format-number(substring(//TEMPLATE[@CDOGG = 'MOPAG' and @CARD = '001']/CAMPO[@CODICE = 'CDRAPPR']/VALORE,1,5), '00000')}"/>	
+					        <input type="hidden" name="CAB" value="{format-number(substring(//TEMPLATE[@CDOGG = 'MOPAG' and @CARD = '001']/CAMPO[@CODICE = 'CDRAPPR']/VALORE,7,5), '00000')}"/>
+		        			<input type="hidden" name="Filiale" value="{format-number(//TEMPLATE[@CDOGG = 'MOPAG' and @CARD = '001']/CAMPO[@CODICE = 'CDDIPGES']/VALORE, '#')}"/-->
+							<!-- Gestione IBAN -->
+							<input type="hidden" name="ABI" value="{format-number(substring(//TEMPLATE[@CDOGG = 'MOPAG' and @CARD = '001']/CAMPO[@CODICE = 'TEMPIBAN']/VALORE,6,5), '00000')}"/>	
+					        <input type="hidden" name="CAB" value="{format-number(substring(//TEMPLATE[@CDOGG = 'MOPAG' and @CARD = '001']/CAMPO[@CODICE = 'TEMPIBAN']/VALORE,11,5), '00000')}"/>
+							<input type="hidden" name="codPaese" value="{substring(//TEMPLATE[@CDOGG = 'MOPAG' and @CARD = '001']/CAMPO[@CODICE = 'TEMPIBAN']/VALORE,1,2)}"/>
+							<input type="hidden" name="cinEuro" value="{substring(//TEMPLATE[@CDOGG = 'MOPAG' and @CARD = '001']/CAMPO[@CODICE = 'TEMPIBAN']/VALORE,3,2)}"/>
+							<input type="hidden" name="cinBban" value="{substring(//TEMPLATE[@CDOGG = 'MOPAG' and @CARD = '001']/CAMPO[@CODICE = 'TEMPIBAN']/VALORE,5,1)}"/>
+		        			<input type="hidden" name="Filiale" value="{format-number(//TEMPLATE[@CDOGG = 'MOPAG' and @CARD = '001']/CAMPO[@CODICE = 'CDDIPGES']/VALORE, '#')}"/>
+						</xsl:when>
+						<xsl:otherwise>
+					        <input type="hidden" name="ABI" value="{format-number(//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CODABI']/VALORE, '00000')}"/>	
+					        <input type="hidden" name="CAB" value="{format-number(//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CDCABEMI']/VALORE, '00000')}"/>
+					        <input type="hidden" name="Filiale" value="{format-number(//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CDDIPEMI']/VALORE, '#')}"/>
+						</xsl:otherwise>
+				</xsl:choose>
+
+		        <xsl:if test="count(//TEMPLATE[@CDOGG = 'POLIZ' and @CARD = '001']/CAMPO[@CODICE = 'COLLOC']/VALORE)>0">
+		          <input type="hidden" name="Collocatore" value="{concat(format-number(substring(//TEMPLATE[@CDOGG = 'POLIZ' and @CARD = '001']/CAMPO[@CODICE = 'COLLOC']/VALORE,1,5),'#'),substring(//TEMPLATE[@CDOGG = 'POLIZ' and @CARD = '001']/CAMPO[@CODICE = 'COLLOC']/VALORE,6,1))}"/>
+		        </xsl:if>
+		        <xsl:if test="count(//TEMPLATE[@CDOGG = 'POLIZ' and @CARD = '001']/CAMPO[@CODICE = 'CDPROMOT']/VALORE)>0">
+		          <input type="hidden" name="Promotore" value="{concat(format-number(substring(//TEMPLATE[@CDOGG = 'POLIZ' and @CARD = '001']/CAMPO[@CODICE = 'CDPROMOT']/VALORE,1,5),'#'),substring(//TEMPLATE[@CDOGG = 'POLIZ' and @CARD = '001']/CAMPO[@CODICE = 'CDPROMOT']/VALORE,6,1))}"/>
+		        </xsl:if>
+			
+		        <!--*******************************************************************
+				Inserimento dati assicurato
+		      	*******************************************************************-->
+	
+		        <input type="hidden" name="assNDG" value="{format-number(//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'ASSPF' and @CARD = '001']/CAMPO[@CODICE = 'NUNDG']/VALORE, '#')}"/>
+		        <input type="hidden" name="assSesso" value="{//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'ASSPF' and @CARD = '001']/CAMPO[@CODICE = 'CDSESSO']/VALORE}"/>
+		        <input type="hidden" name="assCognome" value="{substring(//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'ASSPF' and @CARD = '001']/CAMPO[@CODICE = 'DSCOGN']/VALORE,1,30)}"/>
+		        <input type="hidden" name="assNome" value="{//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'ASSPF' and @CARD = '001']/CAMPO[@CODICE = 'DSNOME']/VALORE}"/>
+		        		        
+		        <xsl:choose>
+						<xsl:when test="count(//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'ASSPF' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE)>0">
+							<input type="hidden" name="assDataNascita">
+		          				<xsl:attribute name="value"><xsl:value-of select="concat(substring(//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'ASSPF' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,9,2),'/',substring(//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'ASSPF' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,6,2),'/',substring-before(//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'ASSPF' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,'-'))"/></xsl:attribute>
+		        			</input>
+						</xsl:when>
+						<xsl:otherwise>
+							<input type="hidden" name="assDataNascita" value=""/>
+						</xsl:otherwise>
+				</xsl:choose>
+		       
+		        <input type="hidden" name="assLuogoNascita" value="{substring(//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'ASSPF' and @CARD = '001']/CAMPO[@CODICE = 'DSLOCNAS']/VALORE,1,30)}"/>
+		        <input type="hidden" name="assProvinciaNascita" value="{//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'ASSPF' and @CARD = '001']/CAMPO[@CODICE = 'CDPRONAS']/VALORE}"/>
+		        <input type="hidden" name="assNazioneNascita" value="{//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'ASSPF' and @CARD = '001']/CAMPO[@CODICE = 'CDSTANAS']/VALORE}"/>
+		        <input type="hidden" name="assCodiceFiscale" value="{//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'ASSPF' and @CARD = '001']/CAMPO[@CODICE = 'CDFISC']/VALORE}"/>
+		        <input type="hidden" name="assSettore" value="{format-number(//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'ASSPF' and @CARD = '001']/CAMPO[@CODICE = 'CDSAE']/VALORE ,'000')}"/>
+		        <input type="hidden" name="assRamo" value="{format-number(//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'ASSPF' and @CARD = '001']/CAMPO[@CODICE = 'CDRAE']/VALORE, '000')}"/>
+		        <input type="hidden" name="assLuogoResidenza" value="{substring(//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'ASSPF' and @CARD = '001']/CAMPO[@CODICE = 'DSLOCRES']/VALORE,1,30)}"/>
+		        <input type="hidden" name="assIndirizzoResidenza" value="{//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'ASSPF' and @CARD = '001']/CAMPO[@CODICE = 'DSVIARES']/VALORE}"/>
+		        <input type="hidden" name="assCAPResidenza" value="{format-number(//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'ASSPF' and @CARD = '001']/CAMPO[@CODICE = 'CDCAPRES']/VALORE, '00000')}"/>
+		        <input type="hidden" name="assProvinciaResidenza" value="{//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'ASSPF' and @CARD = '001']/CAMPO[@CODICE = 'CDPRORES']/VALORE}"/>
+		        <input type="hidden" name="assNazioneResidenza" value="{//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'ASSPF' and @CARD = '001']/CAMPO[@CODICE = 'CDSTARES']/VALORE}"/>
+		        <input type="hidden" name="assCABResidenza" value="{format-number(//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'ASSPF' and @CARD = '001']/CAMPO[@CODICE = 'CDCABRES']/VALORE, '00000')}"/>
+						
+		        <!--*******************************************************************
+				Inserimento dati contraente
+		      	*******************************************************************-->
+	
+		        <input type="hidden" name="conNDG" value="{format-number(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'NUNDG']/VALORE, '#')}"/>
+		        <input type="hidden" name="conSesso" value="{//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDSESSO']/VALORE}"/>
+		        <input type="hidden" name="conCognome" value="{substring(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSCOGN']/VALORE,1,30)}"/>
+		        <input type="hidden" name="conNome" value="{//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSNOME']/VALORE}"/>	
+		        
+		        <xsl:choose>
+						<xsl:when test="count(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE)>0 and count(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDSESSO']/VALORE)>0">
+							<input type="hidden" name="conDataNascita">
+		          				<xsl:attribute name="value"><xsl:value-of select="concat(substring(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,9,2),'/',substring(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,6,2),'/',substring-before(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,'-'))"/></xsl:attribute>
+		        			</input>
+						</xsl:when>
+						<xsl:otherwise>
+							<input type="hidden" name="conDataNascita" value=""/>
+						</xsl:otherwise>
+				</xsl:choose>
+		        
+		        <input type="hidden" name="conLuogoNascita" value="{substring(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSLOCNAS']/VALORE,1,30)}"/>
+		        <input type="hidden" name="conProvinciaNascita" value="{//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDPRONAS']/VALORE}"/>
+		        <input type="hidden" name="conCAPNascita" value="0"/>
+		        <input type="hidden" name="conNazioneNascita" value="{//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDSTANAS']/VALORE}"/>
+		        <input type="hidden" name="conCodiceFiscale" value="{//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDFISC']/VALORE}"/>
+		        <input type="hidden" name="conSettore" value="{format-number(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDSAE']/VALORE, '000')}"/>
+		        <input type="hidden" name="conRamo" value="{format-number(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDRAE']/VALORE, '000')}"/>
+		        <input type="hidden" name="conLuogoResidenza" value="{substring(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSLOCRES']/VALORE,1,30)}"/>
+		        <input type="hidden" name="conIndirizzoResidenza" value="{//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSVIARES']/VALORE}"/>
+		        <input type="hidden" name="conCAPResidenza" value="{format-number(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDCAPRES']/VALORE, '00000')}"/>
+		        <input type="hidden" name="conProvinciaResidenza" value="{//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDPRORES']/VALORE}"/>
+		        <input type="hidden" name="conNazioneResidenza" value="{//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDSTARES']/VALORE}"/>
+		        <input type="hidden" name="conCABResidenza" value="{format-number(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDCABRES']/VALORE, '00000')}"/>
+		        <!-- <input type="hidden" name="conRilasciatoA" value="{//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSCOMDOC']/VALORE},{//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDPRODOC']/VALORE}"/> -->
+		        <input type="hidden" name="conRilasciatoA" value="{//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSCOMDOC']/VALORE}"/>
+		        <input type="hidden" name="conRilasciatoDa" value="{//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSENTDOC']/VALORE}"/>
+		       		        
+		        <xsl:choose>
+						<xsl:when test="count(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DTDOC']/VALORE)>0">
+							<input type="hidden" name="conRilasciatoData">
+		          				<xsl:attribute name="value"><xsl:value-of select="concat(substring(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DTDOC']/VALORE,9,2),'/',substring(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DTDOC']/VALORE,6,2),'/',substring-before(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DTDOC']/VALORE,'-'))"/></xsl:attribute>
+		        			</input>
+						</xsl:when>
+						<xsl:otherwise>
+							<input type="hidden" name="conRilasciatoData" value=""/>
+						</xsl:otherwise>
+				</xsl:choose>
+		        		        		        
+		        <xsl:choose>
+		        		<!-- Nessun documento ricevuto -->
+		        		<xsl:when test="count(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDTPDOC']/VALORE)=0">
+							<input type="hidden" name="conTipoDocumento" value = ""/>
+						</xsl:when>
+		        		<!-- Carta d'Identità -->
+						<xsl:when test="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDTPDOC']/VALORE = 'C'">
+							<input type="hidden" name="conTipoDocumento" value = '1'/>		          				
+						</xsl:when>
+						<!-- Patente di Guida -->
+						<xsl:when test="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDTPDOC']/VALORE = 'G'">
+							<input type="hidden" name="conTipoDocumento" value = '2'/>		          				
+						</xsl:when>
+						<!-- Passaporto -->
+						<xsl:when test="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDTPDOC']/VALORE = 'P'">
+							<input type="hidden" name="conTipoDocumento" value = '3'/>		          				
+						</xsl:when>
+						<!-- Porto d'Armi -->
+						<xsl:when test="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDTPDOC']/VALORE = 'R'">
+							<input type="hidden" name="conTipoDocumento" value = '4'/>		          				
+						</xsl:when>
+						<!--  Altro (compresa Tessera Ferroviaria) -->
+						<xsl:otherwise>
+							<input type="hidden" name="conTipoDocumento" value = '6'/>
+						</xsl:otherwise>
+				</xsl:choose>		        
+		        
+		        <input type="hidden" name="conNumeroDocumento" value="{//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'NUDOC']/VALORE}"/>
+		        <!-- <input type="hidden" name="conContoCorrente" value="{//TEMPLATE[@CDOGG = 'MOPAG' and @CARD = '001']/CAMPO[@CODICE = 'CDRAPPR']/VALORE}"/> -->
+				<input type="hidden" name="conContoCorrente"  value="{format-number(substring(//TEMPLATE[@CDOGG = 'MOPAG' and @CARD = '001']/CAMPO[@CODICE = 'TEMPIBAN']/VALORE,16,12), '#0')}"/>
+		        			
+					
+		        <!--*******************************************************************
+				Inserimento dati rappresentante legale
+		      	*******************************************************************-->
+	
+		        <input type="hidden" name="rapNDG" value="{format-number(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'NUNDG']/VALORE, '#')}"/>
+		        <input type="hidden" name="rapSesso" value="{//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDSESSO']/VALORE}"/>
+		        <input type="hidden" name="rapCognome" value="{substring(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DSCOGN']/VALORE,1,30)}"/>
+		        <input type="hidden" name="rapNome" value="{//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DSNOME']/VALORE}"/>
+		       
+		        <xsl:choose>
+						<xsl:when test="count(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE)>0">
+							<input type="hidden" name="rapDataNascita">
+		          				<xsl:attribute name="value"><xsl:value-of select="concat(substring(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,9,2),'/',substring(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,6,2),'/',substring-before(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,'-'))"/></xsl:attribute>
+		        			</input>
+						</xsl:when>
+						<xsl:otherwise>
+							<input type="hidden" name="rapDataNascita" value=""/>
+						</xsl:otherwise>
+				</xsl:choose>
+		       		        
+		        <input type="hidden" name="rapLuogoNascita" value="{substring(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DSLOCNAS']/VALORE,1,30)}"/>
+		        <input type="hidden" name="rapProvinciaNascita" value="{//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDPRONAS']/VALORE}"/>
+		        <input type="hidden" name="rapNazioneNascita" value="{//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDSTANAS']/VALORE}"/>
+		        <input type="hidden" name="rapCodiceFiscale" value="{//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDFISC']/VALORE}"/>
+		        <input type="hidden" name="rapSettore" value="{format-number(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDSAE']/VALORE, '000')}"/>
+		        <input type="hidden" name="rapRamo" value="{format-number(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDRAE']/VALORE, '000')}"/>
+		        <input type="hidden" name="rapLuogoResidenza" value="{substring(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DSLOCRES']/VALORE,1,30)}"/>
+		        <input type="hidden" name="rapIndirizzoResidenza" value="{//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DSVIARES']/VALORE}"/>
+		        <input type="hidden" name="rapCAPResidenza" value="{format-number(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDCAPRES']/VALORE, '00000')}"/>
+		        <input type="hidden" name="rapProvinciaResidenza" value="{//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDPRORES']/VALORE}"/>
+		        <input type="hidden" name="rapNazioneResidenza" value="{//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDSTARES']/VALORE}"/>
+		        <input type="hidden" name="rapCABResidenza" value="{format-number(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDCABRES']/VALORE, '00000')}"/>
+		        <!-- <input type="hidden" name="rapRilasciatoA" value="{//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DSCOMDOC']/VALORE},{//TEMPLATE[CDOGG = 'RLEGA' and CARD = '001']/CAMPO[CODICE = 'CDPRODOC']/VALORE}"/> -->
+		        <input type="hidden" name="rapRilasciatoA" value="{//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DSCOMDOL']/VALORE}"/>
+		        <input type="hidden" name="rapRilasciatoDa" value="{//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DSENDOCL']/VALORE}"/>
+		        
+		        <xsl:choose>
+						<xsl:when test="count(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DTDOC']/VALORE)>0">
+							<input type="hidden" name="rapRilasciatoData">
+		          				<xsl:attribute name="value"><xsl:value-of select="concat(substring(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DTDOCLEG']/VALORE,9,2),'/',substring(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DTDOCLEG']/VALORE,6,2),'/',substring-before(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DTDOCLEG']/VALORE,'-'))"/></xsl:attribute>
+		        			</input>
+						</xsl:when>
+						<xsl:otherwise>
+							<input type="hidden" name="rapRilasciatoData" value=""/>
+						</xsl:otherwise>
+				</xsl:choose>
+		        
+		        <xsl:choose>
+		        		<!-- Nessun documento ricevuto -->
+		        		<xsl:when test="count(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDTPDOCL']/VALORE)=0">
+							<input type="hidden" name="rapTipoDocumento" value = ""/>
+						</xsl:when>
+		        		<!-- Carta d'Identità -->
+						<xsl:when test="//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDTPDOCL']/VALORE = 'C'">
+							<input type="hidden" name="rapTipoDocumento" value = '1'/>		          				
+						</xsl:when>
+						<!-- Patente di Guida -->
+						<xsl:when test="//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDTPDOCL']/VALORE = 'G'">
+							<input type="hidden" name="rapTipoDocumento" value = '2'/>		          				
+						</xsl:when>
+						<!-- Passaporto -->
+						<xsl:when test="//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDTPDOCL']/VALORE = 'P'">
+							<input type="hidden" name="rapTipoDocumento" value = '3'/>		          				
+						</xsl:when>
+						<!-- Porto d'Armi -->
+						<xsl:when test="//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDTPDOCL']/VALORE = 'R'">
+							<input type="hidden" name="rapTipoDocumento" value = '4'/>		          				
+						</xsl:when>
+						<!--  Altro (compresa Tessera Ferroviaria) -->
+						<xsl:otherwise>
+							<input type="hidden" name="rapTipoDocumento" value = '6'/>
+						</xsl:otherwise>
+				</xsl:choose>
+		        		         
+		        <input type="hidden" name="rapNumeroDocumento" value="{//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'NUDOCLEG']/VALORE}"/>
+				
+				<!--*******************************************************************
+				Inserimento flag Mifid
+		      	*******************************************************************-->
+		      	<input type="hidden" name="flCnNego" value="{//TEMPLATE[@CDOGG = 'MIFID' and @CARD = '001']/CAMPO[@CODICE = 'FLCNNEGO']/VALORE}"/>
+		      	<input type="hidden" name="flCnNego_a" value="{//TEMPLATE[@CDOGG = 'MIFID' and @CARD = '001']/CAMPO[@CODICE = 'TMPCHAR']/VALORE}"/>
+				
+			</form>
+	</xsl:template>
+	
+	<!-- Se arriva la combo per la scelta del codice ABI di accesso reimpostiamo il campo formEventoEsterno.ABI col valore selezionato -->
+	<xsl:template name = "Button-Link0001">
+		<input type="button" value="{text()}" class="formButton">
+			<xsl:attribute name="onclick"><xsl:value-of select="'javascript:if (document.theform.SECTI001_CODABI) document.formEventoEsterno.ABI.value = document.theform.SECTI001_CODABI.options[document.theform.SECTI001_CODABI.selectedIndex].value; document.formEventoEsterno.submit();location.href=&quot;exampleAction?cmd=home&quot;'"/></xsl:attribute>
+		</input>
+	</xsl:template>
+</xsl:stylesheet>
