@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE xsl:stylesheet [
+	<!ENTITY nbsp   "&#160;">
+	<!ENTITY acute  "&#180;">
+	<!ENTITY Agrave "&#192;">
+	<!ENTITY Aacute "&#193;">
+	<!ENTITY Acirc  "&#194;">
+	<!ENTITY Egrave "&#200;">
+	<!ENTITY Eacute "&#201;">
+	<!ENTITY Ecirc  "&#202;">
+	<!ENTITY Igrave "&#204;">
+	<!ENTITY Iacute "&#205;">
+	<!ENTITY Icirc  "&#206;">
+	<!ENTITY Ntilde "&#209;">
+	<!ENTITY Ograve "&#210;">
+	<!ENTITY Oacute "&#211;">
+	<!ENTITY Ocirc  "&#212;">
+	<!ENTITY Ugrave "&#217;">
+	<!ENTITY Uacute "&#218;">
+	<!ENTITY Ucirc  "&#219;">
+	<!ENTITY agrave "&#224;">
+	<!ENTITY aacute "&#225;">
+	<!ENTITY acirc  "&#226;">
+	<!ENTITY egrave "&#232;">
+	<!ENTITY eacute "&#233;">
+	<!ENTITY ecirc  "&#234;">
+	<!ENTITY igrave "&#236;">
+	<!ENTITY iacute "&#237;">
+	<!ENTITY icirc  "&#238;">
+	<!ENTITY ograve "&#242;">
+	<!ENTITY oacute "&#243;">
+	<!ENTITY ocirc  "&#244;">
+	<!ENTITY ugrave "&#249;">
+	<!ENTITY uacute "&#250;">
+	<!ENTITY ucirc  "&#251;">
+]>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:xalan="http://xml.apache.org/xslt">
+	<xsl:template name = "SWITC006_history" >
+	    <xsl:text disable-output-escaping="yes">
+<![CDATA[
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA001_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA002_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA003_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA004_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA005_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA006_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA007_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA008_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA009_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA010_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA011_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA012_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA013_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA014_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA015_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA016_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA017_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA018_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA019_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA020_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA021_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA022_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA023_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA024_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA025_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA026_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA027_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA028_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA029_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA030_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA031_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA032_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA033_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA034_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA035_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA036_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA037_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA038_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA039_CDLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA040_CDLINEA' value=' '/>
+
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA001_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA002_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA003_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA004_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA005_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA006_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA007_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA008_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA009_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA010_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA011_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA012_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA013_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA014_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA015_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA016_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA017_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA018_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA019_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA020_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA021_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA022_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA023_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA024_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA025_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA026_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA027_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA028_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA029_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA030_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA031_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA032_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA033_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA034_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA035_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA036_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA037_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA038_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA039_PCINVEST' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA040_PCINVEST' value=' '/>
+
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA001_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA002_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA003_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA004_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA005_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA006_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA007_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA008_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA009_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA010_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA011_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA012_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA013_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA014_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA015_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA016_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA017_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA018_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA019_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA020_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA021_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA022_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA023_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA024_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA025_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA026_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA027_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA028_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA029_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA030_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA031_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA032_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA033_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA034_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA035_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA036_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA037_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA038_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA039_DSLINEA' value=' '/>
+<input type='hidden' id='SWITC001INVES001OPZIO001LINEA040_DSLINEA' value=' '/>
+]]></xsl:text>	
+	</xsl:template>
+</xsl:stylesheet>
