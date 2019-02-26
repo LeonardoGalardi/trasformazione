@@ -1,0 +1,34 @@
+public class generatore {
+ 
+	public static void main(String args[]) {
+		Source xml = new StreamSource(new File("C:\\Sviluppo\\Documenti\\APP\\Session.xml"));
+		Source xslt = new StreamSource("C:\\Workspaces\\APP\\Conversione\\src\\xsl\\HtmlGenerator.xsl");
+ 
+		convertXMLToHTML(xml, xslt);
+ 
+	}
+ 
+	public static void convertXMLToHTML(Source xml, Source xslt) {
+		StringWriter sw = new StringWriter();
+ 
+		try {
+ 
+			FileWriter fw = new FileWriter("C:\\Sviluppo\\Documenti\\APP\\Fileoutput.html");
+			TransformerFactory tFactory = TransformerFactory.newInstance();
+			Transformer trasform = tFactory.newTransformer(xslt);
+			trasform.transform(xml, new StreamResult(sw));
+			fw.write(sw.toString());
+			fw.close();
+ 
+			System.out.println("File Html prodotto con successo in Fileoutput");
+ 
+		} catch (IOException | TransformerConfigurationException e) {
+			e.printStackTrace();
+		} catch (TransformerFactoryConfigurationError e) {
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			e.printStackTrace();
+		}
+ 
+	}
+}
