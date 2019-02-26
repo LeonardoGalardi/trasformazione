@@ -1,0 +1,2022 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY nbsp   "&#160;">
+  <!ENTITY acute  "&#180;">
+  <!ENTITY Agrave "&#192;">
+  <!ENTITY Aacute "&#193;">
+  <!ENTITY Acirc  "&#194;">
+  <!ENTITY Egrave "&#200;">
+  <!ENTITY Eacute "&#201;">
+  <!ENTITY Ecirc  "&#202;">
+  <!ENTITY Igrave "&#204;">
+  <!ENTITY Iacute "&#205;">
+  <!ENTITY Icirc  "&#206;">
+  <!ENTITY Ntilde "&#209;">
+  <!ENTITY Ograve "&#210;">
+  <!ENTITY Oacute "&#211;">
+  <!ENTITY Ocirc  "&#212;">
+  <!ENTITY Ugrave "&#217;">
+  <!ENTITY Uacute "&#218;">
+  <!ENTITY Ucirc  "&#219;">
+  <!ENTITY agrave "&#224;">
+  <!ENTITY aacute "&#225;">
+  <!ENTITY acirc  "&#226;">
+  <!ENTITY egrave "&#232;">
+  <!ENTITY eacute "&#233;">
+  <!ENTITY ecirc  "&#234;">
+  <!ENTITY igrave "&#236;">
+  <!ENTITY iacute "&#237;">
+  <!ENTITY icirc  "&#238;">
+  <!ENTITY ograve "&#242;">
+  <!ENTITY oacute "&#243;">
+  <!ENTITY ocirc  "&#244;">
+  <!ENTITY ugrave "&#249;">
+  <!ENTITY uacute "&#250;">
+  <!ENTITY ucirc  "&#251;">
+  <!ENTITY amp "&#38;">
+]>
+<!--<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml" xmlns:xalan="http://xml.apache.org/xslt"> -->
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:xalan="http://xml.apache.org/xslt">
+  <!--*****************************************************************************
+    Generic declaration
+      *****************************************************************************-->
+  <xsl:include href="funzioni.xsl"/>
+  <!--*****************************************************************************
+    Includiamo gli xsl per la gestione dell'EVENTO ESTERNO
+    *****************************************************************************-->
+  <xsl:include href="Extern-Link0001.xsl"/>
+  <xsl:include href="Extern-Link0002.xsl"/>
+  <xsl:include href="Extern-Link0003.xsl"/>
+  <xsl:include href="Extern-Link0004.xsl"/>
+  <xsl:include href="Extern-Link0005.xsl"/>
+  <xsl:include href="Extern-Link0006.xsl"/>
+  <xsl:include href="Extern-Link0007.xsl"/>
+  <xsl:include href="Extern-Link0008.xsl"/>
+  <xsl:include href="INSGA044_history.xsl"/>
+  <xsl:include href="SWITC006_history.xsl"/>
+  <xsl:include href="CarrelloFondi.xsl"/>
+
+  <xsl:output xalan:omit-meta-tag="no" encoding="ISO-8859-1"/>
+  <!-- già definito in funzioni.xsl -->
+  <xsl:decimal-format decimal-separator="," grouping-separator="." NaN=" "/>
+   <!-- -->
+
+  <!--*****************************************************************************
+    match root tag: <SERVICE>
+      *****************************************************************************-->
+  <xsl:template match="SERVICE">
+    <html>
+      <head>
+        <title>EXAMPLE</title>
+        <script>history.forward();</script>
+        <!-- disabilitazione tasto Back del browser -->
+        <script language="javascript" src="js/check.js" />
+        <script language="javascript" src="js/jquery-1.4.3.min.js" />
+        <xsl:if test="/SERVICE/LOCAL_JS">
+          <script type="text/javascript">
+          <xsl:value-of select="/SERVICE/LOCAL_JS" />
+          </script>
+        </xsl:if>
+        <xsl:if test="/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='REFER001']/TEMPLATE[@CDOGG='REFER' and @PRGRAPPR='00001']">
+   			<script type="text/javascript" src="js/BENEMREFER001.js" />
+        </xsl:if>
+        <xsl:if test="/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='POVEN002']">
+        	<xsl:choose>
+        		<xsl:when test="/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='POVEN002']/TEMPLATE[@CDOGG='COSIN' and @PRGRAPPR='00016']">
+        			<script type="text/javascript" src="js/COSIN00016.js" />
+        		</xsl:when>
+        		<xsl:when test="/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='POVEN002']/TEMPLATE[@CDOGG='OPSCA' and @PRGRAPPR='00012']">
+        			<script type="text/javascript" src="js/OPSCA00012.js" />
+        		</xsl:when>
+        	</xsl:choose>
+        </xsl:if>
+		<!-- Variazione Beneficiari morte -->
+		<xsl:if
+			test="/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='POVEN002' or @CODICE='RELAZ001']/TEMPLATE[@CDOGG='GARAN']/TEMPLATE[@CDOGG='VITAT']/TEMPLATE[@CDOGG='BENEM' and @PRGRAPPR='00063']">
+			<script type="text/javascript" src="js/BENEM00063.js" />
+		</xsl:if>
+		<xsl:if
+			test="/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='POVEN002' or @CODICE='RELAZ001']/TEMPLATE[@CDOGG='GARAN']/TEMPLATE[@CDOGG='UNITL']/TEMPLATE[@CDOGG='VITAT']/TEMPLATE[@CDOGG='BENEM' and @PRGRAPPR='00063']">
+			<script type="text/javascript" src="js/BENEM00063Unitl.js" />
+		</xsl:if>
+		<xsl:if
+			test="/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='POVEN002' or @CODICE='RELAZ001']/TEMPLATE[@CDOGG='GARAN']/TEMPLATE[@CDOGG='INDEL']/TEMPLATE[@CDOGG='VITAT']/TEMPLATE[@CDOGG='BENEM' and @PRGRAPPR='00063']">
+			<script type="text/javascript" src="js/BENEM00063Indel.js" />
+		</xsl:if>
+        <!-- Offerta fuori sede OFS -->
+        <xsl:if test="/SERVICE/SESSION/PROCESSO/FRAME/TEMPLATE[@CDOGG='POVEN' and @PRGRAPPR='00028']">
+			<xsl:if test="(/SERVICE/SESSION/PROCESSO/FRAME/TEMPLATE[@CDOGG='POVEN' and @PRGRAPPR='00028']/CAMPO[@CODICE='FLASSIST']/VALORE='S' or /SERVICE/SESSION/PROCESSO/FRAME/TEMPLATE[@CDOGG='POVEN' and @PRGRAPPR='00028']/CAMPO[@CODICE='FLCONOFS']/VALORE='S')">
+        		<script type="text/javascript" src="js/POVEN00028.js" />
+			</xsl:if>   			
+       	</xsl:if>
+        <xsl:if test="/SERVICE/SESSION/PROCESSO/FRAME/TEMPLATE[@CDOGG='RELAZ' and @PRGRAPPR='00019']">
+			<xsl:if test="(/SERVICE/SESSION/PROCESSO/FRAME/TEMPLATE[@CDOGG='RELAZ' and @PRGRAPPR='00019']/CAMPO[@CODICE='FLASSIST']/VALORE='S' or /SERVICE/SESSION/PROCESSO/FRAME/TEMPLATE[@CDOGG='RELAZ' and @PRGRAPPR='00019']/CAMPO[@CODICE='FLCONOFS']/VALORE='S')">
+        		<script type="text/javascript" src="js/RELAZ00019.js" />
+			</xsl:if>   			
+       	</xsl:if>
+        <!-- Se è presente la lista fondi la inserisce (inizio) -->
+        <xsl:if test="/SERVICE/LISTA_SKANDIA">
+          <script type="text/javascript" src="js/fondi.js" />
+          <script type="text/javascript">
+            <xsl:value-of select="/SERVICE/LISTA_SKANDIA" />
+          </script>
+          <xsl:choose>
+            <xsl:when test="/SERVICE/LISTA_SKANDIA[@FRAME='INSGA044']">
+              <script type="text/javascript" src="js/INSGA044_history.js" />
+              <script type="text/javascript" src="js/INSGA044_check.js" />
+            </xsl:when>
+            <xsl:when test="/SERVICE/LISTA_SKANDIA[@FRAME='SWITC006']">
+              <script type="text/javascript" src="js/SWITC006_history.js" />
+              <script type="text/javascript" src="js/SWITC006_check.js" />
+            </xsl:when>
+            <xsl:when test="/SERVICE/LISTA_SKANDIA[@FRAME='VEINT019']">
+              <script type="text/javascript" src="js/INSGA044_history.js" />
+              <script type="text/javascript" src="js/VEINT019_check.js" />
+            </xsl:when>
+            <xsl:when test="/SERVICE/LISTA_SKANDIA[@FRAME='APPEN003'] or /SERVICE/LISTA_SKANDIA[@FRAME='APPEN013']">
+              <script type="text/javascript" src="js/INSGA044_history.js" />
+              <script type="text/javascript" src="js/APPEN003_check.js" />
+            </xsl:when>
+          </xsl:choose>
+          <style type="text/css">
+          <xsl:text disable-output-escaping="yes">
+<![CDATA[
+.sel_fix {
+    font-family : 'courier new', courier;
+    font-size : 10px;
+    font-weight : bold;
+    width: 100%;
+}
+.opt_ei {
+    color: #000;
+}
+.opt_di {
+    color: #ccc;
+}
+.valore_pari {
+    background: #e8e8e8;
+}
+.valore_disp {
+    background: #ddd;
+}
+.monospace {
+    font-family : courier;
+    font-size : 10px;
+  background-color: #E49234;
+  color: #FFFFFF;
+  font-weight: bold;
+}
+
+]]></xsl:text></style>
+        </xsl:if>
+        <!-- Se è presente la lista fondi la inserisce (fine) -->
+
+        <!-- Se è presente la lista fondi (generica) la inserisce (inizio) -->
+        <xsl:if test="/SERVICE/LISTA_CARRELLO">
+          <script type="text/javascript" src="js/fondiCarr.js" />
+          <script type="text/javascript">
+            <xsl:value-of select="/SERVICE/LISTA_CARRELLO" />
+          </script>
+          <xsl:choose>
+            <xsl:when test="/SERVICE/LISTA_CARRELLO[@FRAME='FEMICARR']">
+             <script type="text/javascript">
+             <xsl:call-template name="VettoreLineeJS">
+               <xsl:with-param name="k">1</xsl:with-param>
+               <xsl:with-param name="n"><xsl:value-of select="/SERVICE/LISTA_CARRELLO[@FRAME='FEMICARR']/@NUM_OPZ"/></xsl:with-param>
+               <xsl:with-param name="prx">GARAN001UNITL001OPZIO001LINEA</xsl:with-param>
+             </xsl:call-template>
+             </script>
+              <script type="text/javascript" src="js/FEMICARR_check.js" />
+            </xsl:when>
+            <xsl:when test="/SERVICE/LISTA_CARRELLO[@FRAME='FVEICARR']">
+             <script type="text/javascript">
+             <xsl:call-template name="VettoreLineeJS">
+               <xsl:with-param name="k">1</xsl:with-param>
+               <xsl:with-param name="n"><xsl:value-of select="/SERVICE/LISTA_CARRELLO[@FRAME='FVEICARR']/@NUM_OPZ"/></xsl:with-param>
+               <xsl:with-param name="prx">GARAN001UNITL001OPZIO001LINEA</xsl:with-param>
+             </xsl:call-template>
+             </script>
+              <script type="text/javascript" src="js/FEMICARR_check.js" />
+            </xsl:when>
+            <xsl:when test="/SERVICE/LISTA_CARRELLO[@FRAME='FSWICARI']">
+             <script type="text/javascript">
+             <xsl:call-template name="VettoreLineeJS">
+               <xsl:with-param name="k">1</xsl:with-param>
+               <xsl:with-param name="n"><xsl:value-of select="/SERVICE/LISTA_CARRELLO[@FRAME='FSWICARI']/@NUM_OPZ"/></xsl:with-param>
+               <xsl:with-param name="prx">SWITC001INVES001OPZIO001LINEA</xsl:with-param>
+             </xsl:call-template>
+             </script>
+              <script type="text/javascript" src="js/FSWICARI_check.js" />
+            </xsl:when>
+          </xsl:choose>
+          <style type="text/css"><xsl:text disable-output-escaping="yes">
+<![CDATA[
+.sel_fix { font-family : 'courier new', courier; font-size : 10px; font-weight : bold; width: 100%; }
+.opt_ei { color: #000; }
+.opt_di { color: #ccc; }
+.valore_pari { background: #e8e8e8; }
+.valore_disp { background: #ddd; }
+.monospace { font-family : courier; font-size : 10px; background-color: #E49234; color: #FFFFFF; font-weight: bold; }
+]]></xsl:text></style>
+        </xsl:if>
+        <!-- Se è presente la lista fondi la inserisce (fine) -->
+
+
+        <link href="css/stili.css" rel="stylesheet" type="text/css" />
+      </head>
+      <body topmargin="0" leftmargin="0" onkeydown="disableBackspace();">
+        <xsl:attribute name="onload">
+        <xsl:choose>
+          <xsl:when test="/SERVICE/LISTA_SKANDIA">bilancia_fondi();</xsl:when>
+          <xsl:when test="/SERVICE/LISTA_CARRELLO[@FRAME='FSWICARI']">bilancia_fondi(false);</xsl:when>
+          <xsl:when test="/SERVICE/LISTA_CARRELLO">bilancia_fondi();</xsl:when>
+        </xsl:choose>
+        <xsl:if test="/SERVICE/LOCAL_JS">local_onload(); </xsl:if>
+        <xsl:if test="count(//CAMPO[1][(TIPO!='X' and TIPO!='K' and TIPO!='S'  and @CODICE!='FLSELEZ') and MOD])>0">
+        	<xsl:variable name="fldHi">
+            <xsl:call-template name="htmlName">
+            	<xsl:with-param name="node" select="//parent::CAMPO[1][(TIPO!='X' and TIPO!='K' and TIPO!='S' and @CODICE!='FLSELEZ') and MOD]" />
+            </xsl:call-template>
+            <xsl:value-of select="concat('_',//CAMPO[1][(TIPO!='X' and TIPO!='K' and TIPO!='S' and @CODICE!='FLSELEZ') and MOD]/@CODICE)" />
+        	</xsl:variable>if(document.theform.<xsl:value-of select="$fldHi"/>) { document.theform.<xsl:value-of select="$fldHi"/>.focus(); }</xsl:if>
+        <!-- /if -->
+        </xsl:attribute>
+        <form method="post" name="printForm" style="margin=0px;" onSubmit="return false">
+          <xsl:attribute name="action">PrintServlet?print=y&amp;IDTIME=<xsl:value-of select="//TIMESTAMP"/></xsl:attribute>
+          <!--Form for service process calling-->
+          <input type="hidden" name="CODICEPROCESSO"/>
+          <input type="hidden" name="CODICEFRAME"/>
+          <input type="hidden" name="CODICEEVENTO" />
+          <input type="hidden" name="PROG" />
+        </form>
+        <form method="post" name="printPrevForm" style="margin=0px;" onSubmit="return false">
+          <xsl:attribute name="action">PrintServletPrev?IDTIME=<xsl:value-of select="//TIMESTAMP"/></xsl:attribute>
+          <!--Form for service process calling-->
+          <input type="hidden" name="CODICEPROCESSO"/>
+          <input type="hidden" name="CODICEFRAME"/>
+          <input type="hidden" name="CODICEEVENTO" />
+          <input type="hidden" name="PROG" />
+        </form>
+        <form method="post" name="falseForm" style="margin=0px;" onSubmit="return false">
+          <xsl:attribute name="action">exampleAction?IDTIME=<xsl:value-of select="//TIMESTAMP"/></xsl:attribute>
+          <!--Form for service process calling-->
+          <input type="hidden" name="CODICEPROCESSO"/>
+          <input type="hidden" name="CODICEFRAME"/>
+          <input type="hidden" name="CODICEEVENTO" />
+        </form>
+        <xsl:if test="/SERVICE/SUBMIT_AVIVA">
+			<xsl:value-of select="/SERVICE/SUBMIT_AVIVA" disable-output-escaping="yes"/>
+		</xsl:if>
+
+        <table border="0" width="780" cellspacing="0" cellpadding="0"><tr>
+        <td align="left" valign="top"><img src="img/angolo.jpg" border="0"/></td>
+        <td align="right" valign="top">
+        <xsl:if test="SESSION/PROCESSO/@CODICE != '99999CMP'">
+          <img src="img/angolo2.jpg" border="0"/>
+        </xsl:if>
+        </td></tr></table>
+        <xsl:if test="SESSION/PROCESSO/@CODICE != '99999CMP'">
+          <xsl:call-template name="MENU">
+            <xsl:with-param name="MENU_EMISSIONE" select="MENU_EMISSIONE"/>
+            <xsl:with-param name="MENU_PREVE" select="MENU_PREVE"/>
+            <xsl:with-param name="MENU_SCARTI" select="MENU_SCARTI"/>
+            <xsl:with-param name="MENU_PRATICHE" select="MENU_PRATICHE"/>
+            <xsl:with-param name="MENU_PREORDINI" select="MENU_PREORDINI"/>
+          </xsl:call-template>
+        </xsl:if>
+        <xsl:apply-templates select="SESSION/PROCESSO"/>
+
+        <!-- Messaggio di attesa -->
+        <DIV ID="MessaggioAttesa" STYLE="visibility:hidden; z-index:2; position: absolute; left: 23; bottom: 5%;">
+            <TABLE class="tabAttesa" cellspacing ="0" cellpadding ="5" width="80" height = "80"><TR>
+          <TD align = "center"><IMG SRC="img/vai2.gif" align = "center"></IMG><BR/><BR/><FONT color="#005766">Caricamento in corso...</FONT></TD>
+            </TR></TABLE>
+        </DIV>
+      </body>
+    </html>
+  </xsl:template>
+  <!--*****************************************************************************
+    match MENU (create js menu)
+      *****************************************************************************-->
+  <xsl:template name="MENU">
+    <xsl:param name="MENU_EMISSIONE"/>
+    <xsl:param name="MENU_PREVE"/>
+    <xsl:param name="MENU_SCARTI"/>
+    <xsl:param name="MENU_PRATICHE"/>
+    <xsl:param name="MENU_PREORDINI"/>
+    <script type="text/javascript" src="js/var.js"/>
+    <script type="text/javascript">
+    <xsl:variable name="MENU_1st" select="4"/>
+      openTag();
+      <!-- Controllo se deve essere aggiunto il menù Promozione -->
+      <xsl:if test="count(//MENU_PROMO)>0">
+        addMenuPromo();
+      </xsl:if>
+      <xsl:if test="count($MENU_EMISSIONE/MENU_ITEM)>0">
+      <xsl:apply-templates select="$MENU_EMISSIONE/MENU_ITEM">
+        <xsl:with-param name="FIRST_LEVEL" select="concat('Menu2_', $MENU_1st)"/>
+        <xsl:with-param name="DEPTH" select="2"/>
+      </xsl:apply-templates>
+        addLastElemE(false);
+      </xsl:if>
+    <xsl:variable name="MENU_2nd">
+    <xsl:choose>
+      <xsl:when test="count($MENU_EMISSIONE/MENU_ITEM)>0">
+        <xsl:value-of select="1 + $MENU_1st"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$MENU_1st"/>
+      </xsl:otherwise>
+    </xsl:choose>
+    </xsl:variable>
+      <xsl:if test="count($MENU_PREVE/MENU_ITEM)>0">
+      <xsl:apply-templates select="$MENU_PREVE/MENU_ITEM">
+        <xsl:with-param name="FIRST_LEVEL" select="concat('Menu2_', $MENU_2nd)"/>
+        <xsl:with-param name="DEPTH" select="2"/>
+      </xsl:apply-templates>
+        addLastElemP(false);
+      </xsl:if>
+    <xsl:variable name="MENU_3rd">
+    <xsl:choose>
+      <xsl:when test="count($MENU_PREVE/MENU_ITEM)>0">
+        <xsl:value-of select="1 + $MENU_2nd"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$MENU_2nd"/>
+      </xsl:otherwise>
+    </xsl:choose>
+    </xsl:variable>
+    <xsl:if test="count($MENU_SCARTI/MENU_ITEM)>0">
+      <xsl:apply-templates select="$MENU_SCARTI/MENU_ITEM">
+        <xsl:with-param name="FIRST_LEVEL" select="concat('Menu2_', $MENU_3rd)"/>
+        <xsl:with-param name="DEPTH" select="0"/>
+        <xsl:with-param name="LABEL" select="'Gestione Scarti'"/>
+      </xsl:apply-templates>
+    </xsl:if>
+    <xsl:if test="count($MENU_PRATICHE/MENU_ITEM)>0">
+      <xsl:apply-templates select="$MENU_PRATICHE/MENU_ITEM">
+        <xsl:with-param name="FIRST_LEVEL" select="concat('Menu2_', $MENU_3rd)"/>
+        <xsl:with-param name="DEPTH" select="0"/>
+        <xsl:with-param name="LABEL" select="'Gestione Pratiche'"/>
+      </xsl:apply-templates>
+    </xsl:if>
+
+
+    <xsl:if test="count($MENU_PREORDINI/MENU_ITEM)>0">
+
+      <xsl:apply-templates select="$MENU_PREORDINI/MENU_ITEM">
+        <xsl:with-param name="FIRST_LEVEL" select="concat('Menu2_', $MENU_3rd)"/>
+        <xsl:with-param name="DEPTH" select="0"/>
+        <xsl:with-param name="LABEL" select="'Lista pre-ordini'"/>
+      </xsl:apply-templates>
+
+    </xsl:if>
+
+    <!-- -->
+      <xsl:if test="count($MENU_EMISSIONE/MENU_ITEM)>0 or
+              count($MENU_PREVE/MENU_ITEM)>0 or
+              count($MENU_SCARTI/MENU_ITEM)>0 or
+              count($MENU_PRATICHE/MENU_ITEM)>0  or
+              count($MENU_PREORDINI/MENU_ITEM)>0
+          ">
+        addLastElemS();
+      </xsl:if>
+      closeTag();
+    </script>
+    <script type="text/javascript" src="js/menu_com.js"/>
+    <noscript>Your browser does not support script</noscript>
+  </xsl:template>
+  <!--*****************************************************************************
+    match single menu item
+      *****************************************************************************-->
+  <xsl:template match="MENU_ITEM">
+    <xsl:param name="FIRST_LEVEL"/>
+    <xsl:param name="DEPTH"/>
+    <xsl:param name="LABEL"/>
+      <xsl:choose>
+      <xsl:when test="$DEPTH = 2">
+        <xsl:value-of disable-output-escaping="yes" select="concat('addLeafNoSgr(&quot;', $FIRST_LEVEL, '&quot;,&quot;', CODICE_GRUPPO, '&quot;,&quot;', DESCRIZIONE_GRUPPO, '&quot;,&quot;', CODICE_PROCESSO, '&quot;,&quot;', DESCRIZIONE_PROCESSO, '&quot;);')"/>
+      </xsl:when>
+      <xsl:when test="$DEPTH = 1">
+        <xsl:value-of disable-output-escaping="yes" select="concat('addLeaf_1st(&quot;', $FIRST_LEVEL, '&quot;,&quot;', CODICE_PROCESSO, '&quot;,&quot;', DESCRIZIONE_PROCESSO, '&quot;);')"/>
+      </xsl:when>
+      <xsl:when test="$DEPTH = 0">
+        <xsl:value-of disable-output-escaping="yes" select="concat('addLeaf_0th(&quot;', CODICE_PROCESSO, '&quot;,&quot;', $LABEL, '&quot;);')"/>
+      </xsl:when>
+      </xsl:choose>
+  </xsl:template>
+  <!--*****************************************************************************
+    match <PROCESSO> and open <form>
+      *****************************************************************************-->
+  <xsl:template match="PROCESSO">
+
+    <form method="post" name="theform" style="margin=0px;" onSubmit="return false">
+      <xsl:attribute name="action">exampleAction?IDTIME=<xsl:value-of select="//TIMESTAMP"/></xsl:attribute>
+      <input type="hidden" name="CODICEPROCESSO" value="{@CODICE}"/>
+      <input type="hidden" name="PROG" value="{//PROG+1}"/>
+      <xsl:apply-templates select="FRAME"/>
+    </form>
+
+    <!-- Inserisco il form relativo agli eventi esterni -->
+
+    <xsl:if test="(count(//EVENTO[@TIPO='E'])>0)">
+      <xsl:choose>
+        <xsl:when test="//EVENTO[@TIPO='E']/@CODICE = 'LINK0001'">
+            <xsl:call-template name="Extern-Link0001"/>
+        </xsl:when>
+
+        <xsl:when test="//EVENTO[@TIPO='E']/@CODICE = 'LINK0002'">
+          <xsl:call-template name="Extern-Link0002"/>
+        </xsl:when>
+        <!-- Eliminato, il passaggio a Skandia è gestito tramite un semplice link
+        <xsl:when test="//EVENTO[@TIPO='E']/@CODICE = 'LINK0003'">
+          <xsl:call-template name="Extern-Link0003"/>
+        </xsl:when>
+        -->
+
+
+      <!--*** AGGIUNTO PER GESTIRE IL PASSAGGIO DEI DATI A LOMBARDA ***-->
+        <xsl:when test="//EVENTO[@TIPO='E']/@CODICE = 'LINK0004'">
+          <xsl:call-template name="Extern-Link0004"/>
+        </xsl:when>
+
+      <!--*** AGGIUNTO PER GESTIRE IL PASSAGGIO DEI DATI A BAP ***-->
+        <xsl:when test="//EVENTO[@TIPO='E']/@CODICE = 'LINK0005'">
+          <xsl:call-template name="Extern-Link0005"/>
+        </xsl:when>
+
+      <!--*** AGGIUNTO PER GESTIRE IL PASSAGGIO DEI DATI a Cattolica per Procedura Collocamento Fondi ***-->
+        <xsl:when test="//EVENTO[@TIPO='E']/@CODICE = 'LINK0006'">
+          <xsl:call-template name="Extern-Link0006"/>
+        </xsl:when>
+
+      <!--*** AGGIUNTO PER GESTIRE IL PASSAGGIO DEI DATI a PASSCOMPAGNIA per integrazione con UBI ASSICURAZIONI ***-->
+        <xsl:when test="//EVENTO[@TIPO='E']/@CODICE = 'LINK0007'">
+          <xsl:call-template name="Extern-Link0007"/>
+        </xsl:when>
+
+      <!--*** AGGIUNTO PER GESTIRE IL PASSAGGIO AD INTESA VITA ***-->
+        <xsl:when test="//EVENTO[@TIPO='E']/@CODICE = 'LINK0008'">
+          <xsl:call-template name="Extern-Link0008"/>
+        </xsl:when>
+
+      </xsl:choose>
+    </xsl:if>
+
+  </xsl:template>
+  <!--*****************************************************************************
+    match tag <CANALE> (do nothing)
+      *****************************************************************************-->
+  <xsl:template match="CANALE"/>
+  <!--*****************************************************************************
+    process main tag <FRAME> - different html format for TEMPLATE (if list or not)
+      *****************************************************************************-->
+  <xsl:template match="FRAME">
+    <table border="0" width="760" cellspacing="0" cellpadding="1">
+    <tr>
+      <td width="130" valign="top">
+        <xsl:call-template name="formatSX">
+          <xsl:with-param name="templs" select="//TEMPLATE[@CDOGG='MPOST']|//TEMPLATE[@CDOGG='MQUES']"/>
+        </xsl:call-template>
+      </td>
+      <td valign="top"><br/>
+      <input type="hidden" name="CODICEFRAME" value="{@CODICE}"/>
+      <xsl:if test="count(TEMPLATE[@CDOGG='ERROR']) > 0">
+        <table width="100%" cellpadding="1" cellspacing="0" border="1" bordercolor="#CDCDCD"><tr><td>
+          <table width="100%" cellpadding="1" cellspacing="0">
+            <xsl:apply-templates select="TEMPLATE[@CDOGG='ERROR']" mode="errorList"/>
+          </table>
+        </td></tr></table>
+      </xsl:if>
+      <br/>
+      <!--<xsl:variable name="distinctTEMPL" select="//TEMPLATE[@CARD='001'][CAMPO][@CDOGG!='ERROR' and @CDOGG!='MPOST' and @CDOGG!='MEMIS' and @CDOGG!='MPREV' and @CDOGG!='MPRGR' and @CDOGG!='MPRSG' and @CDOGG!='SCHED']"/>-->
+      <xsl:variable name="distinctTEMPL"
+      select="//TEMPLATE[CAMPO][@CDOGG!='ERROR' and
+                                @CDOGG!='MPOST' and
+                                @CDOGG!='MQUES' and
+                                @CDOGG!='MEMIS' and
+                                @CDOGG!='MPREV' and
+                                @CDOGG!='MSCAR' and
+                                @CDOGG!='MPSIN' and
+                                @CDOGG!='MPROR' and
+                                @CDOGG!='MPRGR' and
+                                @CDOGG!='MPRSG' and
+                                @CDOGG!='SCHED']"/>
+      <xsl:for-each select="$distinctTEMPL">
+        <xsl:choose>
+		<!-- Nasconde DATI POLIZZA PER AVIVA VITA -->
+		  <xsl:when test="(./@CDOGG='POLIZ') and (./@PRGRAPPR='00062') and
+		  		/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='I-FRAME']"/>
+          <!-- Nasconde GAOLD 00023 -->
+            <xsl:when test="(../../../@CDOGG='GAOLD') and (../../../@PRGRAPPR='00023')"/>
+          <!-- Nasconde GAOLD 00024 -->
+            <xsl:when test="(../../../@CDOGG='GAOLD') and (../../../@PRGRAPPR='00024')"/>
+		<!-- Nasconde OPZIN 00001 - DATA TARGET -->
+		  <xsl:when test="(./@CDOGG='OPZIN') and (./@PRGRAPPR='00001') and
+		  		/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='OPSWA006']"/>
+		<!-- Nasconde OPZIN 00002 - STOP LOSS, TAKE PROFIT -->
+		  <xsl:when test="(./@CDOGG='OPZIN') and (./@PRGRAPPR='00002') and
+		  		/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='OPSWA009' or @CODICE='OPSWA010']"/>
+		<!-- Nasconde OPZIN 00003 - DOWNTREND -->
+		  <xsl:when test="(./@CDOGG='OPZIN') and (./@PRGRAPPR='00003') and
+		  		/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='OPSWA011']"/>
+          <xsl:when test="(current()/@LISTA='S') and (current()/@CDOGG='BENEM' and current()/@PRGRAPPR='00063')">
+              <xsl:call-template name="TemplNoList">
+                <xsl:with-param name="templ" select="current()"/>
+              </xsl:call-template>
+              <xsl:choose>
+                <xsl:when test="current()/@DISPLAY"></xsl:when>
+                <xsl:otherwise>
+                  <br/>
+                </xsl:otherwise>
+              </xsl:choose>
+          </xsl:when>
+          <xsl:when test="(current()/@LISTA='N') and (current()/@CDOGG!='BENEM') and (current()/@CDOGG!='BENEV')">
+
+            <xsl:choose>
+              <!-- Gestione personalizzata dei questionari di adeguatezza -->
+
+              <!-- Per ogni domanda richiamo un template specifico -->
+              <xsl:when test="current()/@CDOGG='DMDRS'">
+                <xsl:call-template name="TemplQuest">
+                  <xsl:with-param name="templ" select="current()"/>
+                </xsl:call-template>
+                <br/>
+              </xsl:when>
+              <xsl:when test="current()/@CDOGG='QUEGE'">
+                <xsl:call-template name="TemplQuestGe">
+                  <xsl:with-param name="templ" select="current()"/>
+                </xsl:call-template>
+                <br/>
+              </xsl:when>
+              <xsl:when test="current()/@CDOGG='DOMAN' and ../@CDOGG='QUEGE'">
+                <xsl:call-template name="TemplQuestGeDom">
+                  <xsl:with-param name="templ" select="current()"/>
+                </xsl:call-template>
+                <br/>
+              </xsl:when>
+              <xsl:when test="current()/@CDOGG='QUIDD'">
+                <xsl:call-template name="TemplQuestGe">
+                  <xsl:with-param name="templ" select="current()"/>
+                </xsl:call-template>
+                <br/>
+              </xsl:when>
+              <xsl:when test="current()/@CDOGG='DOMAN' and ../@CDOGG='QUIDD'">
+                <xsl:call-template name="TemplQuestGeDom">
+                  <xsl:with-param name="templ" select="current()"/>
+                </xsl:call-template>
+                <br/>
+              </xsl:when>
+              <!--filtro template offerta fuori sede -->
+              <xsl:when test="current()/@CDOGG='POVEN' and current()/@PRGRAPPR='00028' and current()/CAMPO[@CODICE='FLASSIST']/VALORE!='S' and current()/CAMPO[@CODICE='FLCONOFS']/VALORE!='S'" >
+              </xsl:when>
+              <xsl:when test="current()/@CDOGG='RELAZ' and current()/@PRGRAPPR='00019' and current()/CAMPO[@CODICE='FLASSIST']/VALORE!='S' and current()/CAMPO[@CODICE='FLCONOFS']/VALORE!='S'" >
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:call-template name="TemplNoList">
+                  <xsl:with-param name="templ" select="current()"/>
+                </xsl:call-template>
+                <xsl:choose>
+                	<xsl:when test="current()/@DISPLAY"></xsl:when>
+                	<xsl:otherwise><br/></xsl:otherwise>
+                </xsl:choose>
+              </xsl:otherwise>
+
+            </xsl:choose>
+
+          </xsl:when>
+          <xsl:otherwise>
+          <!-- E' un template di lista dato un CDOGG verifico che non ce ne siano altri con CARD minore, quello sarà il primo dei nodi della lista -->
+            <xsl:if test="count(preceding-sibling::TEMPLATE[@CDOGG=current()/@CDOGG][@CARD &lt; current()/@CARD])=0">
+              <xsl:call-template name="TemplList">
+                <!-- passiamo il nodo corrente e tutti i suoi fratelli con indice maggiore che abbiano almeno un campo -->
+                <xsl:with-param name="templs"
+                select="current()|following-sibling::TEMPLATE[@CDOGG=current()/@CDOGG]
+                  [@CARD>current()/@CARD]
+                  [(@LISTA='S' and @PRGRAPPR=current()/@PRGRAPPR) or @CDOGG='BENEM' or @CDOGG='BENEV'][CAMPO]"/>
+              </xsl:call-template>
+              <br/>
+            </xsl:if>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:for-each>
+
+      <!-- catalogo/carrello fondi skandia -->
+      <xsl:if test="(TEMPLATE[@CDOGG='GAOLD' and @PRGRAPPR='00023'])">
+        <xsl:if test="(/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='INSGA044']) or
+                      (/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='VEINT019']) or
+                      (/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='APPEN003']) or
+                      (/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='APPEN013'])">
+          <xsl:call-template name="INSGA044_history"></xsl:call-template>
+        </xsl:if>
+        <xsl:if test="/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='SWITC006']">
+          <xsl:call-template name="SWITC006_history"></xsl:call-template>
+        </xsl:if>
+        <xsl:if test="/SERVICE/LISTA_CARRELLO[@FRAME='FEMICARR']">
+         <xsl:call-template name="VettoreHidden">
+           <xsl:with-param name="k">1</xsl:with-param>
+           <xsl:with-param name="n"><xsl:value-of select="/SERVICE/LISTA_CARRELLO[@FRAME='FEMICARR']/@NUM_OPZ"/></xsl:with-param>
+           <xsl:with-param name="prx">GARAN001UNITL001OPZIO001LINEA</xsl:with-param>
+         </xsl:call-template>
+        </xsl:if>
+        <xsl:if test="/SERVICE/LISTA_CARRELLO[@FRAME='FVEICARR']">
+         <xsl:call-template name="VettoreHidden">
+           <xsl:with-param name="k">1</xsl:with-param>
+           <xsl:with-param name="n"><xsl:value-of select="/SERVICE/LISTA_CARRELLO[@FRAME='FVEICARR']/@NUM_OPZ"/></xsl:with-param>
+           <xsl:with-param name="prx">GARAN001UNITL001OPZIO001LINEA</xsl:with-param>
+         </xsl:call-template>
+        </xsl:if>
+        <xsl:if test="/SERVICE/LISTA_CARRELLO[@FRAME='FRIPCARR']">
+         <xsl:call-template name="VettoreHidden">
+           <xsl:with-param name="k">1</xsl:with-param>
+           <xsl:with-param name="n"><xsl:value-of select="/SERVICE/LISTA_CARRELLO[@FRAME='FRIPCARR']/@NUM_OPZ"/></xsl:with-param>
+           <xsl:with-param name="prx">RIRIP001DISIN001OPZIO001LINEA</xsl:with-param>
+         </xsl:call-template>
+        </xsl:if>
+        <!-- FRIPCAR3 come FRIPCARR -->
+        <xsl:if test="/SERVICE/LISTA_CARRELLO[@FRAME='FRIPCAR3']">
+         <xsl:call-template name="VettoreHidden">
+           <xsl:with-param name="k">1</xsl:with-param>
+           <xsl:with-param name="n"><xsl:value-of select="/SERVICE/LISTA_CARRELLO[@FRAME='FRIPCAR3']/@NUM_OPZ"/></xsl:with-param>
+           <xsl:with-param name="prx">RIRIP001DISIN001OPZIO001LINEA</xsl:with-param>
+         </xsl:call-template>
+        </xsl:if>
+        <xsl:if test="/SERVICE/LISTA_CARRELLO[@FRAME='FSWICARI']">
+         <xsl:call-template name="VettoreHidden">
+           <xsl:with-param name="k">1</xsl:with-param>
+           <xsl:with-param name="n"><xsl:value-of select="/SERVICE/LISTA_CARRELLO[@FRAME='FSWICARI']/@NUM_OPZ"/></xsl:with-param>
+           <xsl:with-param name="prx">SWITC001INVES001OPZIO001LINEA</xsl:with-param>
+         </xsl:call-template>
+        </xsl:if>
+        <xsl:choose>
+          <xsl:when test="/SERVICE/LISTA_SWITCH[@FRAME='FSWICARD']">
+            <!-- nop -->
+          </xsl:when>
+          <xsl:when test="/SERVICE/LISTA_SWITCH[@FRAME='FSWICAR3']">
+            <!-- nop -->
+          </xsl:when>
+          <xsl:otherwise>
+        <xsl:call-template name="CarrelloFondi"></xsl:call-template>
+          </xsl:otherwise>
+        </xsl:choose>
+    </xsl:if>
+      <!-- Inserimento menù Promozione -->
+      <xsl:if test="count(TEMPLATE[@CDOGG='MPRGR']) > 0">
+        <xsl:call-template name="formatMProm"/>
+      </xsl:if>
+
+        <xsl:if test="/SERVICE/FRAME_AVIVA">
+			<xsl:value-of select="/SERVICE/FRAME_AVIVA" disable-output-escaping="yes"/>
+		</xsl:if>
+        <xsl:if test="/SERVICE/FRAME_LOMBARDA">
+			<xsl:value-of select="/SERVICE/FRAME_LOMBARDA" disable-output-escaping="yes"/>
+		</xsl:if>
+
+      <div align="right">
+        <input name="CODICEEVENTO" type="hidden"/>
+        <xsl:apply-templates select="EVENTO">
+            <xsl:sort select="./@POS" data-type="number"/>
+        </xsl:apply-templates>
+      </div></td>
+    </tr>
+    </table>
+  </xsl:template>
+
+  <!--*****************************************************************************
+    process no list <TEMPLATE>
+      *****************************************************************************-->
+  <xsl:template name="TemplNoList">
+    <xsl:param name="templ"/>
+   <table width="100%" cellpadding="1" cellspacing="0" class="tabExt">
+    <xsl:attribute name="class">
+    <xsl:choose>
+    	<xsl:when test="@DISPLAY='NO'">tabExt no-display</xsl:when>
+    	<xsl:when test="@CDOGG='POVEN' and @PRGRAPPR='00023'">tabExt no-display</xsl:when>
+    	<xsl:when test="@CDOGG='RELAZ' and @PRGRAPPR='00023'">tabExt no-display</xsl:when>
+    	<xsl:otherwise>tabExt</xsl:otherwise>
+    </xsl:choose>
+	</xsl:attribute>
+	<xsl:attribute name="name">
+<!-- 		<xsl:value-of select="concat(@CDOGG,@CARD)"/> -->
+		<xsl:call-template name="htmlName">
+            <xsl:with-param name="node" select="."/>
+            <xsl:with-param name="partName">_TAB<xsl:value-of select="./@PRGRAPPR"></xsl:value-of> </xsl:with-param>
+        </xsl:call-template>
+	</xsl:attribute>
+    <tr><td><table width="100%" cellpadding="0" cellspacing="1">
+      <tr>
+        <td colspan="2" class="intestBlu" align="center">
+          <xsl:call-template name="translateStr">
+            <xsl:with-param select="@DESCR" name="string"/>
+          </xsl:call-template>
+        </td>
+      </tr>
+      <xsl:apply-templates select="CAMPO[@CODICE!='CDISTGES']" mode="noList"/>
+    </table></td></tr>
+    </table>
+  </xsl:template>
+
+  <!--*****************************************************************************
+    process <TEMPLATE> con CDOGG="DMDRS" (Questionari)
+      *****************************************************************************-->
+  <xsl:template name="TemplQuest">
+    <xsl:param name="templ"/>
+    <table width="100%" cellpadding="1" cellspacing="0" class="tabExt">
+      <tr><td>
+      <table width="100%" cellpadding="0" cellspacing="1">
+        <tr>
+        <td colspan="2" class="intestBlu" align="center">
+          <xsl:call-template name="translateStr">
+            <xsl:with-param select="@DESCR" name="string"/>
+          </xsl:call-template>
+        </td>
+        </tr>
+
+      <xsl:choose>
+        <!-- Risposta di tipo K (checkbox) -->
+        <xsl:when test="current()/CAMPO/TIPO='K'">
+
+          <!-- Domanda -->
+          <xsl:apply-templates select="current()/CAMPO[@CODICE ='DSDOMAND']" mode="noListQuest"/>
+
+          <xsl:for-each select="current()/CAMPO[TIPO='K']">
+            <tr>
+              <xsl:apply-templates select="current()" mode="ofListQuest"/>
+              <xsl:variable name="pos" select="substring-after(current()/@CODICE,'FLSEL')" />
+              <xsl:apply-templates select="current()/preceding-sibling::CAMPO[@CODICE=concat('POSRSP',$pos)]" mode="ofListQuest"/>
+            </tr>
+          </xsl:for-each>
+        </xsl:when>
+
+        <xsl:when test="current()/CAMPO/TIPO='U'">
+
+          <!-- Domanda -->
+          <!-- <xsl:apply-templates select="current()/CAMPO[@CODICE ='DSDOMAND']" mode="noListQuest"/>  -->
+
+          <xsl:for-each select="current()/CAMPO[TIPO='U']">
+            <tr>
+              <xsl:apply-templates select="current()" mode="ofListQuest"/>
+              <xsl:variable name="pos" select="substring-after(current()/@CODICE,'FLSEL')" />
+              <xsl:apply-templates select="current()/preceding-sibling::CAMPO[@CODICE=concat('POSRSP',$pos)]" mode="ofListQuest"/>
+            </tr>
+          </xsl:for-each>
+        </xsl:when>
+
+        <!-- Domande e risposte di tipo diverso da K -->
+        <xsl:otherwise>
+          <xsl:apply-templates select="current()/CAMPO" mode="noListQuest"/>
+        </xsl:otherwise>
+      </xsl:choose>
+
+      </table>
+      </td></tr>
+    </table>
+  </xsl:template>
+
+
+  <!--*****************************************************************************
+    process <TEMPLATE> con CDOGG="QUEGE" (Questionari)
+      *****************************************************************************-->
+  <xsl:template name="TemplQuestGe">
+    <xsl:param name="templ"/>
+    <table width="100%" cellpadding="1" cellspacing="0" class="tabExt">
+      <tr><td>
+      <table width="100%" cellpadding="0" cellspacing="1">
+        <tr>
+        <td colspan="2" class="intestBlu" align="center">
+          <xsl:call-template name="translateStr">
+            <xsl:with-param select="@DESCR" name="string"/>
+          </xsl:call-template>
+        </td>
+        </tr>
+      <!-- la parte seguente (choose) probabilmente non serve -->
+      <xsl:choose>
+        <!-- Risposta di tipo K (checkbox) -->
+        <xsl:when test="current()/CAMPO/TIPO='K'">
+
+          <!-- Domanda -->
+          <xsl:apply-templates select="current()/CAMPO[@CODICE ='DSDOMAND']" mode="noListQuest"/>
+
+          <xsl:for-each select="current()/CAMPO[TIPO='K']">
+            <tr>
+              <xsl:apply-templates select="current()" mode="ofListQuest"/>
+              <xsl:variable name="pos" select="substring-after(current()/@CODICE,'FLSEL')" />
+              <xsl:apply-templates select="current()/preceding-sibling::CAMPO[@CODICE=concat('POSRSP',$pos)]" mode="ofListQuest"/>
+            </tr>
+          </xsl:for-each>
+        </xsl:when>
+
+        <!-- Domande e risposte di tipo diverso da K -->
+        <xsl:otherwise>
+          <xsl:apply-templates select="current()/CAMPO" mode="noListQuest"/>
+        </xsl:otherwise>
+      </xsl:choose>
+
+      </table>
+      </td></tr>
+    </table>
+  </xsl:template>
+
+
+  <!--*****************************************************************************
+    process <TEMPLATE> con CDOGG="QUEGE/DOMAN" (Questionari)
+      *****************************************************************************-->
+  <xsl:template name="TemplQuestGeDom">
+    <xsl:param name="templ"/>
+    <table width="100%" cellpadding="1" cellspacing="0" class="tabExt">
+      <tr><td>
+      <table width="100%" cellpadding="0" cellspacing="1">
+        <tr>
+        <td colspan="2" class="intestBlu" align="center">
+          <xsl:call-template name="translateStr">
+            <xsl:with-param select="@DESCR" name="string"/>
+          </xsl:call-template>
+        </td>
+        </tr>
+      <xsl:choose>
+        <!-- Risposta di tipo K (checkbox) -->
+        <xsl:when test="current()/CAMPO/TIPO='K'">
+
+          <!-- Domanda -->
+          <xsl:apply-templates select="current()/CAMPO[@CODICE ='DSDOMAND']" mode="noListQuest"/>
+
+          <xsl:for-each select="current()/CAMPO[TIPO='K']">
+            <xsl:variable name="pos" select="substring-after(current()/@CODICE,'FLSEL')" />
+            <xsl:variable name="fld" select="concat('AGGPOSRSP',format-number(number($pos), '0'))" />
+            <tr>
+              <xsl:apply-templates select="current()" mode="ofListQuest"/>
+              <xsl:apply-templates select="current()/preceding-sibling::CAMPO[@CODICE=concat('POSRSP',$pos)]" mode="ofListQuest"/>
+            </tr>
+            <xsl:if test="current()/following-sibling::CAMPO[@CODICE=$fld]">
+              <xsl:apply-templates select="current()/following-sibling::CAMPO[@CODICE=$fld]" mode="noListQuest"/>
+            </xsl:if>
+
+          </xsl:for-each>
+        </xsl:when>
+
+        <!-- Domande e risposte di tipo diverso da K -->
+        <xsl:otherwise>
+          <xsl:apply-templates select="current()/CAMPO" mode="noListQuest"/>
+        </xsl:otherwise>
+      </xsl:choose>
+
+      </table>
+      </td></tr>
+    </table>
+  </xsl:template>
+
+
+  <!--*****************************************************************************
+    process list <TEMPLATE>
+      *****************************************************************************-->
+  <xsl:template name="TemplList">
+    <xsl:param name="templs"/>
+    <!--
+    <xsl:value-of select="../../../@CDOGG"/>
+    <xsl:value-of select="../../../@PRGRAPPR"/>
+     -->
+    <xsl:choose>
+    	<!-- frame singolo -->
+      <xsl:when test="../../../@CDOGG='RIRIP' and ../../../@PRGRAPPR='00011' and /SERVICE/LISTA_RISCATTO">
+        <xsl:value-of select="/SERVICE/LISTA_RISCATTO" disable-output-escaping="yes"/>
+      </xsl:when>
+    	<!-- frame multiplo -->
+      <xsl:when test="../../../@CDOGG='RIRIP' and ../../../@PRGRAPPR='00014' and /SERVICE/LISTA_RISCATTO">
+        <xsl:value-of select="/SERVICE/LISTA_RISCATTO" disable-output-escaping="yes"/>
+      </xsl:when>
+    	<!-- frame singolo -->
+      <xsl:when test="../../../@CDOGG='SWITC' and ../../../@PRGRAPPR='00012' and /SERVICE/LISTA_SWITCH">
+        <xsl:value-of select="/SERVICE/LISTA_SWITCH" disable-output-escaping="yes"/>
+      </xsl:when>
+    	<!-- frame multiplo -->
+      <xsl:when test="../../../@CDOGG='SWITC' and ../../../@PRGRAPPR='00023' and /SERVICE/LISTA_SWITCH">
+        <xsl:value-of select="/SERVICE/LISTA_SWITCH" disable-output-escaping="yes"/>
+      </xsl:when>
+      <xsl:otherwise>
+    <table width="100%" cellpadding="1" cellspacing="0" class="tabExt">
+    <tr><td><table width="100%" cellpadding="0" cellspacing="1">
+      <tr>
+        <td class="intestBlu" align="center">
+          <xsl:attribute name="colspan">
+          <xsl:choose>
+           	<!-- DATA TARGET -->
+          	<xsl:when test="./@CDOGG='OPZDI' and ./@PRGRAPPR='00005'">
+          		5
+          	</xsl:when>
+          	<!-- STOP LOSS TREND -->
+          	<xsl:when test="./@CDOGG='OPZDI' and ./@PRGRAPPR='00006'">
+          		5
+          	</xsl:when>
+          	<!-- TAKE PROFIT -->
+          	<xsl:when test="./@CDOGG='OPZDI' and ./@PRGRAPPR='00007'">
+          		5
+          	</xsl:when>
+          	<!-- DOWNTREND OPPORTUNITY -->
+          	<xsl:when test="./@CDOGG='OPZDI' and ./@PRGRAPPR='00008'">
+          		5
+          	</xsl:when>
+          	<xsl:otherwise>
+          		<xsl:value-of select="count($templs[1]/CAMPO)"/>
+          	</xsl:otherwise>
+          </xsl:choose>
+          </xsl:attribute>
+          <xsl:call-template name="translateStr">
+            <xsl:with-param select="@DESCR" name="string"/>
+          </xsl:call-template>
+        </td>
+      </tr>
+
+      <xsl:for-each select="$templs[1]/CAMPO[@CODICE='CDBENEF']">
+        <tr><td colspan = "9"> <!-- il colspan deve essere maggiore del numero di colonne utilizzate nella lista beneficiari di input-->
+        <table>
+          <tr>
+            <td align="center"  class="label">
+              <xsl:call-template name="translateStr">
+                <xsl:with-param select="DESCR" name="string"/>
+              </xsl:call-template>
+            </td>
+            <td ><xsl:apply-templates select="." mode="ofList"/></td>
+          </tr>
+        </table>
+        </td></tr>
+      </xsl:for-each>
+
+	<xsl:choose>
+		<xsl:when test="./@CDOGG='OPZDI' and ./@PRGRAPPR='00005'">
+          	<!-- DATA TARGET -->
+			<tr>
+				<td align="center" class="label">SELEZIONE</td>
+				<td align="center" class="label">COD.</td>
+				<td align="center" class="label">FONDO DI PARTENZA</td>
+				<td align="center" class="label">PERC. DISIN. E FREQ.</td>
+				<td align="center" class="label">FONDO ARRIVO</td>
+			</tr>
+		</xsl:when>
+
+		<xsl:when test="./@CDOGG='OPZDI' and ./@PRGRAPPR='00006'">
+          	<!-- STOP LOSS TREND -->
+			<tr>
+				<td align="center" class="label">SELEZIONE</td>
+				<td align="center" class="label">COD.</td>
+				<td align="center" class="label">FONDO CONTROLLO</td>
+				<td align="center" class="label">PERCENTUALE DI PROTEZIONE</td>
+				<td align="center" class="label">SAFE FUND</td>
+			</tr>
+		</xsl:when>
+
+		<xsl:when test="./@CDOGG='OPZDI' and ./@PRGRAPPR='00007'">
+          	<!-- TAKE PROFIT -->
+			<tr>
+				<td align="center" class="label">SELEZIONE</td>
+				<td align="center" class="label">COD.</td>
+				<td align="center" class="label">FONDO CONTROLLO</td>
+				<td align="center" class="label">PERCENTUALE OBIETTIVO</td>
+				<td align="center" class="label">SAFE FUND</td>
+			</tr>
+		</xsl:when>
+
+		<xsl:when test="./@CDOGG='OPZDI' and ./@PRGRAPPR='00008'">
+          	<!-- DOWNTREND OPPORTUNITY -->
+			<tr>
+				<td align="center" class="label">SEL.</td>
+				<td align="center" class="label">COD.</td>
+				<td align="center" class="label">FONDO PARTENZA</td>
+				<td align="center" class="label">PERCENTUALE OPPORTUNIT&Agrave;</td>
+				<td align="center" class="label">FONDO CONTROLLO</td>
+			</tr>
+		</xsl:when>
+
+		<xsl:otherwise>
+			<tr>
+        		<xsl:for-each select="$templs[1]/CAMPO">
+		          <xsl:if test="(@CODICE!='FLSELEZ') and (@CODICE!='CDBENEF')">
+		            <td align="center"  class="label">
+		              <xsl:call-template name="translateStr">
+		                <xsl:with-param select="DESCR" name="string"/>
+		              </xsl:call-template>
+		            </td>
+		          </xsl:if>
+		        </xsl:for-each>
+			</tr>
+		</xsl:otherwise>
+	</xsl:choose>
+
+      <xsl:for-each select="$templs">
+        <tr>
+          <xsl:choose>
+            <xsl:when test="(current()/@CARD mod 2 = 0)">
+              <xsl:attribute name="class">list_even</xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:attribute name="class">list_odd</xsl:attribute>
+            </xsl:otherwise>
+          </xsl:choose>
+
+          <!-- allineamento ad hoc per i beneficiari, non sono lista ma sono trattati allo stesso modo -->
+          <!--<xsl:if test="(current()/@CDOGG='BENEM' or current()/@CDOGG='BENEV') and (current()/@CARD>1) and (count(current()/CAMPO[@CODICE='DSBEN'])>0)">
+            <td align="center">&nbsp;</td>
+          </xsl:if> rimosso, il td vuoto è stato inserito più sotto nel caso (@CODICE='DSBEN') and (parent::TEMPLATE/@CARD>1) -->
+          <xsl:for-each select="CAMPO">
+            <xsl:choose>
+              <xsl:when test="@CODICE='FLSELEZ'">
+                <input type="hidden">
+                  <xsl:attribute name="name">
+                    <xsl:call-template name="htmlName">
+                      <xsl:with-param name="node" select=".."/>
+                    </xsl:call-template>
+                    <xsl:value-of select="concat('_',@CODICE)"/>
+                  </xsl:attribute>
+                </input>
+              </xsl:when>
+              <!-- allineamento ad hoc per i beneficiari, mettiamo la descrizione una sola volta -->
+              <xsl:when test="(@CODICE='DSBEN') and (parent::TEMPLATE/@CARD>1)"><td align="center">&nbsp;</td></xsl:when>
+              <xsl:when test ="(@CODICE='CDBENEF')"></xsl:when>
+              <xsl:otherwise>
+                <xsl:apply-templates select="." mode="ofList"/>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:for-each>
+          <xsl:if test="(count(//EVENTO[@TIPO='C'])>0) and (count(CAMPO[@CODICE='FLSELEZ'])>0)">
+            <td width="25" align="center">
+              <a>
+              <xsl:attribute name="href">
+                 <xsl:text>javascript:document.theform.</xsl:text>
+                <xsl:call-template name="htmlName">
+                  <xsl:with-param name="node" select="."/>
+                </xsl:call-template>
+                <xsl:value-of select="concat('_',CAMPO/@CODICE)"/>
+                <xsl:text>.value='S';document.theform.CODICEEVENTO.value='</xsl:text>
+                <xsl:value-of select="//EVENTO[@TIPO='C']/@CODICE"/>
+                <xsl:text>'; document.all.MessaggioAttesa.style.visibility='visible'; document.theform.submit();</xsl:text>
+              </xsl:attribute>
+              <img src="img/ok.gif" border="0"/>
+              </a>
+            </td>
+          </xsl:if>
+        </tr>
+      </xsl:for-each>
+    </table></td></tr>
+    </table>
+    </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  <!--*****************************************************************************
+    process object ERROR <TEMPLATE>
+      *****************************************************************************-->
+  <xsl:template match="TEMPLATE" mode="errorList">
+    <tr>
+      <xsl:choose>
+        <xsl:when test="CAMPO[@CODICE='CDTPERR']/VALORE='F'">
+          <td><img src="img/lock.gif"/></td>
+          <td class="arancio" align="left">&nbsp;<b>LOCK</b></td>
+        </xsl:when>
+        <xsl:when test="CAMPO[@CODICE='CDTPERR']/VALORE='W'">
+          <td><img src="img/vai.gif"/></td>
+          <td class="giallo" align="left">&nbsp;<b>WARNING</b></td>
+        </xsl:when>
+        <xsl:otherwise>
+          <td bgcolor="#F3F3F3"><img src="img/stop.gif"/></td>
+          <td class="rosso" align="left">&nbsp;<b>ERROR</b></td>
+        </xsl:otherwise>
+      </xsl:choose>
+      <xsl:for-each select="CAMPO">
+        <xsl:apply-templates select="." mode="ofError"/>
+      </xsl:for-each>
+    </tr>
+  </xsl:template>
+  <!--*****************************************************************************
+    Format SX Column and process object MPOST - <TEMPLATE> post-vendita menu
+      *****************************************************************************-->
+  <xsl:template name="formatSX">
+    <xsl:param name="templs"/>
+
+      <div align="center">
+      <xsl:value-of select="//DATE"/><br/>
+      Time: <xsl:call-template name="formatTime">
+          <xsl:with-param select="//TIME" name="stringTime"/>
+        </xsl:call-template>
+        <!--xsl:value-of select="//TIME"/-->
+      <br/>
+<!--       <hr width="130"/> -->
+	<img src="img/hr100.gif" style="margin: 4px 0px"/><br/>
+      <b>USER:&nbsp;</b><xsl:value-of select="//USER"/><br/>
+      <b>ABI:&nbsp;</b><xsl:value-of select="//AC_ABI"/><br/>
+      <b>AGENZIA:&nbsp;</b><xsl:value-of select="//AC_AGENZIA"/><br/>
+      <b>ID:&nbsp;</b><xsl:value-of select="//AC_RUOLO"/><br/>
+      <b>TASK:&nbsp;</b><xsl:value-of select="//SESSION/@CODICE"/><br/>
+      </div>
+      <hr width="100"/>
+      <table cellpadding="1" cellspacing="2" width="100" align="center" border="0">
+        <tr><td align="center" valign="middle" class="buttonPost" height="25">
+          <a href="javascript:void(0);" onClick="if (confirm('Confermi il LOGOUT?')) location.href('exampleAction?cmd=logout');return false;">LOGOUT</a>
+        </td></tr>
+        <tr><td align="center" valign="middle">
+          <hr width="100"/>
+        </td></tr>
+      <!--/table-->
+
+        <xsl:if test="count($templs)>0">
+
+          <xsl:if test="count($templs[@CDOGG='MPOST'])>0">
+        <!--table cellpadding="1" cellspacing="2" width="131" align="left" border="0" bgcolor="#FFFFFF"-->
+            <xsl:if test="count($templs[CAMPO[@CODICE='CDTPOPER']/VALORE='DISPO'])>0">
+              <tr><td height="32" align="left" valign="middle" class="Titolo"><img src="img/spaziovuoto.jpg" align="left"/>Operazioni dispositive</td></tr>
+            </xsl:if>
+            <xsl:for-each select="$templs[CAMPO[@CODICE='CDTPOPER']/VALORE='DISPO']">
+              <xsl:apply-templates select="." mode="mpostObj"/>
+            </xsl:for-each>
+            <xsl:if test="count($templs[CAMPO[@CODICE='CDTPOPER']/VALORE='INQUI'])>0">
+              <tr><td height="32" align="left" valign="middle" class="Titolo"><img src="img/spaziovuoto.jpg" align="left"/>Operazioni d'inquiry</td></tr>
+            </xsl:if>
+            <xsl:for-each select="$templs[CAMPO[@CODICE='CDTPOPER']/VALORE='INQUI']">
+              <xsl:apply-templates select="." mode="mpostObj"/>
+            </xsl:for-each>
+            <xsl:if test="count($templs[CAMPO[@CODICE='CDTPOPER']/VALORE='VARIA'])>0">
+              <tr><td height="32" align="left" valign="middle" class="Titolo"><img src="img/spaziovuoto.jpg" align="left"/>Operazioni di variazione</td></tr>
+            </xsl:if>
+            <xsl:for-each select="$templs[CAMPO[@CODICE='CDTPOPER']/VALORE='VARIA']">
+              <xsl:apply-templates select="." mode="mpostObj"/>
+            </xsl:for-each>
+          </xsl:if>
+
+          <xsl:if test="count($templs[@CDOGG='MQUES'])>0">
+            <xsl:for-each select="$templs[CAMPO]">
+              <xsl:apply-templates select="." mode="mpostObj"/>
+            </xsl:for-each>
+          </xsl:if>
+
+        </xsl:if>
+      </table>
+
+  </xsl:template>
+
+
+  <!--*****************************************************************************
+    process <CAMPO> no list (rows formatting)
+      *****************************************************************************-->
+  <xsl:template match="CAMPO" mode="noList">
+  <!-- black list campi ausiliari da nascondere -->
+    <xsl:choose>
+      <xsl:when test="/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='INSGA044'] and (@CODICE='CONFIMPRMAUN' or @CODICE='CONFIMRAMAAG')">
+        <!-- do nothing -->
+      </xsl:when>
+      <xsl:when test="/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='SWITC006'] and (@CODICE='CONFIMPRMAUN' or @CODICE='CONFIMRAMAAG')">
+        <!-- do nothing -->
+      </xsl:when>
+      <xsl:when test="/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='VEINT019'] and (@CODICE='CONFIMPRMAUN' or @CODICE='CONFIMRAMAAG')">
+        <!-- do nothing -->
+      </xsl:when>
+      <xsl:when test="/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='FEMICARR'] and (@CODICE='CONFIMPRMAUN')">
+        <!-- do nothing -->
+      </xsl:when>
+      <xsl:when test="/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='FVEICARR'] and (@CODICE='CONFIMRAMAAG')">
+        <!-- do nothing -->
+      </xsl:when>
+      <xsl:when test="/SERVICE/SESSION/PROCESSO/FRAME[@CODICE='LINKRCA1'] and @CODICE='CDDIPAGG1'">
+        <!-- do nothing -->
+      </xsl:when>
+      <xsl:when test="./DESCR='::' and position()>1">
+        <!-- do nothing (campi concatenati con i precedenti) -->
+      </xsl:when>
+      <xsl:otherwise>
+    <tr>
+      <td width="40%" class="label">
+        <xsl:call-template name="translateStr">
+          <xsl:with-param select="DESCR" name="string"/>
+        </xsl:call-template>
+      </td>
+      <td>
+        <xsl:call-template name="creaCampo">
+          <xsl:with-param name="id">
+            <xsl:call-template name="htmlName">
+              <xsl:with-param name="node" select=".."/>
+              <xsl:with-param name="frameName" select="../.."/>
+            </xsl:call-template>
+            <xsl:value-of select="concat('_',@CODICE)"/>
+          </xsl:with-param>
+          <xsl:with-param name="fullname">
+            <xsl:call-template name="htmlNamePrev">
+              <xsl:with-param name="node" select=".."/>
+            </xsl:call-template>
+            <xsl:value-of select="concat('_',@CODICE)"/>
+          </xsl:with-param>
+          <xsl:with-param name="tipo">
+            <xsl:value-of select="TIPO"/>
+          </xsl:with-param>
+          <xsl:with-param name="label">
+            <xsl:call-template name="translateStr">
+              <xsl:with-param select="DESCR" name="string"/>
+            </xsl:call-template>
+          </xsl:with-param>
+          <xsl:with-param name="lenInt">
+            <xsl:choose>
+              <xsl:when test="LENINT>50">50</xsl:when>
+              <xsl:otherwise>
+                <xsl:value-of select="LENINT"/>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:with-param>
+          <xsl:with-param name="lenDec">
+            <xsl:value-of select="LENDEC"/>
+          </xsl:with-param>
+          <xsl:with-param name="lenMax">
+            <xsl:value-of select="LENINT"/>
+          </xsl:with-param>
+          <xsl:with-param name="valore">
+            <xsl:value-of select="VALORE"/>
+          </xsl:with-param>
+          <xsl:with-param name="mod">
+            <xsl:choose>
+            <xsl:when test="count(MOD)=0">
+              <xsl:text>N</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="MOD"/>
+            </xsl:otherwise>
+            </xsl:choose>
+          </xsl:with-param>
+          <xsl:with-param name="obb">
+            <xsl:value-of select="OBB"/>
+          </xsl:with-param>
+          <xsl:with-param name="combo">
+            <xsl:choose>
+            <xsl:when test="count(COMBO)=0">
+              <xsl:text>N</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="COMBO"/>
+            </xsl:otherwise>
+            </xsl:choose>
+          </xsl:with-param>
+          <xsl:with-param name="optionGroup">
+            <xsl:if test="count(COMBO)>0">
+              <xsl:if test="count(OPTION)>0">
+                <xsl:copy-of select="OPTION"/>
+              </xsl:if>
+              <xsl:if test="count(OPTION)=0">
+                <xsl:if test="current()/VALORE!=''">
+                  <xsl:copy-of select="//OPTIONGROUP[@CODICE=current()/@CODICE]/OPTION[@VALUE=current()/VALORE]"/>
+                  <!--<xsl:attribute name="SELECTED">TRUE</xsl:attribute>-->
+                </xsl:if>
+                <xsl:if test="count(MOD)>0">
+                  <xsl:copy-of select="//OPTIONGROUP[@CODICE=current()/@CODICE]/OPTION"/>
+                </xsl:if>
+              </xsl:if>
+            </xsl:if>
+          </xsl:with-param>
+        </xsl:call-template>
+      </td>
+    </tr>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+
+  <!--*****************************************************************************
+    process <CAMPO> of list (columns formatting)
+      *****************************************************************************-->
+  <xsl:template match="CAMPO" mode="ofList">
+      <xsl:choose>
+			<xsl:when test="./@CODICE='PRGOPDI' and ../@CDOGG='OPZDI' and
+					(../@PRGRAPPR='00005' or ../@PRGRAPPR='00006' or ../@PRGRAPPR='00007') ">
+				<xsl:choose>
+					<xsl:when test="../CAMPO[@CODICE='FLSEL']/VALORE='S'">
+						<xsl:variable name="cdlinea"><xsl:value-of select="../CAMPO[@CODICE='CDLINEA']/VALORE"/></xsl:variable>
+						<xsl:variable name="card"><xsl:value-of select="../@CARD"/></xsl:variable>
+						<xsl:variable name="fullName">
+							<xsl:call-template name="htmlNamePrev">
+							<!--
+								<xsl:with-param name="node" select="../../TEMPLATE[@CDOGG='OPZIN' and @PRGRAPPR='00001' and @CARD=$card]"/>
+							 -->
+								<xsl:with-param name="node" select="../../TEMPLATE[@CDOGG='OPZIN' and @CARD=$card]"/>
+							</xsl:call-template>
+						</xsl:variable>
+						<td>
+						<select>
+						<xsl:attribute name="name"><xsl:value-of select="concat(substring($fullName,10), '_CDLINEA')"/></xsl:attribute>
+						<xsl:value-of select="/SERVICE/LISTA_OPSWA[@CDLINEA=$cdlinea]" disable-output-escaping="yes"/>
+						</select>
+						<input type="hidden">
+						<xsl:attribute name="name"><xsl:value-of select="concat(substring($fullName,10), '_FLSEL')"/></xsl:attribute>
+						<xsl:attribute name="value">S</xsl:attribute>
+						</input>
+						</td>
+					</xsl:when>
+					<xsl:otherwise></xsl:otherwise>
+				</xsl:choose>
+			</xsl:when>
+			<xsl:when test="./@CODICE='PRGOPDI' and ../@CDOGG='OPZDI' and
+					(../@PRGRAPPR='00008') ">
+					<!-- DOWNTREND -->
+				<xsl:choose>
+					<xsl:when test="../CAMPO[@CODICE='FLSEL']/VALORE='S'">
+						<xsl:variable name="cdlinea"><xsl:value-of select="../CAMPO[@CODICE='CDLINEA']/VALORE"/></xsl:variable>
+						<xsl:variable name="card"><xsl:value-of select="../@CARD"/></xsl:variable>
+						<td>
+ 						<xsl:apply-templates select="../../TEMPLATE[@CDOGG='OPZIN' and @CARD=$card]/CAMPO[@CODICE='PRGOPSW']" mode="ofListInside"></xsl:apply-templates>
+						</td>
+
+
+						<xsl:variable name="fullName">
+							<xsl:call-template name="htmlNamePrev">
+							<!--
+								<xsl:with-param name="node" select="../../TEMPLATE[@CDOGG='OPZIN' and @PRGRAPPR='00001' and @CARD=$card]"/>
+							 -->
+								<xsl:with-param name="node" select="../../TEMPLATE[@CDOGG='OPZIN' and @CARD=$card]"/>
+							</xsl:call-template>
+						</xsl:variable>
+						<td>
+						<select style='width: 300px;'>
+						<xsl:attribute name="name"><xsl:value-of select="concat(substring($fullName,10), '_CDLINEA')"/></xsl:attribute>
+						<xsl:value-of select="/SERVICE/LISTA_OPSWA[@CDLINEA=$cdlinea]" disable-output-escaping="yes"/>
+						</select>
+						<input type="hidden">
+						<xsl:attribute name="name"><xsl:value-of select="concat(substring($fullName,10), '_FLSEL')"/></xsl:attribute>
+						<xsl:attribute name="value">S</xsl:attribute>
+						</input>
+						</td>
+					</xsl:when>
+					<xsl:otherwise></xsl:otherwise>
+				</xsl:choose>
+			</xsl:when>
+		<xsl:otherwise>
+    <td>
+			<xsl:choose>
+
+        <xsl:when test="(./TIPO = 'B' and not(./MOD = 'S'))">
+          <xsl:attribute name="align">justify</xsl:attribute>
+        </xsl:when>
+        <xsl:when test="(./TIPO = 'U')">
+          <xsl:attribute name="align">center</xsl:attribute>
+          <xsl:attribute name="class">label</xsl:attribute>
+          <xsl:attribute name="width">10%</xsl:attribute>
+        </xsl:when>
+        <xsl:when test="(../CAMPO/TIPO = 'U')">
+          <xsl:attribute name="align">left</xsl:attribute>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:attribute name="align">center</xsl:attribute>
+        </xsl:otherwise>
+      </xsl:choose>
+      <xsl:call-template name="creaCampo">
+        <xsl:with-param name="id">
+          <xsl:call-template name="htmlName">
+            <xsl:with-param name="node" select=".."/>
+            <xsl:with-param name="frameName" select="../.."/>
+          </xsl:call-template>
+          <xsl:value-of select="concat('_',@CODICE)"/>
+        </xsl:with-param>
+        <xsl:with-param name="fullname">
+          <xsl:call-template name="htmlNamePrev">
+            <xsl:with-param name="node" select=".."/>
+          </xsl:call-template>
+          <xsl:value-of select="concat('_',@CODICE)"/>
+        </xsl:with-param>
+        <xsl:with-param name="tipo">
+          <xsl:value-of select="TIPO"/>
+        </xsl:with-param>
+        <xsl:with-param name="label">
+          <xsl:call-template name="translateStr">
+            <xsl:with-param select="DESCR" name="string"/>
+          </xsl:call-template>
+        </xsl:with-param>
+        <xsl:with-param name="lenInt">
+          <xsl:choose>
+            <xsl:when test="LENINT>19">19</xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="LENINT"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:with-param>
+        <xsl:with-param name="lenDec">
+          <xsl:value-of select="LENDEC"/>
+        </xsl:with-param>
+        <xsl:with-param name="lenMax">
+          <xsl:value-of select="LENINT"/>
+        </xsl:with-param>
+        <xsl:with-param name="valore">
+          <xsl:value-of select="VALORE"/>
+        </xsl:with-param>
+        <xsl:with-param name="mod">
+          <xsl:choose>
+          <xsl:when test="count(MOD)=0">
+            <xsl:text>N</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="MOD"/>
+          </xsl:otherwise>
+          </xsl:choose>
+        </xsl:with-param>
+        <xsl:with-param name="obb">
+          <xsl:value-of select="OBB"/>
+        </xsl:with-param>
+        <xsl:with-param name="combo">
+          <xsl:choose>
+          <xsl:when test="count(COMBO)=0">
+            <xsl:text>N</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="COMBO"/>
+          </xsl:otherwise>
+          </xsl:choose>
+        </xsl:with-param>
+        <xsl:with-param name="optionGroup">
+            <xsl:if test="count(COMBO)>0">
+              <xsl:if test="count(OPTION)>0">
+                <xsl:copy-of select="OPTION"/>
+              </xsl:if>
+              <xsl:if test="count(OPTION)=0">
+                <xsl:if test="count(MOD)>0">
+                  <xsl:copy-of select="//OPTIONGROUP[@CODICE=current()/@CODICE]/OPTION"/>
+                </xsl:if>
+                <xsl:if test="current()/VALORE!=''">
+                  <xsl:copy-of select="//OPTIONGROUP[@CODICE=current()/@CODICE]/OPTION[@VALUE=current()/VALORE]"/>
+                  <xsl:attribute name="SELECTED">TRUE</xsl:attribute>
+                </xsl:if>
+              </xsl:if>
+            </xsl:if>
+        </xsl:with-param>
+        <xsl:with-param name="isLista">S</xsl:with-param>
+      </xsl:call-template>
+    </td>
+		</xsl:otherwise>
+		</xsl:choose>
+  </xsl:template>
+
+
+  <xsl:template match="CAMPO" mode="ofListInside">
+      <xsl:call-template name="creaCampo">
+        <xsl:with-param name="id">
+          <xsl:call-template name="htmlName">
+            <xsl:with-param name="node" select=".."/>
+            <xsl:with-param name="frameName" select="../.."/>
+          </xsl:call-template>
+          <xsl:value-of select="concat('_',@CODICE)"/>
+        </xsl:with-param>
+        <xsl:with-param name="fullname">
+          <xsl:call-template name="htmlNamePrev">
+            <xsl:with-param name="node" select=".."/>
+          </xsl:call-template>
+          <xsl:value-of select="concat('_',@CODICE)"/>
+        </xsl:with-param>
+        <xsl:with-param name="tipo">
+          <xsl:value-of select="TIPO"/>
+        </xsl:with-param>
+        <xsl:with-param name="label">
+          <xsl:call-template name="translateStr">
+            <xsl:with-param select="DESCR" name="string"/>
+          </xsl:call-template>
+        </xsl:with-param>
+        <xsl:with-param name="lenInt">
+          <xsl:choose>
+            <xsl:when test="LENINT>19">19</xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="LENINT"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:with-param>
+        <xsl:with-param name="lenDec">
+          <xsl:value-of select="LENDEC"/>
+        </xsl:with-param>
+        <xsl:with-param name="lenMax">
+          <xsl:value-of select="LENINT"/>
+        </xsl:with-param>
+        <xsl:with-param name="valore">
+          <xsl:value-of select="VALORE"/>
+        </xsl:with-param>
+        <xsl:with-param name="mod">
+          <xsl:choose>
+          <xsl:when test="count(MOD)=0">
+            <xsl:text>N</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="MOD"/>
+		</xsl:otherwise>
+		</xsl:choose>
+        </xsl:with-param>
+        <xsl:with-param name="obb">
+          <xsl:value-of select="OBB"/>
+        </xsl:with-param>
+        <xsl:with-param name="combo">
+          <xsl:choose>
+          <xsl:when test="count(COMBO)=0">
+            <xsl:text>N</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="COMBO"/>
+		</xsl:otherwise>
+		</xsl:choose>
+        </xsl:with-param>
+        <xsl:with-param name="optionGroup">
+            <xsl:if test="count(COMBO)>0">
+              <xsl:if test="count(OPTION)>0">
+                <xsl:copy-of select="OPTION"/>
+              </xsl:if>
+              <xsl:if test="count(OPTION)=0">
+                <xsl:if test="count(MOD)>0">
+                  <xsl:copy-of select="//OPTIONGROUP[@CODICE=current()/@CODICE]/OPTION"/>
+                </xsl:if>
+                <xsl:if test="current()/VALORE!=''">
+                  <xsl:copy-of select="//OPTIONGROUP[@CODICE=current()/@CODICE]/OPTION[@VALUE=current()/VALORE]"/>
+                  <xsl:attribute name="SELECTED">TRUE</xsl:attribute>
+                </xsl:if>
+              </xsl:if>
+            </xsl:if>
+        </xsl:with-param>
+        <xsl:with-param name="isLista">S</xsl:with-param>
+      </xsl:call-template>
+  </xsl:template>
+
+
+
+  <!--*****************************************************************************
+    process <CAMPO> of list (questionario)
+      *****************************************************************************-->
+  <xsl:template match="CAMPO" mode="ofListQuest">
+
+    <td>
+    <xsl:choose>
+      <xsl:when test="TIPO='K' or TIPO='U'">
+        <xsl:attribute name="align">center</xsl:attribute>
+        <xsl:attribute name="width">10%</xsl:attribute>
+        <xsl:attribute name="class">label</xsl:attribute>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:attribute name="align">left</xsl:attribute>
+
+      </xsl:otherwise>
+
+    </xsl:choose>
+
+      <xsl:call-template name="creaCampo">
+        <xsl:with-param name="id">
+          <xsl:call-template name="htmlName">
+            <xsl:with-param name="node" select=".."/>
+            <xsl:with-param name="frameName" select="../.."/>
+          </xsl:call-template>
+          <xsl:value-of select="concat('_',@CODICE)"/>
+        </xsl:with-param>
+        <xsl:with-param name="fullname">
+          <xsl:call-template name="htmlNamePrev">
+            <xsl:with-param name="node" select=".."/>
+          </xsl:call-template>
+          <xsl:value-of select="concat('_',@CODICE)"/>
+        </xsl:with-param>
+        <xsl:with-param name="tipo">
+          <xsl:value-of select="TIPO"/>
+        </xsl:with-param>
+        <xsl:with-param name="label">
+          <xsl:choose>
+            <xsl:when test="TIPO='U'">
+              <xsl:value-of select="../@CDOGG"/><xsl:value-of select="../@PRGRAPPR"/>
+            </xsl:when>
+            <xsl:otherwise>
+          <xsl:call-template name="translateStr">
+            <xsl:with-param select="DESCR" name="string"/>
+          </xsl:call-template>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:with-param>
+        <xsl:with-param name="lenInt">
+          <xsl:choose>
+            <xsl:when test="LENINT>19">19</xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="LENINT"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:with-param>
+        <xsl:with-param name="lenDec">
+          <xsl:value-of select="LENDEC"/>
+        </xsl:with-param>
+        <xsl:with-param name="lenMax">
+          <xsl:value-of select="LENINT"/>
+        </xsl:with-param>
+        <xsl:with-param name="valore">
+          <xsl:value-of select="VALORE"/>
+        </xsl:with-param>
+        <xsl:with-param name="mod">
+          <xsl:choose>
+          <xsl:when test="count(MOD)=0">
+            <xsl:text>N</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="MOD"/>
+          </xsl:otherwise>
+          </xsl:choose>
+        </xsl:with-param>
+        <xsl:with-param name="obb">
+          <xsl:value-of select="OBB"/>
+        </xsl:with-param>
+        <xsl:with-param name="combo">
+          <xsl:choose>
+          <xsl:when test="count(COMBO)=0">
+            <xsl:text>N</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="COMBO"/>
+          </xsl:otherwise>
+          </xsl:choose>
+        </xsl:with-param>
+        <xsl:with-param name="optionGroup">
+            <xsl:if test="count(COMBO)>0">
+              <xsl:if test="count(OPTION)>0">
+                <xsl:copy-of select="OPTION"/>
+              </xsl:if>
+              <xsl:if test="count(OPTION)=0">
+                <xsl:if test="count(MOD)>0">
+                  <xsl:copy-of select="//OPTIONGROUP[@CODICE=current()/@CODICE]/OPTION"/>
+                </xsl:if>
+                <xsl:if test="current()/VALORE!=''">
+                  <xsl:copy-of select="//OPTIONGROUP[@CODICE=current()/@CODICE]/OPTION[@VALUE=current()/VALORE]"/>
+                  <xsl:attribute name="SELECTED">TRUE</xsl:attribute>
+                </xsl:if>
+              </xsl:if>
+            </xsl:if>
+        </xsl:with-param>
+        <xsl:with-param name="isLista">S</xsl:with-param>
+      </xsl:call-template>
+    </td>
+  </xsl:template>
+
+
+    <!--*****************************************************************************
+    process <CAMPO> no list (questionario)
+      *****************************************************************************-->
+  <xsl:template match="CAMPO" mode="noListQuest">
+    <tr>
+      <td width="10%" class="label">
+        <xsl:call-template name="translateStr">
+          <xsl:with-param select="DESCR" name="string"/>
+        </xsl:call-template>
+      </td>
+      <td>
+        <xsl:call-template name="creaCampo">
+          <xsl:with-param name="id">
+            <xsl:call-template name="htmlName">
+              <xsl:with-param name="node" select=".."/>
+            </xsl:call-template>
+            <xsl:value-of select="concat('_',@CODICE)"/>
+          </xsl:with-param>
+          <xsl:with-param name="fullname">
+            <xsl:call-template name="htmlNamePrev">
+              <xsl:with-param name="node" select=".."/>
+            </xsl:call-template>
+            <xsl:value-of select="concat('_',@CODICE)"/>
+          </xsl:with-param>
+          <xsl:with-param name="tipo">
+            <xsl:value-of select="TIPO"/>
+          </xsl:with-param>
+          <xsl:with-param name="label">
+            <xsl:call-template name="translateStr">
+              <xsl:with-param select="DESCR" name="string"/>
+            </xsl:call-template>
+          </xsl:with-param>
+          <xsl:with-param name="lenInt">
+            <xsl:choose>
+              <xsl:when test="LENINT>50">50</xsl:when>
+              <xsl:otherwise>
+                <xsl:value-of select="LENINT"/>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:with-param>
+          <xsl:with-param name="lenDec">
+            <xsl:value-of select="LENDEC"/>
+          </xsl:with-param>
+          <xsl:with-param name="lenMax">
+            <xsl:value-of select="LENINT"/>
+          </xsl:with-param>
+          <xsl:with-param name="valore">
+            <xsl:value-of select="VALORE"/>
+          </xsl:with-param>
+          <xsl:with-param name="mod">
+            <xsl:choose>
+            <xsl:when test="count(MOD)=0">
+              <xsl:text>N</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="MOD"/>
+            </xsl:otherwise>
+            </xsl:choose>
+          </xsl:with-param>
+          <xsl:with-param name="obb">
+            <xsl:value-of select="OBB"/>
+          </xsl:with-param>
+          <xsl:with-param name="combo">
+            <xsl:choose>
+            <xsl:when test="count(COMBO)=0">
+              <xsl:text>N</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="COMBO"/>
+            </xsl:otherwise>
+            </xsl:choose>
+          </xsl:with-param>
+          <xsl:with-param name="optionGroup">
+            <xsl:if test="count(COMBO)>0">
+              <xsl:if test="count(OPTION)>0">
+                <xsl:copy-of select="OPTION"/>
+              </xsl:if>
+              <xsl:if test="count(OPTION)=0">
+                <xsl:if test="current()/VALORE!=''">
+                  <xsl:copy-of select="//OPTIONGROUP[@CODICE=current()/@CODICE]/OPTION[@VALUE=current()/VALORE]"/>
+                  <!--<xsl:attribute name="SELECTED">TRUE</xsl:attribute>-->
+                </xsl:if>
+                <xsl:if test="count(MOD)>0">
+                  <xsl:copy-of select="//OPTIONGROUP[@CODICE=current()/@CODICE]/OPTION"/>
+                </xsl:if>
+              </xsl:if>
+            </xsl:if>
+          </xsl:with-param>
+        </xsl:call-template>
+      </td>
+    </tr>
+  </xsl:template>
+
+
+  <!--BUGFIX 05/06/2008: Nuova variabile "errore_prev" per non far apparire
+    il tasto "Stampa preventivo" in caso di errore del preventivatore-->
+    <xsl:variable name="errore_prev">
+      <xsl:choose>
+        <xsl:when test="count(//TEMPLATE[@CDOGG='ERROR']) > 0">
+          <xsl:value-of select="1"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="0"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <!--/BUGFIX 05/06/2008-->
+  <!--*****************************************************************************
+    process <EVENTO> (submit button)
+      *****************************************************************************-->
+  <xsl:template match="EVENTO">
+    <xsl:value-of select="'&nbsp;'"/>
+    <xsl:if test="@TIPO='B'">
+      <xsl:choose>
+        <xsl:when test="@CODICE='INSPOLIZ'">
+          <input type="button" value="{text()}" class="formButton">
+            <xsl:attribute name="onclick"><xsl:value-of select="concat('javascript:if (checkAll()) { if (confirm(&quot;CONFERMANDO LA TRANSAZIONE SI PROCEDE ALL&#180;INSERIMENTO DEL PRE-ORDINE/ DELLA PROPOSTA&quot;)) { document.theform.CODICEEVENTO.value=&quot;',@CODICE,'&quot;;this.disabled=true; document.all.MessaggioAttesa.style.visibility=&quot;visible&quot;; document.theform.submit();};};')"/></xsl:attribute>
+          </input>
+        </xsl:when>
+        <xsl:when test="@CODICE='ACCETTA PRE-ORDINE'">
+          <input type="button" value="{text()}" class="formButton">
+            <xsl:attribute name="onclick"><xsl:value-of select="concat('javascript:if (checkAll()) { if (confirm(&quot;CONFERMANDO IL PRE-ORDINE SI PROCEDE ALL&#180;INSERIMENTO DELL&#180;OPERAZIONE&quot;)) { document.theform.CODICEEVENTO.value=&quot;',@CODICE,'&quot;;this.disabled=true; document.all.MessaggioAttesa.style.visibility=&quot;visible&quot;; document.theform.submit();};};')"/></xsl:attribute>
+          </input>
+        </xsl:when>
+        <xsl:when test="@CODICE='RIFIUTA PRE-ORDINE'">
+          <input type="button" value="{text()}" class="formButton">
+            <xsl:attribute name="onclick"><xsl:value-of select="concat('javascript:if (checkAll()) { if (confirm(&quot;RIFIUTANDO IL PRE-ORDINE NON SI PROCEDE ALL&#180;INSERIMENTO DELL&#180;OPERAZIONE&quot;)) { document.theform.CODICEEVENTO.value=&quot;',@CODICE,'&quot;;this.disabled=true; document.all.MessaggioAttesa.style.visibility=&quot;visible&quot;; document.theform.submit();};};')"/></xsl:attribute>
+          </input>
+        </xsl:when>
+        <xsl:when test="@CODICE='INSPOATT'">
+          <input type="button" value="{text()}" class="formButton">
+            <xsl:attribute name="onclick"><xsl:value-of select="concat('javascript:if(checkAll()) { if (confirm(&quot;Emissione polizza in attesa di valutazionerischio&quot;)) {document.theform.CODICEEVENTO.value=&quot;',@CODICE,'&quot;;this.disabled=true; document.all.MessaggioAttesa.style.visibility=&quot;visible&quot;;document.theform.submit();};};')"/></xsl:attribute>
+          </input>
+        </xsl:when>
+        <xsl:when test="text()='INDIETRO'">	<!-- senza checkAll -->
+          <input type="button" value="{text()}" class="formButton">
+            <xsl:attribute name="onclick"><xsl:value-of select="concat('javascript: {document.theform.CODICEEVENTO.value=&quot;',@CODICE,'&quot;;this.disabled=true; document.all.MessaggioAttesa.style.visibility=&quot;visible&quot;;  document.theform.submit(); };')"/></xsl:attribute>
+          </input>
+        </xsl:when>
+        <xsl:when test="text()='ALTRI DATI' and (//SESSION/PROCESSO/FRAME[@CODICE='VEINT019'] or //SESSION/PROCESSO/FRAME[@CODICE='FVEICARR'])">	<!-- senza checkAll -->
+          <input type="button" value="{text()}" class="formButton">
+            <xsl:attribute name="onclick"><xsl:value-of select="concat('javascript: {document.theform.CODICEEVENTO.value=&quot;',@CODICE,'&quot;;this.disabled=true; document.all.MessaggioAttesa.style.visibility=&quot;visible&quot;;  document.theform.submit(); };')"/></xsl:attribute>
+          </input>
+        </xsl:when>
+        <xsl:otherwise>
+          <input type="button" value="{text()}" class="formButton">
+            <xsl:attribute name="onclick"><xsl:value-of select="concat('javascript:if (checkAll()) {document.theform.CODICEEVENTO.value=&quot;',@CODICE,'&quot;;this.disabled=true; document.all.MessaggioAttesa.style.visibility=&quot;visible&quot;;  document.theform.submit(); };')"/></xsl:attribute>
+          </input>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:if>
+    <xsl:if test="@TIPO='S'">
+      <input type="button" value="{text()}" class="formButton">
+      	<xsl:choose>
+      		<xsl:when test="@LOCK='S'">
+        <xsl:attribute name="onclick">stampaEvento(this, '<xsl:value-of select="@CODICE"/>', true, true)</xsl:attribute>
+        <xsl:attribute name="data-lock">true</xsl:attribute>
+      		</xsl:when>
+      		<xsl:otherwise>
+        <xsl:attribute name="onclick">stampaEvento(this, '<xsl:value-of select="@CODICE"/>', true)</xsl:attribute>
+      		</xsl:otherwise>
+      	</xsl:choose>
+<!--         <xsl:attribute name="onclick"><xsl:value-of select="concat('javascript:document.printForm.PROG.value=document.theform.PROG.value;document.printForm.CODICEFRAME.value=document.theform.CODICEFRAME.value;document.printForm.CODICEPROCESSO.value=document.theform.CODICEPROCESSO.value;document.printForm.CODICEEVENTO.value=&quot;',@CODICE,'&quot;;this.disabled=true;document.printForm.target=&quot;_new&quot;;document.printForm.submit();')"/></xsl:attribute> -->
+      </input>
+    </xsl:if>
+     <xsl:if test="@TIPO='F' or @CODICE='STAMPADOC'">
+     	<input type="hidden" id="AREAW" value="{text()}">
+<!--      	<xsl:attribute name="data-test"><xsl:value-of select="@CODICE"/></xsl:attribute> -->
+     	</input>
+     </xsl:if>
+
+    <!-- aggiunto tipo evento R per stampa senza disabilitare il tasto -->
+    <xsl:if test="@TIPO='R'">
+      <input type="button" value="{text()}" class="formButton">
+        <xsl:attribute name="onclick"><xsl:value-of select="concat('javascript:document.printForm.PROG.value=document.theform.PROG.value;document.printForm.CODICEFRAME.value=document.theform.CODICEFRAME.value;document.printForm.CODICEPROCESSO.value=document.theform.CODICEPROCESSO.value;document.printForm.CODICEEVENTO.value=&quot;',@CODICE,'&quot;;document.printForm.target=&quot;_new&quot;;document.printForm.submit();')"/></xsl:attribute>
+      </input>
+    </xsl:if>
+    <xsl:if test="@TIPO='Z'">
+      <input type="button" value="{text()}" class="formButton">
+        <xsl:attribute name="onclick">Stampa(this);</xsl:attribute>
+      </input>
+    </xsl:if>
+    <xsl:if test="@TIPO='H'">
+      <input type="button" value="{text()}" class="formButton" style="visibility: hidden;">
+        <xsl:attribute name="onclick"><xsl:value-of select="concat('javascript:if (checkAll()) {document.theform.CODICEEVENTO.value=&quot;',@CODICE,'&quot;;this.disabled=true; document.all.MessaggioAttesa.style.visibility=&quot;visible&quot;;  document.theform.submit(); };')"/></xsl:attribute>
+      </input>
+    </xsl:if>
+    <xsl:if test="@TIPO='D'">
+      <input type="button" value="{text()}" class="formButton" disabled="true">
+        <xsl:attribute name="onclick"><xsl:value-of select="concat('javascript:if (checkAll()) {document.theform.CODICEEVENTO.value=&quot;',@CODICE,'&quot;;this.disabled=true; document.all.MessaggioAttesa.style.visibility=&quot;visible&quot;;  document.theform.submit(); };')"/></xsl:attribute>
+      </input>
+    </xsl:if>
+    <xsl:if test="@TIPO='P'">
+      <xsl:choose>
+        <xsl:when test="@CODICE='CONFERMAPR' or @CODICE='INSOPERPR'">
+          <input type="button" value="{text()}" style="visibility: hidden;" id="BottoneConferma" class="formButton">
+            <xsl:attribute name="onclick"><xsl:value-of select="concat('javascript:if (checkAll()) {document.theform.CODICEEVENTO.value=&quot;',@CODICE,'&quot;;this.disabled=true; document.all.MessaggioAttesa.style.visibility=&quot;visible&quot;;  document.theform.submit(); };')"/></xsl:attribute>
+          </input>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:if test="$errore_prev = 0">
+            <input type="button" value="{text()}" class="formButton">
+              <xsl:attribute name="onclick"><xsl:value-of select="concat('javascript:document.printPrevForm.PROG.value=document.theform.PROG.value;document.printPrevForm.CODICEFRAME.value=document.theform.CODICEFRAME.value;document.printPrevForm.CODICEPROCESSO.value=document.theform.CODICEPROCESSO.value;document.printPrevForm.CODICEEVENTO.value=&quot;',@CODICE,'&quot;; if (document.all.BottoneConferma != null) { document.all.BottoneConferma.style.visibility=&quot;visible&quot;;} document.printPrevForm.target=&quot;_new&quot;;document.printPrevForm.submit();')"/></xsl:attribute>
+            </input>
+          </xsl:if>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:if>
+    <!-- Submit button per evento esterno, se presente la combo per la scelta dell'ABI lo prendo da li (Skandia è gestita separatamente senza form) -->
+    <xsl:if test="@TIPO='E'">
+
+      <xsl:choose>
+
+        <xsl:when test="//EVENTO[@TIPO='E']/@CODICE = 'LINK0001'">
+          <xsl:call-template name="Button-Link0001" />
+        </xsl:when>
+
+        <!-- La gestione degli altri bottoni è stata spostata nei link esterni -->
+        <xsl:when test="//EVENTO[@TIPO='E']/@CODICE = 'LINK0002'">
+          <xsl:call-template name="Button-Link0002" />
+        </xsl:when>
+
+        <xsl:when test="//EVENTO[@TIPO='E']/@CODICE = 'LINK0003'">
+          <table><td><a href="https://interface.skandia-vita.it" class="formButton" target="_blank"><FONT size="2" face="Verdana" color="#FFFFFF" > PASSA A SKANDIA </FONT></a></td></table>
+        </xsl:when>
+
+
+        <!--*** AGGIUNTO PER GESTIRE IL PASSAGGIO DEI DATI A LOMBARDA ***-->
+        <xsl:when test="//EVENTO[@TIPO='E']/@CODICE = 'LINK0004'">
+          <xsl:call-template name="Button-Link0004" />
+        </xsl:when>
+
+        <!--*** AGGIUNTO PER GESTIRE IL PASSAGGIO DEI DATI A BAP ***-->
+        <xsl:when test="//EVENTO[@TIPO='E']/@CODICE = 'LINK0005'">
+          <xsl:call-template name="Button-Link0005" />
+        </xsl:when>
+
+        <!--*** AGGIUNTO PER GESTIRE IL PASSAGGIO DEI DATI a Cattolica per Procedura Collocamento Fondi ***-->
+        <xsl:when test="//EVENTO[@TIPO='E']/@CODICE = 'LINK0006'">
+          <xsl:call-template name="Button-Link0006" />
+        </xsl:when>
+
+        <!--*** AGGIUNTO PER GESTIRE IL PASSAGGIO DEI DATI a PASSCOMPAGNIA per integrazione con UBI ASSICURAZIONI ***-->
+        <xsl:when test="//EVENTO[@TIPO='E']/@CODICE = 'LINK0007'">
+          <xsl:call-template name="Button-Link0007" />
+        </xsl:when>
+
+        <!--*** AGGIUNTO PER GESTIRE IL PASSAGGIO DEI DATI a INTESA VITA ***-->
+        <xsl:when test="//EVENTO[@TIPO='E']/@CODICE = 'LINK0008'">
+          <xsl:call-template name="Button-Link0008" />
+        </xsl:when>
+
+      </xsl:choose>
+    </xsl:if>
+  </xsl:template>
+  <!--*****************************************************************************
+    process <CAMPO> type Error (columns formatting,image,red)
+      *****************************************************************************-->
+  <xsl:template match="CAMPO" mode="ofError">
+    <xsl:if test="(@CODICE='CDERRORE') or (@CODICE='DSERRORE')">
+      <td align="center">
+        <xsl:choose>
+          <xsl:when test="parent::TEMPLATE/CAMPO[@CODICE='CDTPERR']/VALORE='F'">
+            <xsl:attribute name="class">arancio</xsl:attribute>
+          </xsl:when>
+          <xsl:when test="parent::TEMPLATE/CAMPO[@CODICE='CDTPERR']/VALORE='W'">
+            <xsl:attribute name="class">giallo</xsl:attribute>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:attribute name="class">rosso</xsl:attribute>
+          </xsl:otherwise>
+        </xsl:choose>
+        <xsl:call-template name="creaCampo">
+          <xsl:with-param name="valore">
+            <xsl:value-of select="VALORE"/>
+          </xsl:with-param>
+        </xsl:call-template>
+      </td>
+    </xsl:if>
+  </xsl:template>
+  <!--*****************************************************************************
+    process <TEMPLATE> type MPOST (button-style formatting)
+      *****************************************************************************-->
+  <xsl:template match="TEMPLATE" mode="mpostObj">
+    <tr>
+    <td align="left" valign="middle" class="buttonPost" height="15">
+      <img src="img/maggiore.gif"/>
+      <a>
+      <xsl:if test="current()/CAMPO[@CODICE='FLABFUTU']/VALORE!='S'">
+        <xsl:attribute name="DISABLED">YES</xsl:attribute>
+      </xsl:if>
+      <xsl:if test="current()/CAMPO[@CODICE='FLABFUTU']/VALORE='S'">
+        <xsl:attribute name="href">javascript:document.falseForm.CODICEPROCESSO.value='<xsl:value-of select="current()/CAMPO[@CODICE='CDPROCES']/VALORE"/>';document.falseForm.CODICEFRAME.value='F-FRMFIT';document.falseForm.CODICEEVENTO.value='START'; document.all.MessaggioAttesa.style.visibility='visible';document.falseForm.submit();</xsl:attribute>
+      </xsl:if><xsl:value-of select="current()/CAMPO[@CODICE='DSOPERAZ']/VALORE"/></a>
+    </td>
+    </tr>
+  </xsl:template>
+  <!--*****************************************************************************
+    process <TEMPLATE> object MPROM - Inserimento menù Promozione
+      *****************************************************************************-->
+  <xsl:template name="formatMProm">
+    <table width="91%" cellpadding="3" cellspacing="0" class="tabExt">
+      <!-- Intestazione della tabella e nomi dei campi -->
+      <tr><td class="intestBlu" colspan="4" align="center" >
+        Lista schede prodotto disponibili
+      </td></tr>
+      <xsl:for-each select="//TEMPLATE[@CDOGG='MPRGR']">
+        <tr><td colspan="99" class="mpromo1"><xsl:value-of select="CAMPO[@CODICE='DSGRUPPO']/VALORE" /></td></tr>
+        <xsl:for-each select="TEMPLATE[@CDOGG='MPRSG']">
+          <tr><td align="center"><img src="img/maggiore.gif"/></td><td colspan="99" class="mpromo2"><xsl:value-of select="CAMPO[@CODICE='DSSOTTGR']/VALORE"/></td></tr>
+          <xsl:for-each select="TEMPLATE[@CDOGG='SCHED']">
+            <tr>
+              <td>&nbsp;</td><td class="mpromo3"  style="border-left:1 solid #FFFFFF"><img src="img/maggiore.gif"/></td>
+              <td class="mpromo3">
+                <xsl:value-of select="CAMPO[@CODICE='DSCONV']/VALORE" />
+              </td>
+              <td class="mpromo3">
+                <a href="javascript:void(0);">
+                  <xsl:attribute name="onclick">javascript:window.open('Promo?CDCONV=<xsl:value-of select="CAMPO[@CODICE='CDCONV']/VALORE"/>&amp;CODABI=<xsl:value-of select="CAMPO[@CODICE='CODABI']/VALORE"/>&amp;SESSION=<xsl:value-of select="//SESSION/@CODICE"/>','newWin','height=400,width=600,status=0,menu=0,resizable=0,toolbar=0,scrollbars=1');</xsl:attribute>
+                  <img src="img/ok.gif" border="0" align = "right"/>
+                </a>
+              </td>
+            </tr>
+          </xsl:for-each>
+        </xsl:for-each>
+      </xsl:for-each>
+    </table>
+  </xsl:template>
+  <!--*****************************************************************************
+    process <TEMPLATE> object CARRELLO - Inserimento JS per linee fondi
+      *****************************************************************************-->
+  <xsl:template name="VettoreLineeJS">
+  <xsl:param name="k"/>
+  <xsl:param name="n"/>
+  <xsl:param name="prx"/>
+    <xsl:choose>
+      <xsl:when test="$k=1">
+var host_var = new Array(
+  new XmplVar('<xsl:value-of select="$prx"/>001_CDLINEA', '<xsl:value-of select="$prx"/>001_PCINVEST', '<xsl:value-of select="$prx"/>001_DSLINEA')</xsl:when>
+      <xsl:otherwise>
+        <xsl:variable name="crd" select="format-number($k, '000')"/>
+, new XmplVar('<xsl:value-of select="$prx"/><xsl:value-of select="$crd"/>_CDLINEA', '<xsl:value-of select="$prx"/><xsl:value-of select="$crd"/>_PCINVEST', '<xsl:value-of select="$prx"/><xsl:value-of select="$crd"/>_DSLINEA')</xsl:otherwise>
+    </xsl:choose><xsl:if test="$k=$n">)</xsl:if>
+
+    <!-- loop -->
+    <xsl:if test="$k &lt; $n">
+      <xsl:call-template name="VettoreLineeJS">
+        <xsl:with-param name="k"><xsl:value-of select="1+$k"/></xsl:with-param>
+        <xsl:with-param name="n"><xsl:value-of select="$n"/></xsl:with-param>
+        <xsl:with-param name="prx"><xsl:value-of select="$prx"/></xsl:with-param>
+      </xsl:call-template>
+    </xsl:if>
+  </xsl:template>
+  <!--*****************************************************************************
+    process <TEMPLATE> object CARRELLO - Inserimento campi hidden per linee fondi
+      *****************************************************************************-->
+  <xsl:template name="VettoreHidden">
+  <xsl:param name="k"/>
+  <xsl:param name="n"/>
+  <xsl:param name="prx"/>
+    <xsl:variable name="crd" select="format-number($k, '000')"/>
+    <input type='hidden' value=' '>
+    <xsl:attribute name="id"><xsl:value-of select="$prx"/><xsl:value-of select="$crd"/>_CDLINEA</xsl:attribute>
+    </input>
+    <input type='hidden' value=' '>
+    <xsl:attribute name="id"><xsl:value-of select="$prx"/><xsl:value-of select="$crd"/>_PCINVEST</xsl:attribute>
+    </input>
+    <input type='hidden' value=' '>
+    <xsl:attribute name="id"><xsl:value-of select="$prx"/><xsl:value-of select="$crd"/>_DSLINEA</xsl:attribute>
+    </input>
+
+    <!-- loop -->
+    <xsl:if test="$k &lt; $n">
+      <xsl:call-template name="VettoreHidden">
+        <xsl:with-param name="k"><xsl:value-of select="1+$k"/></xsl:with-param>
+        <xsl:with-param name="n"><xsl:value-of select="$n"/></xsl:with-param>
+        <xsl:with-param name="prx"><xsl:value-of select="$prx"/></xsl:with-param>
+      </xsl:call-template>
+    </xsl:if>
+  </xsl:template>
+</xsl:stylesheet>
