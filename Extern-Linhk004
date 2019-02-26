@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE xsl:stylesheet [
+
+<!ENTITY nbsp "&#160;">
+<!ENTITY acute "&#180;">
+<!ENTITY Agrave "&#192;">
+<!ENTITY Aacute "&#193;">
+<!ENTITY Acirc "&#194;">
+<!ENTITY Egrave "&#200;">
+<!ENTITY Eacute "&#201;">
+<!ENTITY Ecirc "&#202;">
+<!ENTITY Igrave "&#204;">
+<!ENTITY Iacute "&#205;">
+<!ENTITY Icirc "&#206;">
+<!ENTITY Ntilde "&#209;">
+<!ENTITY Ograve "&#210;">
+<!ENTITY Oacute "&#211;">
+<!ENTITY Ocirc "&#212;">
+<!ENTITY Ugrave "&#217;">
+<!ENTITY Uacute "&#218;">
+<!ENTITY Ucirc "&#219;">
+<!ENTITY agrave "&#224;">
+<!ENTITY aacute "&#225;">
+<!ENTITY acirc "&#226;">
+<!ENTITY egrave "&#232;">
+<!ENTITY eacute "&#233;">
+<!ENTITY ecirc "&#234;">
+<!ENTITY igrave "&#236;">
+<!ENTITY iacute "&#237;">
+<!ENTITY icirc "&#238;">
+<!ENTITY ograve "&#242;">
+<!ENTITY oacute "&#243;">
+<!ENTITY ocirc "&#244;">
+<!ENTITY ugrave "&#249;">
+<!ENTITY uacute "&#250;">
+<!ENTITY ucirc "&#251;">
+
+]>
+
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:xalan="http://xml.apache.org/xslt">
+
+<!--*****************************************************************************
+Creazione form con campi di input hidden e loro valorizzazione da XML Host
+ma solo se è presente un evento di tipo 'ESTERNO'
+*****************************************************************************-->
+
+
+<xsl:template name = "Extern-Link0004" > 
+
+	<xsl:variable name="pgnull"></xsl:variable>
+	<xsl:variable name="tipodoc">
+		<xsl:call-template name="codicedoc">
+			<xsl:with-param name="tipo" select="//TEMPLATE[(@CDOGG = 'CONTR' or @CDOGG = 'RLEGA') and @CARD = '001']/CAMPO[@CODICE = 'CDTPDOC' or @CODICE = 'CDTPDOCL']/VALORE"/>
+			<xsl:with-param name="ente" select="//TEMPLATE[(@CDOGG = 'CONTR' or @CDOGG = 'RLEGA') and @CARD = '001']/CAMPO[@CODICE = 'DSENTDOC'or @CODICE = 'DSENDOCL']/VALORE"/>
+		</xsl:call-template>
+	</xsl:variable>
+	
+	<xsl:choose>
+		<xsl:when test="(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDNATGIU']/VALORE) = 'PF'">		
+			
+		<xsl:variable name="pf">
+			<xsl:text>&lt;NATURA&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDNATGIU']/VALORE"/>
+			<xsl:text>&lt;/NATURA&gt;</xsl:text>
+			<xsl:text>&lt;CABRAPP&gt;</xsl:text>
+			<xsl:value-of select="substring-before(substring-after(//TEMPLATE[@CDOGG = 'MOPAG' and @CARD = '001']/CAMPO[@CODICE = 'CDRAPPR']/VALORE,'.'),'.')"/>
+			<xsl:text>&lt;/CABRAPP&gt;</xsl:text>
+			<xsl:text>&lt;NUMRAPP&gt;</xsl:text>
+			<xsl:value-of select="substring-after(substring-after(//TEMPLATE[@CDOGG = 'MOPAG' and @CARD = '001']/CAMPO[@CODICE = 'CDRAPPR']/VALORE,'.'),'.')"/>
+			<xsl:text>&lt;/NUMRAPP&gt;</xsl:text>
+			<xsl:text>&lt;PF&gt;</xsl:text>
+			<xsl:text>&lt;PFNDG&gt;</xsl:text>
+			<xsl:value-of select="format-number(//TEMPLATE[@CDOGG = 'CONTR'  and @CARD = '001']/CAMPO[@CODICE = 'NUNDG']/VALORE, '#')"/>
+			<xsl:text>&lt;/PFNDG&gt;</xsl:text>
+			<xsl:text>&lt;PFCOGNOME&gt;</xsl:text>
+			<xsl:value-of select="substring(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSCOGN']/VALORE,1,30)"/>
+			<xsl:text>&lt;/PFCOGNOME&gt;</xsl:text>
+			<xsl:text>&lt;PFNOME&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSNOME']/VALORE"/>
+			<xsl:text>&lt;/PFNOME&gt;</xsl:text>
+			<xsl:text>&lt;PFSESSO&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDSESSO']/VALORE"/>
+			<xsl:text>&lt;/PFSESSO&gt;</xsl:text>
+			<xsl:text>&lt;PFINDRESID&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSVIARES']/VALORE"/>
+			<xsl:text>&lt;/PFINDRESID&gt;</xsl:text>
+			<xsl:text>&lt;PFLUOGORESID&gt;</xsl:text>
+			<xsl:value-of select="substring(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSLOCRES']/VALORE,1,30)"/>
+			<xsl:text>&lt;/PFLUOGORESID&gt;</xsl:text>
+			<xsl:text>&lt;PFCAPRESID&gt;</xsl:text>
+			<xsl:value-of select="format-number(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDCAPRES']/VALORE, '00000')"/>
+			<xsl:text>&lt;/PFCAPRESID&gt;</xsl:text>
+			<xsl:text>&lt;PFPROVRESID&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDPRORES']/VALORE"/>
+			<xsl:text>&lt;/PFPROVRESID&gt;</xsl:text>
+			<xsl:text>&lt;PFCABRESID&gt;</xsl:text>
+			<xsl:value-of select="format-number(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDCABRES']/VALORE, '00000')"/>
+			<xsl:text>&lt;/PFCABRESID&gt;</xsl:text>
+			<xsl:text>&lt;PFNAZRESID&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDSTARES']/VALORE"/>
+			<xsl:text>&lt;/PFNAZRESID&gt;</xsl:text>
+			<xsl:text>&lt;PFDATANASCITA&gt;</xsl:text>
+			<xsl:value-of select="concat(substring-before(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,'-'),substring-before(substring-after(//TEMPLATE[(@CDOGG = 'CONTR' or @CDOGG = 'RLEGA') and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,'-'),'-'),substring-after(substring-after(//TEMPLATE[(@CDOGG = 'CONTR' or @CDOGG = 'RLEGA') and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,'-'),'-'))"/>
+			<xsl:text>&lt;/PFDATANASCITA&gt;</xsl:text>
+			<xsl:text>&lt;PFLUOGONASCITA&gt;</xsl:text>
+			<xsl:value-of select="substring(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSLOCNAS']/VALORE,1,30)"/>
+			<xsl:text>&lt;/PFLUOGONASCITA&gt;</xsl:text>
+			<xsl:text>&lt;PFCAPNASCITA&gt;</xsl:text>
+			<xsl:text>&lt;/PFCAPNASCITA&gt;</xsl:text>
+			<xsl:text>&lt;PFPROVNASCITA&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDPRONAS']/VALORE"/>
+			<xsl:text>&lt;/PFPROVNASCITA&gt;</xsl:text>
+			<xsl:text>&lt;PFNAZNASCITA&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDSTANAS']/VALORE"/>
+			<xsl:text>&lt;/PFNAZNASCITA&gt;</xsl:text>
+			<xsl:text>&lt;PFSAE&gt;</xsl:text>
+			<xsl:if test="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDSAE']/VALORE != '0'">
+				<xsl:value-of select="format-number(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDSAE']/VALORE ,'000')"/>
+			</xsl:if>
+			<xsl:text>&lt;/PFSAE&gt;</xsl:text>
+			<xsl:text>&lt;PFRAE&gt;</xsl:text>
+			<xsl:if test="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDRAE']/VALORE != '0'">
+				<xsl:value-of select="format-number(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDRAE']/VALORE, '000')"/>
+			</xsl:if>
+			<xsl:text>&lt;/PFRAE&gt;</xsl:text>
+			<xsl:text>&lt;PFCODFISCALE&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDFISC']/VALORE"/>
+			<xsl:text>&lt;/PFCODFISCALE&gt;</xsl:text>
+			<xsl:text>&lt;PFTIPODOC&gt;</xsl:text>
+			<xsl:value-of select="$tipodoc"/>
+			<xsl:text>&lt;/PFTIPODOC&gt;</xsl:text>
+			<xsl:text>&lt;PFNUMDOC&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'NUDOC']/VALORE"/>
+			<xsl:text>&lt;/PFNUMDOC&gt;</xsl:text>
+			<xsl:text>&lt;PFENTERIL&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSENTDOC']/VALORE"/>
+			<xsl:text>&lt;/PFENTERIL&gt;</xsl:text>
+			<xsl:text>&lt;PFLUOGORIL&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSCOMDOC']/VALORE"/>
+			<xsl:text>&lt;/PFLUOGORIL&gt;</xsl:text>
+			<xsl:text>&lt;PFDATADOC&gt;</xsl:text>
+			<xsl:value-of select="concat(substring-before(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DTDOC']/VALORE,'-'),substring-before(substring-after(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DTDOC']/VALORE,'-'),'-'),substring-after(substring-after(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DTDOC']/VALORE,'-'),'-'))"/>
+			<xsl:text>&lt;/PFDATADOC&gt;</xsl:text>
+			<xsl:text>&lt;/PF&gt;</xsl:text>
+		</xsl:variable>
+			
+			<xsl:call-template name="form"><!--PERSONA FISICA-->
+				<xsl:with-param name="p" select="$pf"/>
+				<xsl:with-param name="pg" select="$pgnull"/>
+			</xsl:call-template>
+			
+		</xsl:when>
+		
+		<xsl:otherwise>
+		<xsl:variable name="pgdati">
+			<xsl:text>&lt;PG&gt;</xsl:text>
+			<xsl:text>&lt;PGNDG&gt;</xsl:text>
+			<xsl:value-of select="format-number(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'NUNDG']/VALORE, '#')"/>
+			<xsl:text>&lt;/PGNDG&gt;</xsl:text>
+			<xsl:text>&lt;PGRAGSOC1&gt;</xsl:text>
+			<xsl:value-of select="substring(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSCOGN']/VALORE,1,30)"/>
+			<xsl:text>&lt;/PGRAGSOC1&gt;</xsl:text>
+			<xsl:text>&lt;PGRAGSOC2&gt;</xsl:text>
+			<xsl:text>&lt;/PGRAGSOC2&gt;</xsl:text>
+			<xsl:text>&lt;PGSESSO&gt;</xsl:text>
+			<xsl:text>X</xsl:text>
+			<xsl:text>&lt;/PGSESSO&gt;</xsl:text>
+			<xsl:text>&lt;PGINDRESID&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSVIARES']/VALORE"/>
+			<xsl:text>&lt;/PGINDRESID&gt;</xsl:text>
+			<xsl:text>&lt;PGLUOGORESID&gt;</xsl:text>
+			<xsl:value-of select="substring(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSLOCRES']/VALORE,1,30)"/>
+			<xsl:text>&lt;/PGLUOGORESID&gt;</xsl:text>
+			<xsl:text>&lt;PGCAPRESID&gt;</xsl:text>
+			<xsl:value-of select="format-number(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDCAPRES']/VALORE, '00000')"/>
+			<xsl:text>&lt;/PGCAPRESID&gt;</xsl:text>
+			<xsl:text>&lt;PGNAZRESID&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDSTARES']/VALORE"/>
+			<xsl:text>&lt;/PGNAZRESID&gt;</xsl:text>
+			<xsl:text>&lt;PGDATACOST&gt;</xsl:text>
+			<xsl:value-of select="concat(substring-before(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,'-'),substring-before(substring-after(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,'-'),'-'),substring-after(substring-after(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,'-'),'-'))"/>
+			<xsl:text>&lt;/PGDATACOST&gt;</xsl:text>
+			<xsl:text>&lt;PGLUOGOCOST&gt;</xsl:text>
+			<xsl:value-of select="substring(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSLOCNAS']/VALORE,1,30)"/>
+			<xsl:text>&lt;/PGLUOGOCOST&gt;</xsl:text>
+			<xsl:text>&lt;PGSAE&gt;</xsl:text>
+			<xsl:value-of select="format-number(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDSAE']/VALORE ,'000')"/>
+			<xsl:text>&lt;/PGSAE&gt;</xsl:text>
+			<xsl:text>&lt;PGRAE&gt;</xsl:text>
+			<xsl:value-of select="format-number(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDRAE']/VALORE, '000')"/>
+			<xsl:text>&lt;/PGRAE&gt;</xsl:text>
+			<xsl:text>&lt;PGCODFISCALE&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDFISC']/VALORE"/>
+			<xsl:text>&lt;/PGCODFISCALE&gt;</xsl:text>
+			<xsl:text>&lt;/PG&gt;</xsl:text>
+		</xsl:variable>
+			
+		<xsl:variable name="rlega">
+			<xsl:text>&lt;NATURA&gt;</xsl:text>
+			<xsl:text>PG</xsl:text>
+			<xsl:text>&lt;/NATURA&gt;</xsl:text>
+			<xsl:text>&lt;CABRAPP&gt;</xsl:text>
+			<xsl:value-of select="substring-before(substring-after(//TEMPLATE[@CDOGG = 'MOPAG' and @CARD = '001']/CAMPO[@CODICE = 'CDRAPPR']/VALORE,'.'),'.')"/>
+			<xsl:text>&lt;/CABRAPP&gt;</xsl:text>
+			<xsl:text>&lt;NUMRAPP&gt;</xsl:text>
+			<xsl:value-of select="substring-after(substring-after(//TEMPLATE[@CDOGG = 'MOPAG' and @CARD = '001']/CAMPO[@CODICE = 'CDRAPPR']/VALORE,'.'),'.')"/>
+			<xsl:text>&lt;/NUMRAPP&gt;</xsl:text>
+			<xsl:text>&lt;PF&gt;</xsl:text>
+			<xsl:text>&lt;PFNDG&gt;</xsl:text>
+			<xsl:value-of select="format-number(//TEMPLATE[@CDOGG = 'RLEGA'  and @CARD = '001']/CAMPO[@CODICE = 'NUNDG']/VALORE, '#')"/>
+			<xsl:text>&lt;/PFNDG&gt;</xsl:text>
+			<xsl:text>&lt;PFCOGNOME&gt;</xsl:text>
+			<xsl:value-of select="substring(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DSCOGN']/VALORE,1,30)"/>
+			<xsl:text>&lt;/PFCOGNOME&gt;</xsl:text>
+			<xsl:text>&lt;PFNOME&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DSNOME']/VALORE"/>
+			<xsl:text>&lt;/PFNOME&gt;</xsl:text>
+			<xsl:text>&lt;PFSESSO&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDSESSO']/VALORE"/>
+			<xsl:text>&lt;/PFSESSO&gt;</xsl:text>
+			<xsl:text>&lt;PFINDRESID&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DSVIARES']/VALORE"/>
+			<xsl:text>&lt;/PFINDRESID&gt;</xsl:text>
+			<xsl:text>&lt;PFLUOGORESID&gt;</xsl:text>
+			<xsl:value-of select="substring(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DSLOCRES']/VALORE,1,30)"/>
+			<xsl:text>&lt;/PFLUOGORESID&gt;</xsl:text>
+			<xsl:text>&lt;PFCAPRESID&gt;</xsl:text>
+			<xsl:value-of select="format-number(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDCAPRES']/VALORE, '00000')"/>
+			<xsl:text>&lt;/PFCAPRESID&gt;</xsl:text>
+			<xsl:text>&lt;PFPROVRESID&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDPRORES']/VALORE"/>
+			<xsl:text>&lt;/PFPROVRESID&gt;</xsl:text>
+			<xsl:text>&lt;PFCABRESID&gt;</xsl:text>
+			<xsl:value-of select="format-number(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDCABRES']/VALORE, '00000')"/>
+			<xsl:text>&lt;/PFCABRESID&gt;</xsl:text>
+			<xsl:text>&lt;PFNAZRESID&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDSTARES']/VALORE"/>
+			<xsl:text>&lt;/PFNAZRESID&gt;</xsl:text>
+			<xsl:text>&lt;PFDATANASCITA&gt;</xsl:text>
+			<xsl:value-of select="concat(substring-before(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,'-'),substring-before(substring-after(//TEMPLATE[(@CDOGG = 'CONTR' or @CDOGG = 'RLEGA') and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,'-'),'-'),substring-after(substring-after(//TEMPLATE[(@CDOGG = 'CONTR' or @CDOGG = 'RLEGA') and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,'-'),'-'))"/>
+			<xsl:text>&lt;/PFDATANASCITA&gt;</xsl:text>
+			<xsl:text>&lt;PFLUOGONASCITA&gt;</xsl:text>
+			<xsl:value-of select="substring(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DSLOCNAS']/VALORE,1,30)"/>
+			<xsl:text>&lt;/PFLUOGONASCITA&gt;</xsl:text>
+			<xsl:text>&lt;PFCAPNASCITA&gt;</xsl:text>
+			<xsl:text>&lt;/PFCAPNASCITA&gt;</xsl:text>
+			<xsl:text>&lt;PFPROVNASCITA&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDPRONAS']/VALORE"/>
+			<xsl:text>&lt;/PFPROVNASCITA&gt;</xsl:text>
+			<xsl:text>&lt;PFNAZNASCITA&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDSTANAS']/VALORE"/>
+			<xsl:text>&lt;/PFNAZNASCITA&gt;</xsl:text>
+			<xsl:text>&lt;PFSAE&gt;</xsl:text>
+			<xsl:if test="//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDSAE']/VALORE != '0'">
+				<xsl:value-of select="format-number(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDSAE']/VALORE, '000')"/>
+			</xsl:if>
+			<xsl:text>&lt;/PFSAE&gt;</xsl:text>
+			<xsl:text>&lt;PFRAE&gt;</xsl:text>
+			<xsl:if test="//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDRAE']/VALORE != '0'">
+				<xsl:value-of select="format-number(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDRAE']/VALORE, '000')"/>
+			</xsl:if>
+			<xsl:text>&lt;/PFRAE&gt;</xsl:text>
+			<xsl:text>&lt;PFCODFISCALE&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'CDFISC']/VALORE"/>
+			<xsl:text>&lt;/PFCODFISCALE&gt;</xsl:text>
+			<xsl:text>&lt;PFTIPODOC&gt;</xsl:text>
+			<xsl:value-of select="$tipodoc"/>
+			<xsl:text>&lt;/PFTIPODOC&gt;</xsl:text>
+			<xsl:text>&lt;PFNUMDOC&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'NUDOCLEG']/VALORE"/>
+			<xsl:text>&lt;/PFNUMDOC&gt;</xsl:text>
+			<xsl:text>&lt;PFENTERIL&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DSENDOCL']/VALORE"/>
+			<xsl:text>&lt;/PFENTERIL&gt;</xsl:text>
+			<xsl:text>&lt;PFLUOGORIL&gt;</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DSCOMDOL']/VALORE"/>
+			<xsl:text>&lt;/PFLUOGORIL&gt;</xsl:text>
+			<xsl:text>&lt;PFDATADOC&gt;</xsl:text>
+			<xsl:value-of select="concat(substring-before(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DTDOCLEG']/VALORE,'-'),substring-before(substring-after(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DTDOCLEG']/VALORE,'-'),'-'),substring-after(substring-after(//TEMPLATE[@CDOGG = 'RLEGA' and @CARD = '001']/CAMPO[@CODICE = 'DTDOCLEG']/VALORE,'-'),'-'))"/>
+			<xsl:text>&lt;/PFDATADOC&gt;</xsl:text>
+			<xsl:text>&lt;/PF&gt;</xsl:text>
+		</xsl:variable>
+			
+			<xsl:call-template name="form"><!--PERSONA GIURIDICA-->
+				<xsl:with-param name="pg" select="$pgdati"/>
+				<xsl:with-param name="p" select="$rlega"/>
+			</xsl:call-template>
+			
+		</xsl:otherwise>
+	
+	</xsl:choose>
+
+</xsl:template>
+	
+
+<!--*** TEMPLATE AGGIUNTIVO PARAMETRICO ***-->
+
+<xsl:template name="form">
+	<xsl:param name="pg"></xsl:param>
+	<xsl:param name="p"></xsl:param>
+	<form method="post" name="formEventoEsterno" target="_blank" style="margin=0px;"> 
+		<xsl:attribute name="action"><xsl:value-of select="//URL"/></xsl:attribute>
+		<input type="hidden" name="xml"> 
+		<!--input type="text" name="xml" size="1700"--><!-- Per visualizzarlo --> 
+		<xsl:attribute name="value">
+		<xsl:text>&lt;ROOT&gt;</xsl:text>
+		<xsl:text>&lt;CONTENTS&gt;</xsl:text>
+		<xsl:value-of select="$p"/>
+		<xsl:value-of select="$pg"/>
+		<xsl:text>&lt;/CONTENTS&gt;</xsl:text>
+		<xsl:text>&lt;/ROOT&gt;</xsl:text>
+		</xsl:attribute>
+		</input>
+		<br/><br/>
+	</form>
+</xsl:template>
+
+<!--*** TEMPLATE AGGIUNTIVO CHE RESTITUISCE IL CODICE DEL TIPO DOCUMENTO ***-->
+<xsl:template name="codicedoc">
+	<xsl:param name="tipo"></xsl:param>
+	<xsl:param name="ente"></xsl:param>
+	<xsl:choose>
+
+		<xsl:when test="$tipo = 'C'">
+			<xsl:text>CI</xsl:text>
+		</xsl:when>
+
+		<xsl:when test="$tipo = 'G'">
+			<xsl:text>PT</xsl:text>
+		</xsl:when>
+		
+	</xsl:choose>
+</xsl:template>
+
+<!--  -->
+	<xsl:template name = "Button-Link0004">
+		<input type="button" value="PASSA A COMPAGNIA" class="formButton">
+			<xsl:attribute name="onclick"><xsl:value-of select="'javascript:document.formEventoEsterno.submit();'"/></xsl:attribute>
+		</input>
+	</xsl:template>
+
+
+</xsl:stylesheet>
