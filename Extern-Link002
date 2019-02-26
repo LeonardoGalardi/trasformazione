@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE xsl:stylesheet [
+	<!ENTITY nbsp   "&#160;">
+	<!ENTITY acute  "&#180;">
+	<!ENTITY Agrave "&#192;">
+	<!ENTITY Aacute "&#193;">
+	<!ENTITY Acirc  "&#194;">
+	<!ENTITY Egrave "&#200;">
+	<!ENTITY Eacute "&#201;">
+	<!ENTITY Ecirc  "&#202;">
+	<!ENTITY Igrave "&#204;">
+	<!ENTITY Iacute "&#205;">
+	<!ENTITY Icirc  "&#206;">
+	<!ENTITY Ntilde "&#209;">
+	<!ENTITY Ograve "&#210;">
+	<!ENTITY Oacute "&#211;">
+	<!ENTITY Ocirc  "&#212;">
+	<!ENTITY Ugrave "&#217;">
+	<!ENTITY Uacute "&#218;">
+	<!ENTITY Ucirc  "&#219;">
+	<!ENTITY agrave "&#224;">
+	<!ENTITY aacute "&#225;">
+	<!ENTITY acirc  "&#226;">
+	<!ENTITY egrave "&#232;">
+	<!ENTITY eacute "&#233;">
+	<!ENTITY ecirc  "&#234;">
+	<!ENTITY igrave "&#236;">
+	<!ENTITY iacute "&#237;">
+	<!ENTITY icirc  "&#238;">
+	<!ENTITY ograve "&#242;">
+	<!ENTITY oacute "&#243;">
+	<!ENTITY ocirc  "&#244;">
+	<!ENTITY ugrave "&#249;">
+	<!ENTITY uacute "&#250;">
+	<!ENTITY ucirc  "&#251;">
+]>
+
+<!--*****************************************************************************
+		Chiamata link esterno Cattolica Online
+	    *****************************************************************************-->
+
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:xalan="http://xml.apache.org/xslt">
+	<!--*****************************************************************************
+		Creazione form con campi di input hidden e loro valorizzazione da XML Host
+		ma solo se è presente un evento di tipo 'ESTERNO'
+	      *****************************************************************************-->
+	
+	<xsl:template name = "Extern-Link0002" >
+	<form method="post" name="formEventoEsterno" target="_blank" style="margin=0px;">	
+	
+			<!-- GESTIONE CAMPO 'PARAMETRI' IN GET PER EMISSIONI/PREVENTIVI CON E SENZA MUTUI -->
+			
+			<xsl:choose>
+						<xsl:when test="count(//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'FABBR' and @CARD = '001']/TEMPLATE[@CDOGG = 'ABITA' and @CARD = '001']/CAMPO[@CODICE = 'FLGPRAT']/VALORE)>0">
+						
+						<!-- se il campo FLGPRAT è valorizzato si tratta di un'emissione con o senza mutuo -->	
+						<xsl:choose>
+									<xsl:when test="//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'FABBR' and @CARD = '001']/TEMPLATE[@CDOGG = 'ABITA' and @CARD = '001']/CAMPO[@CODICE = 'FLGPRAT']/VALORE = 'N'">
+										<xsl:attribute name="action"><xsl:value-of select="/SERVICE/ENV/MENUPRODOTTI"/></xsl:attribute>		
+										</xsl:when>
+								
+									<xsl:otherwise>
+										<xsl:attribute name="action"><xsl:value-of select="/SERVICE/ENV/MENUPRODOTTI"/>?Parametri=F</xsl:attribute>		
+									</xsl:otherwise>
+							</xsl:choose>						
+						</xsl:when>
+						
+						<!-- se il campo FLGPRAT non è valorizzato si tratta di un preventivo -->
+				        <xsl:otherwise>
+										<xsl:attribute name="action"><xsl:value-of select="/SERVICE/ENV/MENUPRODOTTI"/></xsl:attribute>		
+						</xsl:otherwise>
+				</xsl:choose> 
+			
+			
+				<!--*******************************************************************
+				CAMPI GENERALI PER ACCESSO 
+				*******************************************************************-->
+																
+				<input type="hidden" name="OrgID" size="8" maxlength="8" value="{concat('000',format-number(//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CODABI']/VALORE, '00000'))}"/>
+				<input type="hidden" name="OrgID1" size="8" maxlength="8" value="{//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CDDIPEMI']/VALORE}"/>
+				<input type="hidden" name="OrgID2" size="8" maxlength="8" value="{format-number(//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CDCABEMI']/VALORE, '00000')}"/>
+				<input type="hidden" name="UserID" size="8" maxlength="8">
+					<xsl:choose>
+						<xsl:when test="//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CODABI']/VALORE = '03500'">
+							<xsl:attribute name="value">00001BBS</xsl:attribute>
+						</xsl:when>
+						<xsl:when test="//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CODABI']/VALORE = '06906'">
+							<xsl:attribute name="value">00001BRE</xsl:attribute>
+						</xsl:when>
+						<xsl:when test="//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CODABI']/VALORE = '03244'">
+							<xsl:attribute name="value">00001BVC</xsl:attribute>
+						</xsl:when>
+						<xsl:when test="//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CODABI']/VALORE = '05526'">
+							<xsl:attribute name="value">00001BSG</xsl:attribute>
+						</xsl:when>
+						<xsl:when test="//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CODABI']/VALORE = '06325'">
+							<xsl:attribute name="value">00001BRT</xsl:attribute>
+						</xsl:when>
+						<xsl:when test="//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CODABI']/VALORE = '03111'">
+							<xsl:attribute name="value">00001LOM</xsl:attribute>
+						</xsl:when>
+						<xsl:when test="//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CODABI']/VALORE = '03083'">
+							<xsl:attribute name="value">00001BPI</xsl:attribute>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:attribute name="value">00001000</xsl:attribute>
+						</xsl:otherwise>
+					</xsl:choose>
+				</input>
+				<input type="hidden" name="AttID" size="8" maxlength="8" value="SV"/>
+				<!-- <input type="hidden" name="Parametri" value="F" /> --> <!-- per la produzione --><!-- Modifica: Parametri inseriti nella parte relativa al finanziamento -->
+				<!-- <input type="hidden" name="Parametri" value="" /> --> <!-- per il test -->
+
+				
+				<!--*******************************************************************
+					CAMPI RELATIVI AL CONTRAENTE
+				*******************************************************************-->
+				<input type="hidden" name="ndg" size="10" maxlength="10" value="{format-number(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'NUNDG']/VALORE, '#')}"/>
+				<input type="hidden" name="cognome" size="25" maxlength="25" value="{//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSCOGN']/VALORE}"/>
+				<input type="hidden" name="nome" size="30" maxlength="30" value="{//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DSNOME']/VALORE}"/>
+				<input type="hidden" name="sesso" size="1" maxlength="1" value="{//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'CDSESSO']/VALORE}"/>
+				        
+		        <xsl:choose>
+						<xsl:when test="count(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE)>0">
+							<input type="hidden" name="dtNascita" size="10" maxlength="10">
+		          				<xsl:attribute name="value"><xsl:value-of select="concat(substring(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,9,2),'/',substring(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,6,2),'/',substring-before(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'DTNASC']/VALORE,'-'))"/></xsl:attribute>
+		        			</input>
+						</xsl:when>
+						<xsl:otherwise>
+							<input type="hidden" name="dtNascita" size="10" maxlength="10" value=""/>
+						</xsl:otherwise>
+				</xsl:choose>
+		       
+				<!--*******************************************************************
+					CAMPI RELATIVI AL BENE ASSICURATO - NON TRATTATI
+				*******************************************************************
+				<input type="hidden" name="ubicazione" size="30" maxlength="30" value="{//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'FABBR' and @CARD = '001']/CAMPO[@CODICE = 'DSVIAFAB']/VALORE}"/>
+				<input type="hidden" name="numCivico" size="8" maxlength="8" value="24">
+				<input type="hidden" name="cap" size="5" maxlength="5" value="{//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'FABBR' and @CARD = '001']/CAMPO[@CODICE = 'CDCAPFAB']/VALORE}"/>
+				<input type="hidden" name="comune" size="30" maxlength="30" value="{//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'FABBR' and @CARD = '001']/CAMPO[@CODICE = 'DSLOCFAB']/VALORE}"/>
+				<input type="hidden" name="provincia" size="2" maxlength="2" value="{//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'FABBR' and @CARD = '001']/CAMPO[@CODICE = 'CDPROFAB']/VALORE}"/>
+				<input type="hidden" name="metriQ" size="5" maxlength="5" value="{//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'FABBR' and @CARD = '001']/TEMPLATE[@CDOGG = 'ABITA' and @CARD = '001']/CAMPO[@CODICE = 'MQABIT']/VALORE}"/>
+				
+				-->
+							
+		        <!--*******************************************************************
+					CAMPI RELATIVI AL FINANZIAMENTO
+				*******************************************************************-->
+			
+				<!-- PER ORA ABBIAMO SOLO LA DURATA
+				<input type="hidden" name="dtIniFinanz" size="10" maxlength="10" value="{//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'FABBR' and @CARD = '001']/TEMPLATE[@CDOGG = 'ABITA' and @CARD = '001']/CAMPO[@CODICE = 'DTDEVIN']/VALORE}"/>
+				<input type="hidden" name="dtFineFinanz" size="10" maxlength="10" value="{//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'FABBR' and @CARD = '001']/TEMPLATE[@CDOGG = 'ABITA' and @CARD = '001']/CAMPO[@CODICE = 'DTSCVIN']/VALORE}"/>
+				-->
+				<input type="hidden" name="istitutoErog" size="40" maxlength="40" value="{//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'FABBR' and @CARD = '001']/TEMPLATE[@CDOGG = 'ABITA' and @CARD = '001']/CAMPO[@CODICE = 'ENTEVIN']/VALORE}"/>
+				<input type="hidden" name="enteVinc" size="40" maxlength="40" value="{//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'FABBR' and @CARD = '001']/TEMPLATE[@CDOGG = 'ABITA' and @CARD = '001']/CAMPO[@CODICE = 'ENTEVIN']/VALORE}"/>
+		        
+		        <!-- GESTIONE EMISSIONI/PREVENTIVI CON E SENZA MUTUI -->
+				<xsl:choose>
+						<xsl:when test="count(//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'FABBR' and @CARD = '001']/TEMPLATE[@CDOGG = 'ABITA' and @CARD = '001']/CAMPO[@CODICE = 'FLGPRAT']/VALORE)>0">
+						<!-- se il campo FLGPRAT è valorizzato si tratta di un'emissione con o senza mutuo -->	
+							<xsl:choose>
+									<xsl:when test="//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'FABBR' and @CARD = '001']/TEMPLATE[@CDOGG = 'ABITA' and @CARD = '001']/CAMPO[@CODICE = 'FLGPRAT']/VALORE = 'N'">
+									    <input type="hidden" name="Parametri" value="" /><!-- Modifica: tolto dai campi generali per l'accesso ed inserito qui -->
+										<input type="hidden" name="FLG_FINANZIAMENTO" value="N"/>
+										<input type="hidden" name="numContratto" size="10" maxlength="10" value=""/>
+										<input type="hidden" name="capFinanziato" size="10" maxlength="10" value=""/>
+									</xsl:when>
+									<!-- altrimenti o non si inserisce o si inserisce a blank -->
+									<xsl:otherwise>
+									    <input type="hidden" name="Parametri" value="F" /><!-- Modifica: tolto dai campi generali per l'accesso ed inserito qui -->
+										<input type="hidden" name="FLG_FINANZIAMENTO" value=""/>
+										<input type="hidden" name="numContratto" size="10" maxlength="10" value="{concat(format-number(//TEMPLATE[@CDOGG = 'CONTR' and @CARD = '001']/CAMPO[@CODICE = 'NUNDG']/VALORE, '000000000'),'#',format-number(//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'FABBR' and @CARD = '001']/TEMPLATE[@CDOGG = 'ABITA' and @CARD = '001']/CAMPO[@CODICE = 'NUNDGVIN']/VALORE, '000000000'),'#',format-number(//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'FABBR' and @CARD = '001']/TEMPLATE[@CDOGG = 'ABITA' and @CARD = '001']/CAMPO[@CODICE = 'NUPRAVIN']/VALORE,'#'))}"/>
+										<input type="hidden" name="capFinanziato" size="10" maxlength="10" value="{//TEMPLATE[@CDOGG = 'ASSIC' and @CARD = '001']/TEMPLATE[@CDOGG = 'FABBR' and @CARD = '001']/TEMPLATE[@CDOGG = 'ABITA' and @CARD = '001']/CAMPO[@CODICE = 'IMFIVIN']/VALORE}"/>
+									</xsl:otherwise>
+							</xsl:choose>						
+						</xsl:when>
+						
+						<!-- se il campo FLGPRAT non è valorizzato si tratta di un preventivo -->
+						<xsl:otherwise>
+						    <input type="hidden" name="Parametri" value="" /><!-- Modifica: tolto dai campi generali per l'accesso ed inserito qui -->
+							<input type="hidden" name="FLG_FINANZIAMENTO" value="N"/>
+							<input type="hidden" name="numContratto" size="10" maxlength="10" value=""/>
+							<input type="hidden" name="capFinanziato" size="10" maxlength="10" value=""/>
+						</xsl:otherwise>
+				</xsl:choose>		        
+		        
+		        <!--*******************************************************************
+					CAMPI RELATIVI AL PAGAMENTO (ABI, CAB e C/C) 
+				*******************************************************************-->
+				<input type="hidden" name="abi" size="5" maxlength="5" value="{format-number(substring(//TEMPLATE[@CDOGG = 'MOPAG' and @CARD = '001']/CAMPO[@CODICE = 'CDRAPPR']/VALORE,1,5), '00000')}"/>
+				<input type="hidden" name="cab" size="5" maxlength="5" value="{format-number(substring(//TEMPLATE[@CDOGG = 'MOPAG' and @CARD = '001']/CAMPO[@CODICE = 'CDRAPPR']/VALORE,7,5), '00000')}"/>
+				<input type="hidden" name="ccNum" size="10" maxlength="10" value="{substring(//TEMPLATE[@CDOGG = 'MOPAG' and @CARD = '001']/CAMPO[@CODICE = 'CDRAPPR']/VALORE,13,12)}"/>
+				
+				
+				
+			</form>
+	</xsl:template>
+	
+	<!-- Se arriva la combo per la scelta del codice ABI di accesso reimpostiamo il campo formEventoEsterno.OrgID col valore selezionato -->
+	<xsl:template name = "Button-Link0002">
+		<input type="button" value="{text()}" class="formButton" onclick="javascript:if (document.theform.SECTI001_CODABI) 
+									{{document.formEventoEsterno.OrgID.value = document.theform.SECTI001_CODABI.options[document.theform.SECTI001_CODABI.selectedIndex].value;
+									  switch (document.theform.SECTI001_CODABI.options[document.theform.SECTI001_CODABI.selectedIndex].value)
+											{{
+											  case '03500':
+													document.formEventoEsterno.UserID.value = '00001BBS';
+													break;
+											  case '06906':
+											  		document.formEventoEsterno.UserID.value = '00001BRE';
+													break;
+											  case '03244':
+											  		document.formEventoEsterno.UserID.value = '00001BVC';
+													break;
+											  case '05526':
+											  		document.formEventoEsterno.UserID.value = '00001BSG';
+													break;
+											  case '06325':
+											  		document.formEventoEsterno.UserID.value = '00001BRT';
+													break;
+											  case '03111':
+											  		document.formEventoEsterno.UserID.value = '00001LOM';
+													break;
+											  case '03083':
+											  		document.formEventoEsterno.UserID.value = '00001BPI';
+													break;
+											  default:
+											  		document.formEventoEsterno.UserID.value = '00001000';											  		
+											}}										
+										}}
+									 document.formEventoEsterno.submit();
+									 location.href=&quot;exampleAction?cmd=home&quot;">				
+			</input>
+									 
+	</xsl:template>
+	
+</xsl:stylesheet>
+
