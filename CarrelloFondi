@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY nbsp   "&#160;">
+  <!ENTITY acute  "&#180;">
+  <!ENTITY Agrave "&#192;">
+  <!ENTITY Aacute "&#193;">
+  <!ENTITY Acirc  "&#194;">
+  <!ENTITY Egrave "&#200;">
+  <!ENTITY Eacute "&#201;">
+  <!ENTITY Ecirc  "&#202;">
+  <!ENTITY Igrave "&#204;">
+  <!ENTITY Iacute "&#205;">
+  <!ENTITY Icirc  "&#206;">
+  <!ENTITY Ntilde "&#209;">
+  <!ENTITY Ograve "&#210;">
+  <!ENTITY Oacute "&#211;">
+  <!ENTITY Ocirc  "&#212;">
+  <!ENTITY Ugrave "&#217;">
+  <!ENTITY Uacute "&#218;">
+  <!ENTITY Ucirc  "&#219;">
+  <!ENTITY agrave "&#224;">
+  <!ENTITY aacute "&#225;">
+  <!ENTITY acirc  "&#226;">
+  <!ENTITY egrave "&#232;">
+  <!ENTITY eacute "&#233;">
+  <!ENTITY ecirc  "&#234;">
+  <!ENTITY igrave "&#236;">
+  <!ENTITY iacute "&#237;">
+  <!ENTITY icirc  "&#238;">
+  <!ENTITY ograve "&#242;">
+  <!ENTITY oacute "&#243;">
+  <!ENTITY ocirc  "&#244;">
+  <!ENTITY ugrave "&#249;">
+  <!ENTITY uacute "&#250;">
+  <!ENTITY ucirc  "&#251;">
+]>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:xalan="http://xml.apache.org/xslt">
+  <xsl:template name = "CarrelloFondi" >
+      <xsl:text disable-output-escaping="yes">
+<![CDATA[
+<table width="100%" cellpadding="1" cellspacing="0" class="tabExt">
+<tr>
+<td>
+<table cellspacing="1" cellpadding="0" width="100%">
+
+<tr><td align="center" class="intestBlu" colspan="3">INSERIMENTO DATI INVESTIMENTO</td></tr>
+<tr>
+  <td>Cerca <input type='text' id='filtro_fondi' class="text" onkeyup='update_fondi()' size="10"/> in
+    <select id='tipo_filtro' onchange='update_fondi()'>
+      <option value='0'>codice</option>
+      <option value='1'>descrizione</option>
+      <option value='2'>gestore</option>
+      <option value='3'>categoria</option>
+
+    </select>
+  </td>
+  <td>Ordina per
+    <select id='sort_filtro' onchange='update_fondi()'>
+      <option value='0'>codice</option>
+      <option value='1'>descrizione</option>
+      <option value='2'>gestore</option>
+      <option value='3' selected='selected'>categoria</option>
+    </select>
+  </td>
+
+  <td>
+  Tot. Fondi <input type='text' id='fondi_attivi' size='3' name='GARAN001UNITL001OPZIO001_NUMLINEE' class="text" readonly='readonly' value='0'/>
+  Tot. Perc. <input type='text' id='fondi_percent' size='4' class="text" readonly='readonly' value='0'/>%
+  </td>
+</tr>
+<tr><td class='label' align='center' colspan='3'>CATALOGO FONDI</td></tr>
+<tr><td class='monospace' colspan='3'><pre style='display: inline;'> Cod.     Descrizione                                     Gestore                     Categoria</pre></td></tr>
+<tr>
+   <td colspan="3"><div id='magazzino'></div></td>
+</tr>
+<tr>
+
+  <td colspan="3" align="center">
+    <input class="formButton" type='button' id='take_condi' onclick='nel_carrello()' value='AGGIUNGI' disabled='disabled'/>
+  </td>
+</tr>
+<tr>
+    <td colspan="3"><div id='carrello'></div></td>
+</tr>
+</table>
+</td></tr></table>
+<br/>
+]]></xsl:text>
+  </xsl:template>
+</xsl:stylesheet>
