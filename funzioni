@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE xsl:stylesheet [
+	<!ENTITY nbsp   "&#160;">
+	<!ENTITY acute  "&#180;">
+	<!ENTITY Agrave "&#192;">
+	<!ENTITY Aacute "&#193;">
+	<!ENTITY Acirc  "&#194;">
+	<!ENTITY Egrave "&#200;">
+	<!ENTITY Eacute "&#201;">
+	<!ENTITY Ecirc  "&#202;">
+	<!ENTITY Igrave "&#204;">
+	<!ENTITY Iacute "&#205;">
+	<!ENTITY Icirc  "&#206;">
+	<!ENTITY Ntilde "&#209;">
+	<!ENTITY Ograve "&#210;">
+	<!ENTITY Oacute "&#211;">
+	<!ENTITY Ocirc  "&#212;">
+	<!ENTITY Ugrave "&#217;">
+	<!ENTITY Uacute "&#218;">
+	<!ENTITY Ucirc  "&#219;">
+	<!ENTITY agrave "&#224;">
+	<!ENTITY aacute "&#225;">
+	<!ENTITY acirc  "&#226;">
+	<!ENTITY egrave "&#232;">
+	<!ENTITY eacute "&#233;">
+	<!ENTITY ecirc  "&#234;">
+	<!ENTITY igrave "&#236;">
+	<!ENTITY iacute "&#237;">
+	<!ENTITY icirc  "&#238;">
+	<!ENTITY ograve "&#242;">
+	<!ENTITY oacute "&#243;">
+	<!ENTITY ocirc  "&#244;">
+	<!ENTITY ugrave "&#249;">
+	<!ENTITY uacute "&#250;">
+	<!ENTITY ucirc  "&#251;">
+	<!ENTITY amp "&#38;">
+]>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:xalan="http://xml.apache.org/xslt">
+	<xsl:decimal-format decimal-separator="," grouping-separator="." NaN=" "/>
+	<!--*****************************************************************************
+		generic function for fields HTML creation
+	      *****************************************************************************-->
+	<xsl:template name="creaCampo">
+		<xsl:param name="id"/>
+		<xsl:param name="fullname"/>
+		<xsl:param name="tipo"/>
+		<xsl:param name="label"/>
+		<xsl:param name="lenInt"/>
+		<xsl:param name="lenDec"/>
+		<xsl:param name="lenMax"/>
+		<xsl:param name="valore"/>
+		<xsl:param name="mod"/>
+		<xsl:param name="obb"/>
+		<xsl:param name="combo"/>
+		<xsl:param name="optionGroup"/>
+		<xsl:param name="isLista"/>
+		<xsl:choose>
+			<xsl:when test="$mod='S'">
+				<xsl:choose>
+					<xsl:when test="($tipo='A' or $tipo='V' or $tipo='H') and ($combo!='S') and ($combo!='R')">
+						<!--alfanumerico o ora-->
+						<input name="{$id}" type="text" class="text width-{$lenInt}" maxlength="{$lenMax}">
+							<xsl:if test="$valore">
+								<xsl:attribute name="value">
+									<xsl:call-template name="translateStr">
+									<xsl:with-param name="string" select="$valore"/>
+									</xsl:call-template>
+								</xsl:attribute>
+							</xsl:if>
+						</input>
+					</xsl:when>
+					<xsl:when test="($tipo='B') and ($combo!='S')">
+						<!--textarea Box -->
+						<textarea name="{$id}" cols="64" rows="4" onkeyup="cutoff(this, {number($lenMax)})" onblur="cutoff(this, {number($lenMax)})">
+							<xsl:value-of select="$valore"/>
+						</textarea>
+					</xsl:when>
+					<xsl:when test="$tipo='D'">
+						<!--decimale-->
+						<xsl:variable name="len" select="$lenInt + $lenDec + 1"/>
+						<xsl:variable name="formDec">
+							<xsl:value-of select="'#0'"/>
+							<xsl:call-template name="formatDec">
+								<xsl:with-param name="dec" select="$lenDec"/>
+							</xsl:call-template>
+						</xsl:variable>
+						<input name="{$id}" type="text" class="text width-{$len}" maxlength="{$len}" id="dec#{$label}#{$lenDec}">
+							<xsl:if test="$valore">
+								<xsl:attribute name="value"><xsl:value-of select="format-number($valore,$formDec)"/></xsl:attribute>
+							</xsl:if>
+						</input>
+					</xsl:when>
+					<xsl:when test="($tipo='I') and ($combo!='S') and ($combo!='R')">
+						<!--intero-->
+						<input name="{$id}" type="text" class="text width-{$lenInt}" maxlength="{$lenMax}" value="{$valore}" id="int#{$label}"/>
+					</xsl:when>
+					<xsl:when test="$tipo='X'">
+						<!--sexbox-->
+						<select name="{$id}">
+							<option value=""/>
+							<option value="M">
+								<xsl:if test="$valore='M'">
+									<xsl:attribute name="selected">true</xsl:attribute>
+								</xsl:if>
+								Maschio
+							</option>
+							<option value="F">
+								<xsl:if test="$valore='F'">
+									<xsl:attribute name="selected">true</xsl:attribute>
+								</xsl:if>
+								Femmina
+							</option>
+						</select>
+					</xsl:when>
+					<xsl:when test="$tipo='T'">
+						<!--data-->
+						<input name="{$id}" size="14" maxlength="10" type="text" class="text" id="date#{$label}">
+							<xsl:if test="$valore!=''">
+								<xsl:attribute name="value"><xsl:value-of select="concat(substring($valore,9,2),'/',substring($valore,6,2),'/',substring-before($valore,'-'))"/></xsl:attribute>
+							</xsl:if>
+						</input>
+					</xsl:when>
+					<xsl:when test="($tipo='P') and ($combo!='S')">
+						<!--importo-->
+						<xsl:variable name="len" select="$lenInt + $lenDec + 1"/>
+						<xsl:variable name="formDec">
+							<xsl:value-of select="'#0'"/>
+							<xsl:call-template name="formatDec">
+								<xsl:with-param name="dec" select="$lenDec"/>
+							</xsl:call-template>
+						</xsl:variable>
+						<input fullname="{$fullname}" name="{$id}" maxlength="{$len}" type="text" class="text width-{$len}" id="imp#{$label}#{$lenDec}">
+							<xsl:if test="$valore">
+								<xsl:attribute name="value"><xsl:value-of select="format-number($valore,$formDec)"/></xsl:attribute>
+							</xsl:if>
+							<!--Aggiunta per rendere non editabili i valori che arrivano dal preventivatore-->
+							<xsl:if test="contains($fullname, 'INSGA022') or
+										contains($fullname, 'INSGA023') or
+										contains($fullname, 'INSGA024') or
+										contains($fullname, 'INSGA025') or
+										contains($fullname, 'INSGA026') or
+										contains($fullname, 'INSGA030') or
+										contains($fullname, 'INSGA033') or
+										contains($fullname, 'INSGA036') or
+										contains($fullname, 'VEINT011') or
+										contains($fullname, 'VEINT014') or
+										contains($fullname, 'VEINT016') or
+										contains($fullname, 'INSGA043') or
+										contains($fullname, 'INSGA049')">
+								<xsl:if test="contains($id, 'IMPRNEGA') or contains($id, 'IMIMGAR') or contains($id, 'IMPRESTAZ') or contains($id, 'IMR1LOGA') or contains($id, 'IMR1NEGA') or contains($id, 'IMCAPCV') or contains($id, 'IMDIRAPR') or contains($id, 'IMNERAPR') or contains($id, 'IMNEPRE') or contains($id, 'IMPRLOGA')">
+									<xsl:attribute name="onFocus">this.blur()</xsl:attribute>
+								</xsl:if>
+							</xsl:if>
+						</input>
+					</xsl:when>
+					<xsl:when test="$tipo='W'">
+						<!--password-->
+						<input name="{$id}" type="password" class="text width-{$lenInt}" maxlength="{$lenMax}" value="{$valore}"/>
+					</xsl:when>
+					<xsl:when test="$tipo='C'">
+						<!--percentuale-->
+						<xsl:variable name="len" select="$lenInt + $lenDec + 1"/>
+						<xsl:variable name="formDec">
+							<xsl:value-of select="'#0'"/>
+							<xsl:call-template name="formatDec">
+								<xsl:with-param name="dec" select="$lenDec"/>
+							</xsl:call-template>
+						</xsl:variable>
+						<input name="{$id}" maxlength="{$len}" type="text" class="text width-{$len}" id="perc#{$label}#{$lenDec}">
+							<xsl:if test="$valore">
+								<xsl:attribute name="value"><xsl:value-of select="format-number($valore,$formDec)"/></xsl:attribute>
+							</xsl:if>
+						</input> %
+					</xsl:when>
+					<xsl:when test="$tipo='K'">
+						<!--checkbox-->
+						<input name="{$id}_FALSE" type="checkbox" onchange="javascript: if (this.checked) document.theform.{$id}.value='S'; else document.theform.{$id}.value='';">
+<!--OLD-->						<!--input name="{$id}" type="checkbox" value="S"-->
+							<xsl:if test="$valore='S'">
+								<xsl:attribute name="checked">true</xsl:attribute>
+							</xsl:if>
+						</input>
+						<input name="{$id}" type="hidden" value="{$valore}"/>
+					</xsl:when>
+					<xsl:when test="$tipo='U'">
+						<!--radiobox-->
+						<xsl:variable name="sxRadw1" select="substring-before($id, '_')"/>
+						<xsl:variable name="sxRadw2" select="substring($sxRadw1, 1, string-length($sxRadw1) - 3)"/>
+						<xsl:variable name="dxRad" select="substring-after($id, '_')"/>
+						<xsl:variable name="radioLabel" select="concat($sxRadw2, '_', $dxRad, '_FALSE')"/>
+						<input name="{$radioLabel}" type="radio" onchange="javascript: if (this.checked) {{var aoRadio = document.getElementsByName('{$radioLabel}');var len = aoRadio.length;for(var k=0; k&lt;len; k++) {{var oRadio = aoRadio[k];var oHidden = oRadio.nextSibling; if(oRadio == this) oHidden.value = 'S'; else oHidden.value = 'N';}} }}">
+							<xsl:if test="$valore='S'">
+								<xsl:attribute name="checked">true</xsl:attribute>
+							</xsl:if>
+						</input>
+						<input name="{$id}" type="hidden" value="{$valore}"/>
+					</xsl:when>
+					<xsl:when test="$tipo='R'">
+						<!--radio-->
+						Si.<input name="{$id}" type="radio" value="S">
+							<xsl:if test="$valore='S'">
+								<xsl:attribute name="checked">true</xsl:attribute>
+							</xsl:if>
+						</input>
+						No.<input name="{$id}" type="radio" value="N">
+<!--OLD-->							<!--xsl:if test="$valore='N' or $valore=''"-->
+							<xsl:if test="$valore='N'">
+								<xsl:attribute name="checked">true</xsl:attribute>
+							</xsl:if>
+						</input>
+					</xsl:when>
+					<xsl:when test="$combo='S'">
+						<!--combo box-->
+						<select name="{$id}">
+							<xsl:copy-of select="$optionGroup"/>
+						</select>
+					</xsl:when>
+					<xsl:when test="$combo='R'">
+						<!--radio box-->
+						<xsl:for-each select="./OPTION">
+							<span style='white-space: nowrap;'>
+							<input name="{$id}" type="radio">
+								<xsl:attribute name="value"><xsl:value-of select="@VALUE"/></xsl:attribute>
+								<xsl:if test="@SELECTED='TRUE'">
+									<xsl:attribute name="checked">true</xsl:attribute>
+								</xsl:if>
+							</input>
+							<xsl:value-of select="."/>&#160;
+							</span>
+						</xsl:for-each>
+					</xsl:when>
+				</xsl:choose>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:choose>
+					<xsl:when test="$tipo='h'">
+						<!-- ausiliario (passato ad host) -->
+						<input type="hidden" value="{$valore}" id="{$id}" name="{$id}"/>
+					</xsl:when>
+					<xsl:when test="$tipo='x'">
+						<!-- ausiliario (non passato ad host) -->
+						<input type="hidden" value="{$valore}" id="{$id}"/>
+					</xsl:when>
+					<xsl:when test="$tipo='D' or $tipo='C'">
+						<xsl:variable name="formDec">
+							<xsl:value-of select="'#0'"/>
+							<xsl:call-template name="formatDec">
+								<xsl:with-param name="dec" select="$lenDec"/>
+							</xsl:call-template>
+						</xsl:variable>
+						<xsl:value-of select="format-number($valore,$formDec)"/>
+						<xsl:if test="$tipo='C'"> %</xsl:if>
+					</xsl:when>
+					<xsl:when test="$tipo='P'">
+						<xsl:variable name="formDec">
+							<xsl:value-of select="'#.##0'"/>
+							<xsl:call-template name="formatDec">
+								<xsl:with-param name="dec" select="$lenDec"/>
+							</xsl:call-template>
+						</xsl:variable>
+						<xsl:choose>
+							<xsl:when test="$isLista='S'">
+								<div align='right'><i><xsl:value-of select="format-number($valore,$formDec)"/></i></div>
+							</xsl:when>
+							<xsl:otherwise>
+								<div align='right'><i><xsl:value-of select="format-number($valore,$formDec)"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></div>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:when>
+					<xsl:when test="$tipo='T'">
+						<xsl:value-of select="concat(substring($valore,9,2),'/',substring($valore,6,2),'/',substring-before($valore,'-'))"/>
+					</xsl:when>
+					<xsl:when test="$combo='S'">
+						<xsl:call-template name="translateStr">
+							<xsl:with-param name="string">
+								<xsl:value-of select="concat($valore,'&nbsp;-&nbsp;')"/>
+								<xsl:value-of select="$optionGroup"/>
+							</xsl:with-param>
+						</xsl:call-template>
+					</xsl:when>
+					<xsl:when test="$tipo='X'">
+						<!--sex-->
+						<xsl:choose>
+							<xsl:when test="$valore='M'">Maschio</xsl:when>
+							<xsl:when test="$valore='F'">Femmina</xsl:when>
+						</xsl:choose>
+					</xsl:when>
+<!--AGGIUNTO-->
+					<xsl:when test="$tipo='K'">
+						<!--checkbox-->
+						<input name="{$id}_FALSE" type="checkbox" DISABLED="true">
+						<xsl:if test="$valore='S'">
+							<xsl:attribute name="CHECKED">true</xsl:attribute>
+						</xsl:if>
+						</input>
+					</xsl:when>
+					<xsl:when test="$tipo='#'">
+						<input name="{$id}" type="hidden" >
+							<xsl:if test="$valore">
+								<xsl:attribute name="value">
+									<xsl:call-template name="translateStr">
+									<xsl:with-param name="string" select="$valore"/>
+									</xsl:call-template>
+								</xsl:attribute>
+							</xsl:if>
+						</input>
+					</xsl:when>
+
+					<xsl:when test="$tipo='U'">
+						<!--radiobox-->
+						<xsl:variable name="sxRadw1" select="substring-before($id, '_')"/>
+						<xsl:variable name="sxRadw2" select="substring($sxRadw1, 1, string-length($sxRadw1) - 3)"/>
+						<xsl:variable name="dxRad" select="substring-after($id, '_')"/>
+						<xsl:variable name="radioLabel" select="concat($sxRadw2, '_', $dxRad, '_FALSE')"/>
+						<input name="{$radioLabel}" type="radio" DISABLED="true">
+							<xsl:if test="$valore='S'">
+								<xsl:attribute name="checked">true</xsl:attribute>
+							</xsl:if>
+						</input>
+					</xsl:when>
+					<!--  - - >
+					<xsl:when test="($tipo='B') and ($combo!='S')">
+						< ! - -textarea Box - - >
+						<textarea name="{$id}" cols="64" rows="4" readonly="readonly">
+							<xsl:value-of select="$valore"/>
+						</textarea>
+					</xsl:when>
+					< ! - -  -->
+
+
+
+					<xsl:otherwise>
+					<!-- Aggiunta substring per valorizzare correttamente l'IBAN -->
+						<xsl:variable name="val">
+							<xsl:if test="contains($id, 'TEMPIBAN')">
+							<xsl:value-of select="substring($valore,1,27)"/>
+							</xsl:if>
+							<xsl:if test="not(contains($id, 'TEMPIBAN'))">
+							<xsl:value-of select="$valore"/>
+							</xsl:if>
+						</xsl:variable>
+						<xsl:call-template name="translateStr">
+							<xsl:with-param name="string" select="$val"/>
+						</xsl:call-template>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:otherwise>
+		</xsl:choose>
+
+		<xsl:if test="following-sibling::*[1]/DESCR='::'">
+			<xsl:for-each select="following-sibling::*[1]">
+			&#160;
+			<xsl:call-template name="creaCampo">
+				<xsl:with-param name="id">
+					<xsl:call-template name="htmlName">
+						<xsl:with-param name="node" select=".."/>
+						<xsl:with-param name="frameName" select="../.."/>
+					</xsl:call-template>
+					<xsl:value-of select="concat('_',@CODICE)"/>
+				</xsl:with-param>
+				<xsl:with-param name="fullname">
+					<xsl:call-template name="htmlNamePrev">
+						<xsl:with-param name="node" select=".."/>
+					</xsl:call-template>
+					<xsl:value-of select="concat('_',@CODICE)"/>
+				</xsl:with-param>
+				<xsl:with-param name="tipo">
+					<xsl:value-of select="TIPO"/>
+				</xsl:with-param>
+				<xsl:with-param name="label">
+					<xsl:call-template name="translateStr">
+						<xsl:with-param select="DESCR" name="string"/>
+					</xsl:call-template>
+				</xsl:with-param>
+				<xsl:with-param name="lenInt">
+					<xsl:choose>
+						<xsl:when test="LENINT>38">38</xsl:when>
+						<xsl:otherwise><xsl:value-of select="LENINT"/></xsl:otherwise>
+					</xsl:choose>
+				</xsl:with-param>
+				<xsl:with-param name="lenDec"><xsl:value-of select="LENDEC"/></xsl:with-param>
+				<xsl:with-param name="lenMax"><xsl:value-of select="LENINT"/></xsl:with-param>
+				<xsl:with-param name="valore"><xsl:value-of select="VALORE"/></xsl:with-param>
+				<xsl:with-param name="mod">
+					<xsl:choose>
+						<xsl:when test="count(MOD)=0"><xsl:text>N</xsl:text></xsl:when>
+						<xsl:otherwise><xsl:value-of select="MOD"/></xsl:otherwise>
+					</xsl:choose>
+				</xsl:with-param>
+				<xsl:with-param name="obb"><xsl:value-of select="OBB"/></xsl:with-param>
+				<xsl:with-param name="combo">
+					<xsl:choose>
+						<xsl:when test="count(COMBO)=0"><xsl:text>N</xsl:text></xsl:when>
+						<xsl:otherwise><xsl:value-of select="COMBO"/></xsl:otherwise>
+					</xsl:choose>
+				</xsl:with-param>
+				<xsl:with-param name="optionGroup">
+					<xsl:if test="count(COMBO)>0">
+						<xsl:if test="count(OPTION)>0">
+							<xsl:copy-of select="OPTION"/>
+						</xsl:if>
+						<xsl:if test="count(OPTION)=0">
+							<xsl:if test="current()/VALORE!=''">
+								<xsl:copy-of select="//OPTIONGROUP[@CODICE=current()/@CODICE]/OPTION[@VALUE=current()/VALORE]"/>
+							</xsl:if>
+							<xsl:if test="count(MOD)>0">
+								<xsl:copy-of select="//OPTIONGROUP[@CODICE=current()/@CODICE]/OPTION"/>
+							</xsl:if>
+						</xsl:if>
+					</xsl:if>
+				</xsl:with-param>
+			</xsl:call-template>
+			</xsl:for-each>
+		</xsl:if>
+	</xsl:template>
+	<!--*****************************************************************************
+		function for creation attribute name of input fields (in HTML)
+	      *****************************************************************************-->
+	<xsl:template name="htmlName">
+		<xsl:param name="node"/>
+		<xsl:param name="partName"/>
+		<xsl:variable name="result" select="concat($node/@CDOGG, $node/@CARD, $partName)"/>
+		<xsl:choose>
+			<xsl:when test="name($node/..)='TEMPLATE'">
+				<xsl:call-template name="htmlName">
+					<xsl:with-param name="node" select="$node/.."/>
+					<xsl:with-param name="partName" select="$result"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$result"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<!--*****************************************************************************
+		function for creation attribute name of input fields (in HTML)
+	      *****************************************************************************-->
+	<xsl:template name="htmlNamePrev">
+		<xsl:param name="node"/>
+		<xsl:param name="partName"/>
+		<xsl:variable name="result" select="concat($node/@CDOGG, $node/@CARD, $partName)"/>
+		<xsl:variable name="frame" select="$node/../@CODICE"/>
+		<xsl:choose>
+			<xsl:when test="name($node/..)='TEMPLATE'">
+				<xsl:call-template name="htmlNamePrev">
+					<xsl:with-param name="node" select="$node/.."/>
+					<xsl:with-param name="partName" select="$result"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="concat($frame, '_' , $result)"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<!--*****************************************************************************
+		function for translate special characters in HTML
+	      *****************************************************************************-->
+	<xsl:template name="translateStr">
+		<xsl:param name="string"/>
+		<xsl:value-of disable-output-escaping="yes" select="translate($string,'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½','&acute;&Agrave;&Aacute;&Acirc;&Egrave;&Eacute;&Ecirc;&Igrave;&Iacute;&Icirc;&Ntilde;&Ograve;&Oacute;&Ocirc;&Ugrave;&Uacute;&Ucirc;&agrave;&aacute;&acirc;&egrave;&eacute;&ecirc;&igrave;&iacute;&icirc;&ograve;&oacute;&ocirc;&ugrave;&uacute;&ucirc;')"/>
+	</xsl:template>
+	<!--*****************************************************************************
+		return number of decimal based on param 'dec' in '#' format
+	      *****************************************************************************-->
+	<xsl:template name="formatDec">
+		<xsl:param name="dec"/>
+		<xsl:param name="str"/>
+		<xsl:variable name="comma">
+			<xsl:if test="$str!=''">,</xsl:if>
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="$dec>0">
+				<xsl:call-template name="formatDec">
+					<xsl:with-param name="dec" select="$dec - 1"/>
+					<xsl:with-param name="str" select="concat($str,'0')"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="concat($comma,$str)"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<!--*****************************************************************************
+		function for a well-formed time string
+	      *****************************************************************************-->
+	<xsl:template name="formatTime">
+		<xsl:param name="stringTime"/>
+		<xsl:variable name="hh" select="substring-before($stringTime,'.')"/>
+		<xsl:variable name="mm" select="substring-before(substring-after($stringTime,'.'),'.')"/>
+		<xsl:variable name="ss" select="substring-after(substring-after($stringTime,'.'),'.')"/>
+		<xsl:choose>
+			<xsl:when test="string-length($hh)&lt;2">
+				<xsl:text>0</xsl:text>
+				<xsl:value-of select="$hh"/>
+			</xsl:when>
+			<xsl:when test="string-length($hh)>=2">
+				<xsl:value-of select="$hh"/>
+			</xsl:when>
+		</xsl:choose>
+		<xsl:text>.</xsl:text>
+		<xsl:choose>
+			<xsl:when test="string-length($mm)&lt;2">
+				<xsl:text>0</xsl:text>
+				<xsl:value-of select="$mm"/>
+			</xsl:when>
+			<xsl:when test="string-length($mm)>=2">
+				<xsl:value-of select="$mm"/>
+			</xsl:when>
+		</xsl:choose>
+		<xsl:text>.</xsl:text>
+		<xsl:choose>
+			<xsl:when test="string-length($ss)&lt;2">
+				<xsl:text>0</xsl:text>
+				<xsl:value-of select="$ss"/>
+			</xsl:when>
+			<xsl:when test="string-length($ss)>=2">
+				<xsl:value-of select="$ss"/>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+</xsl:stylesheet>
