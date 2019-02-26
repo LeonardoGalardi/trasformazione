@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE xsl:stylesheet [
+	<!ENTITY nbsp   "&#160;">
+	<!ENTITY acute  "&#180;">
+	<!ENTITY Agrave "&#192;">
+	<!ENTITY Aacute "&#193;">
+	<!ENTITY Acirc  "&#194;">
+	<!ENTITY Egrave "&#200;">
+	<!ENTITY Eacute "&#201;">
+	<!ENTITY Ecirc  "&#202;">
+	<!ENTITY Igrave "&#204;">
+	<!ENTITY Iacute "&#205;">
+	<!ENTITY Icirc  "&#206;">
+	<!ENTITY Ntilde "&#209;">
+	<!ENTITY Ograve "&#210;">
+	<!ENTITY Oacute "&#211;">
+	<!ENTITY Ocirc  "&#212;">
+	<!ENTITY Ugrave "&#217;">
+	<!ENTITY Uacute "&#218;">
+	<!ENTITY Ucirc  "&#219;">
+	<!ENTITY agrave "&#224;">
+	<!ENTITY aacute "&#225;">
+	<!ENTITY acirc  "&#226;">
+	<!ENTITY egrave "&#232;">
+	<!ENTITY eacute "&#233;">
+	<!ENTITY ecirc  "&#234;">
+	<!ENTITY igrave "&#236;">
+	<!ENTITY iacute "&#237;">
+	<!ENTITY icirc  "&#238;">
+	<!ENTITY ograve "&#242;">
+	<!ENTITY oacute "&#243;">
+	<!ENTITY ocirc  "&#244;">
+	<!ENTITY ugrave "&#249;">
+	<!ENTITY uacute "&#250;">
+	<!ENTITY ucirc  "&#251;">
+]>
+
+<!--*****************************************************************************
+		Chiamata link esterno BAP
+	    *****************************************************************************-->
+
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:xalan="http://xml.apache.org/xslt">
+	<!--*****************************************************************************
+		Creazione form con campi di input hidden e loro valorizzazione da XML Host
+		ma solo se è presente un evento di tipo 'ESTERNO'
+	      *****************************************************************************-->
+	
+	<xsl:template name = "Extern-Link0005" >
+		<!--form method="post" name="formEventoEsterno" target="_blank" style="margin=0px;" action="integratest.html"-->
+		<form method="post" name="formEventoEsterno" target="_blank" style="margin=0px;">
+
+			<xsl:attribute name="action">
+			<xsl:text>/InVita/LogonBLPI?codabi=</xsl:text>
+			<xsl:value-of select="format-number(//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CODABI']/VALORE, '00000')"/>	
+			<xsl:text>&amp;codcab=</xsl:text>
+			<xsl:value-of select="format-number(//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CDCABEMI']/VALORE, '00000')"/>	
+			<xsl:text>&amp;codfiliale=</xsl:text>
+			<xsl:value-of select="format-number(//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CDDIPEMI']/VALORE, '#')"/>	
+			<xsl:text>&amp;utente=</xsl:text>
+			<xsl:value-of select="//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'MATR']/VALORE"/>	
+			</xsl:attribute>
+			
+		</form>	
+	</xsl:template>
+	
+		<xsl:template name = "Button-Link0005">
+		<input type="button" value="PASSA A BAP" class="formButton">
+			<xsl:attribute name="onclick"><xsl:value-of select="'javascript:document.formEventoEsterno.submit();'"/></xsl:attribute>
+		</input>
+	</xsl:template>
+	
+</xsl:stylesheet>
