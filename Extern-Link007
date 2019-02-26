@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE xsl:stylesheet [
+	<!ENTITY nbsp   "&#160;">
+	<!ENTITY acute  "&#180;">
+	<!ENTITY Agrave "&#192;">
+	<!ENTITY Aacute "&#193;">
+	<!ENTITY Acirc  "&#194;">
+	<!ENTITY Egrave "&#200;">
+	<!ENTITY Eacute "&#201;">
+	<!ENTITY Ecirc  "&#202;">
+	<!ENTITY Igrave "&#204;">
+	<!ENTITY Iacute "&#205;">
+	<!ENTITY Icirc  "&#206;">
+	<!ENTITY Ntilde "&#209;">
+	<!ENTITY Ograve "&#210;">
+	<!ENTITY Oacute "&#211;">
+	<!ENTITY Ocirc  "&#212;">
+	<!ENTITY Ugrave "&#217;">
+	<!ENTITY Uacute "&#218;">
+	<!ENTITY Ucirc  "&#219;">
+	<!ENTITY agrave "&#224;">
+	<!ENTITY aacute "&#225;">
+	<!ENTITY acirc  "&#226;">
+	<!ENTITY egrave "&#232;">
+	<!ENTITY eacute "&#233;">
+	<!ENTITY ecirc  "&#234;">
+	<!ENTITY igrave "&#236;">
+	<!ENTITY iacute "&#237;">
+	<!ENTITY icirc  "&#238;">
+	<!ENTITY ograve "&#242;">
+	<!ENTITY oacute "&#243;">
+	<!ENTITY ocirc  "&#244;">
+	<!ENTITY ugrave "&#249;">
+	<!ENTITY uacute "&#250;">
+	<!ENTITY ucirc  "&#251;">
+]>
+
+<!--*****************************************************************************
+	Chiamata link esterno UBI ASSICURAZIONI
+	*****************************************************************************-->
+
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:xalan="http://xml.apache.org/xslt">
+	<!--*****************************************************************************
+		Creazione form con campi di input hidden e loro valorizzazione da XML Host
+		ma solo se è presente un evento di tipo 'ESTERNO' verso UBI ASSICURAZIONI
+		Verificare se i campi sono giusti.
+		*****************************************************************************-->
+
+	<xsl:template name="Extern-Link0007">
+		<form method="post" name="formEventoEsterno" target="_blank" style="margin=0px;">
+
+			<!-- <xsl:attribute name="action">http://172.16.70.6/bpb/ServletLogin</xsl:attribute> --> <!-- link di produzione -->
+			<!-- <xsl:attribute name="action">http://172.16.70.3/bpb/ServletLogin</xsl:attribute> --> <!-- link di test -->
+			<xsl:attribute name="action">../../jpasscomp/bpb/ServletLogin</xsl:attribute>  <!-- link universale -->
+
+			<!--PARAMETRI FISSI RICHIESTI DA PASSCOMPAGNIA-->
+			<input type="hidden" name="RGICommand" id="RGICommand">
+				<xsl:attribute name="value">singleSignOn</xsl:attribute>
+			</input>
+
+			<input type="hidden" name="RGIResponseOk" id="RGIResponseOk">
+				<xsl:attribute name="value">/bpbres/login/SelectPv.html</xsl:attribute>
+			</input>
+
+			<input type="hidden" name="RGIResponseError" id="RGIResponseError">
+				<xsl:attribute name="value">/bpbres/login/Start.html</xsl:attribute>
+			</input>
+
+			<input type="hidden" name="RGIResponseFast" id="RGIResponseFast">
+				<xsl:attribute name="value">/bpbres/login/Home.html</xsl:attribute>
+			</input>
+
+
+			<!--CON CAMPI TESTO HIDDEN-->
+			<!--DIMENSIONATI CON LA DIMENSIONE PREVISTA DA LENINT-->
+			<input type="hidden" name="UBIuid" id="UBIuid">
+				<xsl:attribute name="value">
+					<xsl:value-of select="substring(//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'MATR']/VALORE,1,//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'MATR']/LENINT)" />
+				</xsl:attribute>
+				<xsl:attribute name="maxlength">7</xsl:attribute>
+			</input>
+			<input type="hidden" name="UBIabi" id="UBIabi">
+				<xsl:attribute name="value">
+					<xsl:value-of select="format-number(substring(//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CODABI']/VALORE,1,//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CODABI']/LENINT), '00000')" />
+				</xsl:attribute>
+				<xsl:attribute name="maxlength">
+					<xsl:value-of select="format-number(//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CODABI']/LENINT,00)" />
+				</xsl:attribute>
+			</input>
+			<input type="hidden" name="UBIcab" id="UBIcab">
+				<xsl:attribute name="value">
+					<xsl:value-of select="format-number(substring(//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CDCABEMI']/VALORE,1,//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CDCABEMI']/LENINT), '00000')" />
+				</xsl:attribute>
+				<xsl:attribute name="maxlength">
+					<xsl:value-of select="format-number(//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CDCABEMI']/LENINT,00)" />
+				</xsl:attribute>
+			</input>
+			<input type="hidden" name="UBIfilialiOperatore" id="UBIfilialiOperatore">
+				<xsl:attribute name="value">
+					<xsl:value-of select="format-number(substring(//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CDDIPEMI']/VALORE,2,//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CDDIPEMI']/LENINT), '0000')" />
+				</xsl:attribute>
+				<xsl:attribute name="maxlength">4</xsl:attribute>
+			</input>
+			<xsl:for-each select="/SERVICE/SESSION/PROCESSO/FRAME/TEMPLATE/CAMPO[@CODICE='CDDIPAGG1']/OPTION">
+				<input type="hidden" name="UBIelencoFiliali">
+					<xsl:attribute name="value">
+						<xsl:value-of select="@VALUE"/>
+					</xsl:attribute>
+				</input>
+			</xsl:for-each>
+			<!--TRANSCODIFICA DEL PROFILO-->
+			<!--LIV1, LIV2, LIV3, LIV4 e LIV5-->
+			<!--
+			1 : Filiale di Cassa
+			2: Filiale commerciale BPU
+			3: Responsabile filiale BPU
+			4: Commerciale BPU
+			5: Banca telefonica.
+			-->
+			<input type="hidden" name="UBIprofilo" id="UBIprofilo">
+			<xsl:attribute name="value">
+				<xsl:value-of select="substring(//TEMPLATE[@CDOGG = 'SECTI' and @CARD = '001']/CAMPO[@CODICE = 'CPROFILO']/VALORE,1,5)" />
+				</xsl:attribute>
+				<xsl:attribute name="maxlength">1</xsl:attribute>
+			</input>
+			<input type="hidden" name="UBIlivelloDeroga" id="UBIlivelloDeroga">
+				<xsl:attribute name="value">38</xsl:attribute>
+				<xsl:attribute name="maxlength">2</xsl:attribute>
+			</input>
+			<input type="hidden" name="UBIlivelloVisione" id="UBIlivelloVisione">
+				<xsl:attribute name="value">2</xsl:attribute>
+				<xsl:attribute name="maxlength">1</xsl:attribute>
+			</input>
+			<input type="hidden" name="UBIidTipiProdotto" id="UBIidTipiProdotto">
+				<xsl:attribute name="value">1,4,5,6</xsl:attribute>
+				<xsl:attribute name="maxlength">7</xsl:attribute>
+			</input>
+			<input type="hidden" name="Token" id="Token">
+				<xsl:attribute name="value">
+					<xsl:value-of select="//TOKEN" />
+				</xsl:attribute>
+				<xsl:attribute name="maxlength">48</xsl:attribute>
+			</input>
+
+		</form>
+	</xsl:template>
+
+
+	<!--*****************************************************************************
+		Creazione Pulsante per passaggio a UBI ASSICURAZIONI.
+		*****************************************************************************-->
+	<xsl:template name="Button-Link0007">
+		<input type="button" class="formButton">
+			<!--Reperisco il Nome del servizio dal contenuto del tag-->
+			<xsl:attribute name="value">
+				<xsl:value-of select="normalize-space(//EVENTO[@TIPO='E' and @CODICE = 'LINK0007'])" />
+			</xsl:attribute>
+			<xsl:attribute name="onclick">
+				<xsl:value-of select="'javascript:document.formEventoEsterno.submit();location.href=&quot;exampleAction?cmd=home&quot;'" />
+			</xsl:attribute>
+		</input>
+	</xsl:template>
+
+</xsl:stylesheet>
