@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE xsl:stylesheet [
+	<!ENTITY nbsp   "&#160;">
+	<!ENTITY acute  "&#180;">
+	<!ENTITY Agrave "&#192;">
+	<!ENTITY Aacute "&#193;">
+	<!ENTITY Acirc  "&#194;">
+	<!ENTITY Egrave "&#200;">
+	<!ENTITY Eacute "&#201;">
+	<!ENTITY Ecirc  "&#202;">
+	<!ENTITY Igrave "&#204;">
+	<!ENTITY Iacute "&#205;">
+	<!ENTITY Icirc  "&#206;">
+	<!ENTITY Ntilde "&#209;">
+	<!ENTITY Ograve "&#210;">
+	<!ENTITY Oacute "&#211;">
+	<!ENTITY Ocirc  "&#212;">
+	<!ENTITY Ugrave "&#217;">
+	<!ENTITY Uacute "&#218;">
+	<!ENTITY Ucirc  "&#219;">
+	<!ENTITY agrave "&#224;">
+	<!ENTITY aacute "&#225;">
+	<!ENTITY acirc  "&#226;">
+	<!ENTITY egrave "&#232;">
+	<!ENTITY eacute "&#233;">
+	<!ENTITY ecirc  "&#234;">
+	<!ENTITY igrave "&#236;">
+	<!ENTITY iacute "&#237;">
+	<!ENTITY icirc  "&#238;">
+	<!ENTITY ograve "&#242;">
+	<!ENTITY oacute "&#243;">
+	<!ENTITY ocirc  "&#244;">
+	<!ENTITY ugrave "&#249;">
+	<!ENTITY uacute "&#250;">
+	<!ENTITY ucirc  "&#251;">
+]>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:xalan="http://xml.apache.org/xslt">
+	<!--*****************************************************************************
+		Creazione form con campi di input hidden e loro valorizzazione da XML Host
+		ma solo se è presente un evento di tipo 'ESTERNO'
+		Link a Lombarda Vita (LIFENET)
+	      *****************************************************************************-->
+
+	<xsl:template name = "Extern-Link0008" >
+
+			<form method="post" name="formEventoEsterno" target="_blank" style="margin=0px;">
+				<xsl:attribute name="action">
+		  		<xsl:value-of select="/SERVICE/ENV/INTESAVITA"/>
+		  		</xsl:attribute>  <!-- link esterno -->
+
+				<!--
+				Non viene passato nessun parametro,
+				tutti i dati vengono presi dallo header http (impostati da WEBSEAL)
+		      	-->
+
+			</form>
+	</xsl:template>
+
+	<xsl:template name = "Button-Link0008">
+		<input type="button" value="PASSA A INTESA VITA" class="formButton">
+			<xsl:attribute name="onclick"><xsl:value-of select="'javascript:document.formEventoEsterno.submit();'"/></xsl:attribute>
+		</input>
+	</xsl:template>
+</xsl:stylesheet>
